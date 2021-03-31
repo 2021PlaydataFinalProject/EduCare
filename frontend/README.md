@@ -1,4 +1,4 @@
-# educare-front
+# frontend
 
 ## Project setup
 ```

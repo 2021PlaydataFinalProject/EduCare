@@ -5,9 +5,13 @@ from flask import Flask, render_template, Response
 import tensorflow as tf
 import numpy as np
 from yolo_helper import YoloV3, load_darknet_weights, draw_outputs
+import time
 
 yolo = YoloV3()
 load_darknet_weights(yolo, 'yolov3.weights')
+
+start_time = time.time()
+
 
 class RecordingThread (threading.Thread):
     def __init__(self, name, camera):
@@ -67,6 +71,11 @@ class VideoCamera(object):
                 if int(classes[0][i] == 67):
                     print('Mobile Phone detected')
                     # return True -> mySQL
+
+                    # string 값으로 영상 시작한 지 얼마나 지났는 지 확인
+                    elapsed_time = time.time() - start_time 
+                    print(time.strftime("%H:%M:%S", time.gmtime(elapsed_time))) 
+                    print(type(time.strftime("%H:%M:%S", time.gmtime(elapsed_time))))
             if count == 0:
                 print('No person detected')
                 # return True -> mySQL

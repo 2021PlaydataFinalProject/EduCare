@@ -1,76 +1,81 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
-import {
-	getAuthFromCookie,
-	getUserFromCookie,
-	saveAuthToCookie,
-	saveUserToCookie,
-} from '@/utils/cookies';
-import { signinUser } from '../api/auth';
-import { instance } from '../api';
+import Vue from "vue";
+import Vuex from "vuex";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-	state: {
-		id: getUserFromCookie() || '',
-		token: getAuthFromCookie() || '',
-		clientinfo: [
-			{
-				id: '',
-				pw: '',
-				name: '',
-				nickname: '',
-				phonenumber: '',
-				birth: '',
-				gender: '',
-			},
-		],
-	},
-	getters: {
-		isSignin(state) {
-			return state.id !== '';
-		},
-	},
-	mutations: {
-		setId(state, id) {
-			state.id = id;
-		},
-		clearId(state) {
-			state.id = '';
-		},
-		setToken(state, token) {
-			state.token = token;
-		},
-		clearToken(state) {
-			state.token = '';
-		},
-		getclient: function(state) {
-			return state.clientinfo;
-		},
-	},
-	actions: {
-		async signin({ commit }, userData) {
-			const { data } = await signinUser(userData);
-			console.log(data.token);
-			commit('setToken', data.token);
-			commit('setId', data.user.id);
-			saveAuthToCookie(data.token);
-			saveUserToCookie(data.user.id);
-			return data;
-		},
-		async getclient({ commit }) {
-			return await instance
-				.get('getMemberList')
-				.then(resData => {
-					this.clientinfo = resData.data;
-					console.log('receive from server!!!!!!!!!!!!:' + resData.data);
-					commit('getclient');
-				})
-				.catch(error => {
-					console.log(error);
-				});
-		},
-	},
-	modules: {},
+  state: {
+    /* User */
+    userName: null,
+    userEmail: null,
+    userAvatar: null,
+
+    /* NavBar */
+    isNavBarVisible: true,
+
+    /* FooterBar */
+    isFooterBarVisible: true,
+
+    /* Aside */
+    isAsideVisible: true,
+    isAsideMobileExpanded: false,
+
+    /* Dark mode */
+    isDarkModeActive: false
+  },
+  mutations: {
+    /* A fit-them-all commit */
+    basic(state, payload) {
+      state[payload.key] = payload.value;
+    },
+
+    /* User */
+    user(state, payload) {
+      if (payload.name) {
+        state.userName = payload.name;
+      }
+      if (payload.email) {
+        state.userEmail = payload.email;
+      }
+      if (payload.avatar) {
+        state.userAvatar = payload.avatar;
+      }
+    },
+
+    /* Aside Mobile */
+    asideMobileStateToggle(state, payload = null) {
+      const htmlClassName = "has-aside-mobile-expanded";
+
+      let isShow;
+
+      if (payload !== null) {
+        isShow = payload;
+      } else {
+        isShow = !state.isAsideMobileExpanded;
+      }
+
+      if (isShow) {
+        document.documentElement.classList.add(htmlClassName);
+      } else {
+        document.documentElement.classList.remove(htmlClassName);
+      }
+
+      state.isAsideMobileExpanded = isShow;
+    },
+
+    /* Dark Mode */
+    // eslint-disable-next-line no-unused-vars
+    darkModeToggle(state, payload = null) {
+      const htmlClassName = "is-dark-mode-active";
+
+      state.isDarkModeActive = !state.isDarkModeActive;
+
+      if (state.isDarkModeActive) {
+        document.documentElement.classList.add(htmlClassName);
+      } else {
+        document.documentElement.classList.remove(htmlClassName);
+      }
+    }
+  },
+  actions: {}
 });

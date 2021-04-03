@@ -1,16 +1,16 @@
 <template>
-	<div>
-		<ClientList />
-	</div>
+  <div>
+    <ClientList />
+  </div>
 </template>
 
 <script>
-import ClientList from '@/components/admin/ClientList.vue';
+import ClientList from "@/components/admin/ClientList.vue";
 
 export default {
-	name: 'Admin',
-	components: {
-		ClientList,
-	},
+  name: "Admin",
+  components: {
+    ClientList
+  }
 };
 </script>

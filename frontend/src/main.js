@@ -1,18 +1,40 @@
-import Vue from 'vue';
-import App from './App.vue';
-import router from './router';
-import store from './store';
-import VueSession from 'vue-session';
+/* Styles */
+import '@/scss/main.scss'
 
-const sessionOptions = {
-	persist: true,
-};
-Vue.use(VueSession, sessionOptions);
+/* Core */
+import Vue from 'vue'
+import Buefy from 'buefy'
 
-Vue.config.productionTip = false;
+/* Router & Store */
+import router from './router'
+import store from './store'
+
+/* Service Worker */
+import './registerServiceWorker'
+
+/* Vue. Main component */
+import App from './App.vue'
+
+/* Default title tag */
+const defaultDocumentTitle = 'Admin Null Bulma'
+
+/* Collapse mobile aside menu on route change & set document title from route meta */
+router.afterEach(to => {
+  store.commit('asideMobileStateToggle', false)
+
+  if (to.meta.title) {
+    document.title = `${to.meta.title} — ${defaultDocumentTitle}`
+  } else {
+    document.title = defaultDocumentTitle
+  }
+})
+
+Vue.config.productionTip = false
+
+Vue.use(Buefy)
 
 new Vue({
-	router,
-	store,
-	render: h => h(App),
-}).$mount('#app');
+  router,
+  store,
+  render: h => h(App)
+}).$mount('#app')

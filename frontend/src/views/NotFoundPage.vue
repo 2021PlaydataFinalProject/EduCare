@@ -1,7 +1,7 @@
 <template>
-	<div>
-		Not found page
-	</div>
+  <div>
+    Not found page
+  </div>
 </template>
 
 <script>

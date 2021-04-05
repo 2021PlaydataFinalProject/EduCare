@@ -2,19 +2,19 @@
   <div class="container">
     <div class="container pt-6 pb-6 pl-4 pr-4">
       <div class="box">
-        <h2 class="subtitle is-5">개인 정보 동의</h2>
+        <h2 class="subtitle is-5">회원가입</h2>
         <form @submit.prevent="submitForm()" class="form">
-          <div>
-            <label for="memberagree">개인 정보를 전송합니다.</label>
-            동의하려면 체크하세요.
-            <input
+          <!-- <div> -->
+          <!-- <label for="memberagree">개인 정보를 전송합니다.</label>
+            동의하려면 체크하세요. -->
+          <!-- <input
               v-model="memberagree"
               id="memberagree"
               type="checkbox"
               name="memberagree"
               value="memberagree"
-            />
-          </div>
+            /> -->
+          <!-- </div> -->
           <br />
           <b-field label="ID" type="" message="" align="left">
             <b-input
@@ -55,42 +55,19 @@
             ></b-input>
           </b-field>
           <br />
-          <b-field label="생일" type="" message="" align="left">
-            <b-input
-              v-model="birth"
-              placeholder="생년월일"
-              maxlength="30"
-              size="is-medium"
-            ></b-input>
+
+          <!-- 파일 선택 및 업로드 -->
+          <b-field label="프로필 사진 업로드">
+            <file-picker />
           </b-field>
-          <br />
-          <!-- <div>
-          <label for="gender">남성</label>
-          <input
-            v-model="gender"
-            id="male"
-            type="radio"
-            name="gender"
-            value="male"
-          />
-        </div>
-        <div>
-          <label for="gender">여성</label>
-          <input
-            v-model="gender"
-            id="female"
-            type="radio"
-            name="gender"
-            value="female"
-          />
-        </div> -->
-          <b-field label="성별" type="" message="" align="left">
+
+          <b-field label="권한 설정" type="" message="" align="left">
             <div class="block">
-              <b-radio v-model="gender" name="female" native-value="female">
-                여성
+              <b-radio v-model="role" name="female" native-value="female">
+                강사
               </b-radio>
-              <b-radio v-model="gender" name="male" native-value="male">
-                남성
+              <b-radio v-model="role" name="male" native-value="male">
+                학생
               </b-radio>
             </div>
           </b-field>
@@ -104,7 +81,7 @@
                 !nickname ||
                 !isPhoneNumberValid ||
                 !isBirthValid ||
-                !gender ||
+                !role ||
                 !memberagree
             "
             type="submit"
@@ -122,8 +99,13 @@ import { signupUser } from "@/api/auth";
 import { validateEmail } from "@/utils/validation";
 import { validatePhoneNumber } from "@/utils/validation";
 import { validateBirth } from "@/utils/validation";
+import FilePicker from "@/components/FilePicker";
 
 export default {
+  name: "SignUpForm",
+  components: {
+    FilePicker
+  },
   data() {
     return {
       //form values
@@ -133,7 +115,7 @@ export default {
       nickname: "",
       phonenumber: "",
       birth: "",
-      gender: "",
+      role: "",
       memberagree: false
     };
   },
@@ -159,10 +141,9 @@ export default {
           nickname: this.nickname,
           phonenumber: this.phonenumber,
           birth: this.birth,
-          gender: this.gender
+          role: this.role
         };
         const data = await signupUser(userData);
-
         if (data.data == "Signin") {
           this.logMessage = "회원가입성공";
           alert("회원가입성공");
@@ -185,7 +166,7 @@ export default {
       this.nickname = "";
       this.phonenumber = "";
       this.birth = "";
-      this.gender = "";
+      this.role = "";
     }
   }
 };

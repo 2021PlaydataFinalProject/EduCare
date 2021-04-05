@@ -1,14 +1,28 @@
 from flask import Flask, render_template, Response, jsonify, request
 from camera import VideoCamera
+from flask_mysqldb import MySQL
+# 설치! : pip install Flask-MySQLdb
 
 app = Flask(__name__)
+app.config['MYSQL_HOST'] = '127.0.0.1'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = '0000'
+app.config['MYSQL_DB']='security'
+#app.config['MYSQL_DATABASE']='security'
+#app.config['MYSQL_PORT']=3306
+mysql = MySQL(app)
 
 video_camera = None
 global_frame = None
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM test")
+    fetchdata = cur.fetchall()
+    cur.close()
+
+    return render_template('index.html', data = fetchdata)
 
 @app.route('/record_status', methods=['POST'])
 def record_status():

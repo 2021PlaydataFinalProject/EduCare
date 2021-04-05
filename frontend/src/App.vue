@@ -63,7 +63,7 @@ export default {
         "HOME",
         [
           {
-            href: "/#/service",
+            href: "/",
             label: "서비스 소개",
             icon: "help-circle"
           }

@@ -13,12 +13,7 @@
       <div class="level-right">
         <div class="level-item">
           <div class="buttons is-right">
-            <a
-              href="https://admin-null.justboil.me/"
-              target="_blank"
-              class="button is-light"
-            >
-            </a>
+            <a href="/" target="_blank" class="button is-light"> </a>
           </div>
         </div>
       </div>

@@ -1,31 +1,56 @@
 <template>
-  <div class="contents">
-    <div class="form-wrapper form-wrapper-smtwo">
-      <div class="page-header">Welcome to EduCare System!</div>
-      <form @submit.prevent="submitForm" class="form">
-        <div class="idandpw">
-          <label class="labelone" for="id">ID : </label>
-          <input id="id" type="text" v-model="id" />
-          <p class="validation-text">
-            <span class="warning" v-if="!isIdValid && id">
-              Please enter an email address
-            </span>
-          </p>
+  <div id="app" class="container is-max-desktop pt-5">
+    <section>
+      <div class="hero-body">
+        <div class="container has-text-centered">
+          <h1 class="title ">
+            로그인
+          </h1>
+          <h2 class="subtitle centered">
+            오늘도 환영합니다.
+          </h2>
         </div>
-        <div>
-          <label class="labelone" for="pw">PASSWORD : </label>
-          <input id="pw" type="password" v-model="pw" />
+      </div>
+    </section>
+    <section>
+      <div class="container is-max-desktop">
+        <div class="columns is-mobile">
+          <div class="column is-half is-offset-one-quarter">
+            <b-field label="ID" type="" message="" align="left">
+              <b-input
+                v-model="id"
+                placeholder="아이디"
+                maxlength="30"
+                size="is-medium"
+              ></b-input>
+            </b-field>
+
+            <b-field label="Password" type="" message="" align="left">
+              <b-input
+                v-model="pw"
+                type="password"
+                placeholder="비밀번호"
+                maxlength="30"
+                size="is-medium"
+              >
+              </b-input>
+            </b-field>
+            <center>
+              <b-button
+                type="submit"
+                outlined
+                id="btn"
+                v-bind:disabled="!isIdValid || !pw"
+                position="is-centered"
+                size="is-medium"
+                >로그인</b-button
+              >
+            </center>
+            <br /><br />
+          </div>
         </div>
-        <button
-          class="btn btn-primary btn-sm"
-          v-bind:disabled="!isIdValid || !pw"
-          type="submit"
-          id="btn"
-        >
-          로그인
-        </button>
-      </form>
-    </div>
+      </div>
+    </section>
   </div>
 </template>
 

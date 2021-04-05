@@ -5,6 +5,7 @@ import store from '@/store/index';
 Vue.use(VueRouter);
 
 const router = new VueRouter({
+<<<<<<< Updated upstream
 	mode: 'history',
 	base: process.env.BASE_URL,
 	routes: [
@@ -36,6 +37,18 @@ router.beforeEach((to, from, next) => {
 		return;
 	}
 	next();
+=======
+  base: process.env.BASE_URL,
+  mode: "history", // # 값 제거 /#/
+  routes,
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition;
+    } else {
+      return { x: 0, y: 0 };
+    }
+  }
+>>>>>>> Stashed changes
 });
 
 export default router;

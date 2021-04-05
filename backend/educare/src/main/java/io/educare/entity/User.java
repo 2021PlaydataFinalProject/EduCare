@@ -1,11 +1,12 @@
 package io.educare.entity;
 
+
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -15,30 +16,32 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
-@Table(name = "user")
 @Getter
 @Setter
-@Builder
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="role")
+public abstract class User {
+	
+	@Id
+	@Column(name = "user_id", length = 50)
+	private String username;
+	
+	@JsonIgnore
+	@Column(name = "user_pw", length = 100)
+	private String password;
+	
+	@Column(name = "user_name", length = 50)
+	private String userRealName;
 
-   @JsonIgnore
-   @Id
-   @Column(name = "user_id")
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
-   private Long userId;
-
-   @Column(name = "username", length = 50, unique = true)
-   private String username;
-
-   @JsonIgnore
-   @Column(name = "password", length = 100)
-   private String password;
-
-   @Column(name = "nickname", length = 50)
-   private String realname;
-
-   private String role;
+	@Column(name = "user_phonenum", length = 50)
+	private String phoneNumber;
+	
+	@Column(name = "user_image")
+	private String userImage;
+	
+	@Column(name = "role", nullable = false, insertable = false, updatable = false)
+	private String role;
 }

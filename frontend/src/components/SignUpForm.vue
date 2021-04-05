@@ -55,13 +55,22 @@
             ></b-input>
           </b-field>
           <br />
-          <b-field label="생일" type="" message="" align="left">
+          <!-- <b-field label="D" type="" message="" align="left">
             <b-input
               v-model="birth"
               placeholder="생년월일"
               maxlength="30"
               size="is-medium"
             ></b-input>
+          </b-field> -->
+          <b-field class="file">
+            <b-upload v-model="file" @input="upload" :accept="accept">
+              <a class="button is-primary">
+                <b-icon icon="upload" custom-size="default"></b-icon>
+                <span>{{ buttonLabel }}</span>
+              </a>
+            </b-upload>
+            <span class="file-name" v-if="file">{{ file.name }}</span>
           </b-field>
           <br />
           <!-- <div>
@@ -84,13 +93,17 @@
             value="female"
           />
         </div> -->
-          <b-field label="성별" type="" message="" align="left">
+          <b-field label="역할" type="" message="" align="left">
             <div class="block">
-              <b-radio v-model="gender" name="female" native-value="female">
-                여성
+              <b-radio v-model="ROLE" name="student" native-value="student">
+                학생
               </b-radio>
-              <b-radio v-model="gender" name="male" native-value="male">
-                남성
+              <b-radio
+                v-model="ROLE"
+                name="instructor"
+                native-value="instructor"
+              >
+                강사
               </b-radio>
             </div>
           </b-field>

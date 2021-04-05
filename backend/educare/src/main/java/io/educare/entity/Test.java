@@ -1,4 +1,4 @@
-package educare.entity;
+package io.educare.entity;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

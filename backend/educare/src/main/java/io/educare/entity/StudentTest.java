@@ -1,4 +1,4 @@
-package educare.entity;
+package io.educare.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;

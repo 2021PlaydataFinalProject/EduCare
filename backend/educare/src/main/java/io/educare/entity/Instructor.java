@@ -1,4 +1,4 @@
-package educare.entity;
+package io.educare.entity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @DiscriminatorValue("ROLE_INSTRUCTOR")
-public class Instructor  extends User{
+public class Instructor  extends User {
 	@Builder
 	public Instructor() {
 		super();
@@ -26,7 +26,7 @@ public class Instructor  extends User{
 	@Builder
 	public Instructor(String username, String password, String studentName, String phoneNumber,
 			String studentImage, List<Test> testList) {
-		super(username, password, studentName, phoneNumber, studentImage);
+		super(username, password, studentName, phoneNumber, studentImage, "ROLE_INSTRUCTOR");
 		this.testList = testList;
 	}
 	@OneToMany(mappedBy="insId")

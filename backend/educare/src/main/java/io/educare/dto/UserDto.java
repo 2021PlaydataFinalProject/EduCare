@@ -30,5 +30,17 @@ public class UserDto {
 
    @NotNull
    @Size(min = 2, max = 50)
-   private String realname;
+   private String userRealname;
+   
+   @NotNull
+   @Size(min = 2, max = 50)
+   private String phoneNumber;
+   
+   @NotNull
+   @Size(min = 2, max = 100)
+   private String userImage;
+   
+   @NotNull
+   @Size(min = 2, max = 50)
+   private String role;
 }

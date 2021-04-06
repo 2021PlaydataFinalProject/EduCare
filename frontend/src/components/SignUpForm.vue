@@ -87,6 +87,7 @@ import { validateEmail } from "@/utils/validation";
 import { validatePhoneNumber } from "@/utils/validation";
 import { validateBirth } from "@/utils/validation";
 import FilePicker from "@/components/FilePicker";
+import axios from "axios";
 
 export default {
   name: "SignUpForm",
@@ -117,48 +118,77 @@ export default {
     }
   },
   methods: {
-    async submitForm() {
-      try {
-      //   let formData = new FormData();
+    submitForm() {
+      let formData = new FormData();
 
-      // formData.append("userId", this.userid);
-      // formData.append("password", this.password);
-      // formData.append("name", this.name);
-      // formData.append("age", this.age);
-      // formData.append("email", this.email);
-      // formData.append("phoneNum", this.phonenum);
-      // formData.append("address", this.address);
-      // formData.append("position", this.position);
-      // formData.append("stacklist", this.stacklist);
-      // formData.append("file", this.file);
-        // {headers: {
-        //     "Content-Type": "multipart/form-data"
-        //   }}
-        // 비즈니스 로직
-        const userData = {
-          username: this.username,
-          password: this.password,
-          userRealName: this.userRealName,
-          phoneNumber: this.phoneNumber,
-          file: this.userImage,
-          role: this.role
-        };
-        const data = await signupUser(userData);
-        if (data.data == "Signin") {
-          this.logMessage = "회원가입성공";
+      formData.append("username", this.username);
+      formData.append("password", this.password);
+      formData.append("userRealName", this.userRealName);
+      formData.append("phoneNumber", this.phoneNumber);
+      formData.append("file", this.userImage);
+      formData.append("role", this.role);
+
+      axios
+        .post("http://localhost:8000/user/signup", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        })
+        .then(() => {
           alert("회원가입성공");
-        } else {
+          this.$router.push({ name: "Service" });
+        })
+        .catch(error => {
           alert("회원가입실패");
-        }
-        this.$router.push("../" + data.data);
-      } catch (error) {
-        // 에러 핸들링할 코드
-        alert("회원가입 중 에러가 발생했습니다.");
-        console.log(error);
-      } finally {
-        this.initForm();
-      }
+          console.log(error);
+        })
+        .finally(() => {
+          this.initForm();
+        });
     },
+
+    // async submitForm() {
+    //   try {
+    //   let formData = new FormData();
+
+    // formData.append("userId", this.userid);
+    // formData.append("password", this.password);
+    // formData.append("name", this.name);
+    // formData.append("age", this.age);
+    // formData.append("email", this.email);
+    // formData.append("phoneNum", this.phonenum);
+    // formData.append("address", this.address);
+    // formData.append("position", this.position);
+    // formData.append("stacklist", this.stacklist);
+    // formData.append("file", this.file);
+    // {headers: {
+    //     "Content-Type": "multipart/form-data"
+    //   }}
+    // 비즈니스 로직
+    //     const userData = {
+    //       username: this.username,
+    //       password: this.password,
+    //       userRealName: this.userRealName,
+    //       phoneNumber: this.phoneNumber,
+    //       file: this.userImage,
+    //       role: this.role
+    //     };
+    //     const data = await signupUser(userData);
+    //     if (data.data == "Signin") {
+    //       this.logMessage = "회원가입성공";
+    //       alert("회원가입성공");
+    //     } else {
+    //       alert("회원가입실패");
+    //     }
+    //     this.$router.push("../" + data.data);
+    //   } catch (error) {
+    //     // 에러 핸들링할 코드
+    //     alert("회원가입 중 에러가 발생했습니다.");
+    //     console.log(error);
+    //   } finally {
+    //     this.initForm();
+    //   }
+    // },
     initForm() {
       this.username = "";
       this.password = "";

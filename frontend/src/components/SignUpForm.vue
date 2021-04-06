@@ -55,12 +55,15 @@
             ></b-input>
           </b-field>
           <br />
-
           <!-- 파일 선택 및 업로드 -->
-          <b-field label="프로필 사진 업로드">
-            <file-picker />
+          <b-field label="프로필 사진" align="left">
+            <input
+              type="file"
+              id="file"
+              ref="file"
+              v-on:change="handleFileUpload()"
+            />
           </b-field>
-
           <b-field label="권한 설정" type="" message="" align="left">
             <div class="block">
               <b-radio
@@ -75,41 +78,22 @@
               </b-radio>
             </div>
           </b-field>
-          <br/>
-          <b-button
-            type="submit"
-            outlined
-            id="btn"
-            v-bind:disabled="
-              !isIdValid ||
-                !password ||
-                !userRealName ||
-                !isPhoneNumberValid ||
-                !role
-            "
-            size="is-medium"
-            >회원가입</b-button
-          >
+          <br />
+          <button class="btn btn-primary btn-sm">
+            회원 가입
+          </button>
         </form>
       </div>
     </div>
   </div>
 </template>
-
 <script>
 // import { signupUser } from "@/api/auth";
 import { validateEmail } from "@/utils/validation";
 import { validatePhoneNumber } from "@/utils/validation";
-import { validateBirth } from "@/utils/validation";
-import FilePicker from "@/components/FilePicker";
 import axios from "axios";
-
-
 export default {
   name: "SignUpForm",
-  components: {
-    FilePicker
-  },
   data() {
     return {
       //form values
@@ -118,7 +102,8 @@ export default {
       userRealName: "",
       phoneNumber: "",
       userImage: "",
-      role: ""
+      role: "",
+      memberagree: false
     };
   },
   computed: {
@@ -127,22 +112,17 @@ export default {
     },
     isPhoneNumberValid() {
       return validatePhoneNumber(this.phoneNumber); //phonenumber가 핸드폰 번호 형식이 맞는지 체크
-    },
-    isBirthValid() {
-      return validateBirth(this.userImage); //birth가 YYYY-MM-DD 형식에 맞는지 체크
     }
   },
   methods: {
     submitForm() {
       let formData = new FormData();
-
       formData.append("username", this.username);
       formData.append("password", this.password);
       formData.append("userRealName", this.userRealName);
       formData.append("phoneNumber", this.phoneNumber);
-      formData.append("file", this.userImage);
+      formData.append("file", this.file);
       formData.append("role", this.role);
-
       axios
         .post("http://localhost:8000/user/signup", formData, {
           headers: {
@@ -161,11 +141,9 @@ export default {
           this.initForm();
         });
     },
-
     // async submitForm() {
     //   try {
     //   let formData = new FormData();
-
     // formData.append("userId", this.userid);
     // formData.append("password", this.password);
     // formData.append("name", this.name);
@@ -211,9 +189,11 @@ export default {
       this.phoneNumber = "";
       this.userImage = "";
       this.role = "";
+    },
+    handleFileUpload() {
+      this.file = this.$refs.file.files[0];
     }
   }
 };
 </script>
-
 <style></style>

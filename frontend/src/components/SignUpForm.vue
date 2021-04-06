@@ -82,7 +82,7 @@
 </template>
 
 <script>
-import { signupUser } from "@/api/auth";
+// import { signupUser } from "@/api/auth";
 import { validateEmail } from "@/utils/validation";
 import { validatePhoneNumber } from "@/utils/validation";
 import { validateBirth } from "@/utils/validation";

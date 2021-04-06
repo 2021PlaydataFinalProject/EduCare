@@ -16,37 +16,33 @@
       <div class="container is-max-desktop">
         <div class="columns is-mobile">
           <div class="column is-half is-offset-one-quarter">
-            <b-field label="ID" type="" message="" align="left">
-              <b-input
-                v-model="id"
-                placeholder="아이디"
-                maxlength="30"
-                size="is-medium"
-              ></b-input>
-            </b-field>
+            <form @submit.prevent="submitForm()" class="form">
+              <b-field label="ID" type="" message="" align="left">
+                <b-input
+                  v-model="username"
+                  placeholder="아이디"
+                  maxlength="30"
+                  size="is-medium"
+                ></b-input>
+              </b-field>
 
-            <b-field label="Password" type="" message="" align="left">
-              <b-input
-                v-model="pw"
-                type="password"
-                placeholder="비밀번호"
-                maxlength="30"
-                size="is-medium"
-              >
-              </b-input>
-            </b-field>
-            <center>
-              <b-button
-                type="submit"
-                outlined
-                id="btn"
-                v-bind:disabled="!isIdValid || !pw"
-                position="is-centered"
-                size="is-medium"
-                >로그인</b-button
-              >
-            </center>
-            <br /><br />
+              <b-field label="Password" type="" message="" align="left">
+                <b-input
+                  v-model="password"
+                  type="password"
+                  placeholder="비밀번호"
+                  maxlength="30"
+                  size="is-medium"
+                >
+                </b-input>
+              </b-field>
+              <center>
+                <button class="btn btn-primary btn-sm">
+                  로그인
+                </button>
+              </center>
+              <br /><br />
+            </form>
           </div>
         </div>
       </div>
@@ -62,13 +58,13 @@ export default {
   data() {
     return {
       //form values
-      id: "",
-      pw: ""
+      username: "",
+      password: ""
     };
   },
   computed: {
     isIdValid() {
-      return validateEmail(this.id); //id가 이메일 형식이 맞는지 체크
+      return validateEmail(this.username); //id가 이메일 형식이 맞는지 체크
     }
   },
   methods: {
@@ -76,8 +72,8 @@ export default {
       try {
         // 비즈니스 로직
         const userData = {
-          id: this.id,
-          pw: this.pw
+          username: this.username,
+          password: this.password
         };
         const data = await signinUser(userData);
 

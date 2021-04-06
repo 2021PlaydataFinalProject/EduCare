@@ -57,8 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()  // Token이 없어도 호출할 수 있도록 허용
-                .antMatchers("/user/hello").permitAll()
-                .antMatchers("/user/login").permitAll()
+                .antMatchers("/user/signin").permitAll()
                 .antMatchers("/user/signup").permitAll()
                 .anyRequest().authenticated() // 나머지는 권한 검증
                 .and()

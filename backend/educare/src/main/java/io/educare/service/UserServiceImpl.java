@@ -183,7 +183,8 @@ public class UserServiceImpl implements UserService {
 		logger.info("전체 {} 회원 조회 요청", role);
 		return (List<User>) userRepository.findAllUserByRole(role);
 	}
-
+	
+	@Transactional
 	public User updateUser(UserDto userDto, MultipartFile mfile) {
 
 		Optional<User> findUser = userRepository.findById(userDto.getUsername());
@@ -222,7 +223,8 @@ public class UserServiceImpl implements UserService {
 			return null;
 		}
 	}
-
+	
+	@Transactional
 	public User updateUserNoimg(UserDto userDto) {
 		Optional<User> findUser = userRepository.findById(userDto.getUsername());
 		if (findUser.isPresent()) {
@@ -240,7 +242,8 @@ public class UserServiceImpl implements UserService {
 			return null;
 		}
 	}
-
+	
+	@Transactional
 	public void deleteUser(String username, HttpServletResponse res) {
 
 		Optional<User> findUser = userRepository.findById(username);

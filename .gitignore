@@ -1,2 +1,6 @@
-
 .metadata/.plugins/org.eclipse.core.resources/.root/.indexes/history.version
+/.metadata/
+/.metadata/
+.metadata/.log
+.metadata/.plugins/org.eclipse.core.resources/.root/.indexes/properties.index
+.metadata/.plugins/org.eclipse.core.resources/.safetable/org.eclipse.core.resources

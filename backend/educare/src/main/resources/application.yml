@@ -18,7 +18,7 @@ jwt:
 spring:
   servlet:
     multipart:
-      location: C:/Temp
+      location: C:/ItStudy/img
       max-file-size: 100MB
       max-request-size: 100MB
   datasource:
@@ -48,7 +48,7 @@ spring:
 
 logging:
   level:
-    io.educare: DEBUG         
+    io.educare: INFO         
 #          facebook:
 #            client-id: 1338148343232032
 #            client-secret: e3786e7bdb4743d020cf2b98e9155942

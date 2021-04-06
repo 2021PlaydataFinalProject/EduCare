@@ -1,4 +1,4 @@
-package educare.entity;
+package io.educare.entity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @DiscriminatorValue("ROLE_ADMIN")
-public class Admin  extends User{
+public class Admin  extends User {
 	@Builder
 	public Admin() {
 		super();
@@ -27,6 +27,6 @@ public class Admin  extends User{
 	@Builder
 	public Admin(String username, String password, String studentName, String phoneNumber,
 			String studentImage, List<StudentTest> testList) {
-		super(username, password, studentName, phoneNumber, studentImage);
+		super(username, password, studentName, phoneNumber, studentImage, "ROLE_ADMIN");
 	}
 }

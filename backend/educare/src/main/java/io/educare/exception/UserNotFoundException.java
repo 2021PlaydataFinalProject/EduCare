@@ -1,8 +1,7 @@
 package io.educare.exception;
 
-import javassist.NotFoundException;
-
-public class UserNotFoundException extends NotFoundException {
+public class UserNotFoundException extends Exception {
+	public UserNotFoundException() {}
 	public UserNotFoundException(String message) {
 		super(message);
 	}

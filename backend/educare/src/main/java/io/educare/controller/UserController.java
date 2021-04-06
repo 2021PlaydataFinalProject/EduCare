@@ -1,64 +1,100 @@
 package io.educare.controller;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import io.educare.dto.LoginDto;
 import io.educare.dto.UserDto;
 import io.educare.entity.User;
-import io.educare.service.UserService;
+import io.educare.service.UserServiceImpl;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    private final UserService userService;
+	private final UserServiceImpl userService;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+	public UserController(UserServiceImpl userService) {
+		this.userService = userService;
+	}
 
-    @GetMapping("/hello")
-    public ResponseEntity<String> hello() {
-        return ResponseEntity.ok("hello");
-    }
+	@PostMapping("/signup")
+	public ResponseEntity<User> insertUser(UserDto userDto,
+			@RequestParam(value = "file", required = false) MultipartFile mfile) {
 
-    @PostMapping("/signup")
-    public ResponseEntity<User> signup(UserDto userDto) {  //@RequestBody
-        return ResponseEntity.ok(userService.signup(userDto));
-    }
-    
-    @PostMapping("/login")
-    public ResponseEntity<User> login(@RequestBody LoginDto loginDto, HttpServletResponse res) {
-        return new ResponseEntity<User>(userService.login(loginDto, res), HttpStatus.OK);
-    }
-    
-    @PostMapping("/logout")
-	public void logout(HttpServletResponse res, HttpServletRequest req) {
+		System.out.println(userDto);
+		System.out.println("=================");
+		System.out.println(userDto.getUsername());
+		User inserteduser = null;
+		if (mfile != null) {
+			inserteduser = userService.insertUser(userDto, mfile);
+		} else {
+			inserteduser = userService.insertUserNoimg(userDto);
+		}
+		return new ResponseEntity<User>(inserteduser, HttpStatus.CREATED);
+	}
+
+	@PostMapping("/signin")
+	public ResponseEntity<User> login(@RequestBody LoginDto loginDto, HttpServletResponse res) {
+		return new ResponseEntity<User>(userService.login(loginDto, res), HttpStatus.OK);
+	}
+
+	@PostMapping("/logout")
+	@PreAuthorize("hasAnyRole('STUDENT','INSTRUCTOR')")
+	public void logout(HttpServletResponse res) {
 		userService.logout(res);
 	}
 
-    @GetMapping("/info")
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    // 현재 Security Context에 저장되어 있는 인증 정보의 username을 기준으로 한 유저 정보를 리턴
-    public ResponseEntity<User> getMyUserInfo() {
-        return ResponseEntity.ok(userService.getMyUserWithAuthorities().get());
-    }
+	@GetMapping("/myinfo") // 프론트에서 로그인한 유저의 username 보내 조회
+	@PreAuthorize("hasAnyRole('STUDENT','INSTRUCTOR')")
+	public ResponseEntity<User> getMyUser(@RequestParam String username) {
+		User myUserInfo = userService.getMyUser(username);
+		return new ResponseEntity<User>(myUserInfo, HttpStatus.OK);
+	}
 
-    @GetMapping("/info/{username}")
-    @PreAuthorize("hasAnyRole('ADMIN')")
-    // username을 파라미터로 받아 해당 username의 유저 정보 및 권한 정보를 리턴합니다. 
-    // ROLE_ADMIN 권한을 소유한 토큰 가질때만 호출 가능
-    public ResponseEntity<User> getUserInfo(@PathVariable String username) {
-        return ResponseEntity.ok(userService.getUserWithAuthorities(username).get());
-    }
+	@GetMapping("/{username}") // 강사가 학생들 조회 @PathVariable 방식
+	@PreAuthorize("hasAnyRole('INSTRUCTOR')")
+	public ResponseEntity<User> getUser(@PathVariable("username") String username) {
+		User userInfo = userService.getUser(username);
+		return new ResponseEntity<User>(userInfo, HttpStatus.OK);
+	}
+
+	@GetMapping("/allusers") // 강사가 전체 학생 리스트 조회 가능
+	@PreAuthorize("hasAnyRole('INSTRUCTOR')")
+	public ResponseEntity<List<User>> getUserList(@RequestParam String role) {
+		List<User> usersInfo = userService.getUserList(role);
+		return new ResponseEntity<List<User>>(usersInfo, HttpStatus.OK);
+	}
+
+	@PutMapping("/update")
+	public ResponseEntity<User> updateUser(UserDto userDto, @RequestParam(value = "file", required = false) MultipartFile mfile) {
+		User updatedUser = null;
+		if (mfile != null) {
+			updatedUser = userService.updateUser(userDto, mfile);
+		} else {
+			updatedUser = userService.updateUserNoimg(userDto);
+		}
+		return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+	}
+
+	@DeleteMapping("/delete")
+	public ResponseEntity<HttpStatus> deleteUser(@RequestParam String username, HttpServletResponse res) {
+		userService.deleteUser(username, res);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
+
 }

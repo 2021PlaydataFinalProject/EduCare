@@ -18,19 +18,19 @@ jwt:
 spring:
   servlet:
     multipart:
-      location: C:/Temp
+      location: C:/ItStudy/img
       max-file-size: 100MB
       max-request-size: 100MB
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/ss?serverTimezone=Asia/Seoul
+    url: jdbc:mysql://localhost:3306/educare?serverTimezone=Asia/Seoul
     username: root
     password: '0000'
 
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
-      ddl-auto: create #create update none
+      ddl-auto: update #create update none
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true
@@ -48,7 +48,7 @@ spring:
 
 logging:
   level:
-    io.educare: DEBUG         
+    io.educare: INFO         
 #          facebook:
 #            client-id: 1338148343232032
 #            client-secret: e3786e7bdb4743d020cf2b98e9155942

@@ -23,9 +23,9 @@ public class Student  extends User {
 		super();
 	}
 	@Builder
-	public Student(String username, String password, String studentName, String phoneNumber,
-			String studentImage, List<StudentTest> testList) {
-		super(username, password, studentName, phoneNumber, studentImage, "ROLE_STUDENT");
+	public Student(String username, String password, String userRealName, String phoneNumber,
+			String userImage, List<StudentTest> testList) {
+		super(username, password, userRealName, phoneNumber, userImage, "ROLE_STUDENT");
 		this.testList = testList;
 	}
 	@OneToMany(mappedBy="stuId")

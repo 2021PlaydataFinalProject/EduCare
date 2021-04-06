@@ -36,7 +36,6 @@ public class UserDto {
    @Size(min = 2, max = 50)
    private String phoneNumber;
    
-   @NotNull
    @Size(min = 2, max = 100)
    private String userImage;
    

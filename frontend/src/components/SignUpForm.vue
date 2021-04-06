@@ -39,7 +39,7 @@
           <br />
           <b-field label="이름" type="" message="" align="left">
             <b-input
-              v-model="userRealName"
+              v-model="userRealname"
               placeholder="이름"
               maxlength="30"
               size="is-medium"
@@ -99,7 +99,7 @@ export default {
       //form values
       username: "",
       password: "",
-      userRealName: "",
+      userRealname: "",
       phoneNumber: "",
       userImage: "",
       role: "",
@@ -119,7 +119,7 @@ export default {
       let formData = new FormData();
       formData.append("username", this.username);
       formData.append("password", this.password);
-      formData.append("userRealName", this.userRealName);
+      formData.append("userRealname", this.userRealname);
       formData.append("phoneNumber", this.phoneNumber);
       formData.append("file", this.file);
       formData.append("role", this.role);
@@ -129,8 +129,9 @@ export default {
             "Content-Type": "multipart/form-data"
           }
         })
-        .then(() => {
+        .then(response => {
           alert("회원가입성공");
+          console.log(response.data);
           this.$router.push({ name: "Service" });
         })
         .catch(error => {

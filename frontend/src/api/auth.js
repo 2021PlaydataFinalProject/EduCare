@@ -14,7 +14,7 @@ function memberAgreeUser(data) {
 
 // 로그인 API
 function signinUser(data) {
-  return instance.post("/signin", data);
+  return instance.post("/user/signin", data);
 }
 
 // 전체회원정보 get API

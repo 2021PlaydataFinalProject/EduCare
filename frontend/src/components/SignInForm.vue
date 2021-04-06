@@ -73,6 +73,8 @@ export default {
   },
   methods: {
     async submitForm() {
+      console.log("sub");
+      alert(1);
       try {
         // 비즈니스 로직
         const userData = {

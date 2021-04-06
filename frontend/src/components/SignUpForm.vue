@@ -2,23 +2,23 @@
   <div class="container">
     <div class="container pt-6 pb-6 pl-4 pr-4">
       <div class="box">
-        <h2 class="subtitle is-5">개인 정보 동의</h2>
+        <h2 class="subtitle is-5">회원가입</h2>
         <form @submit.prevent="submitForm()" class="form">
-          <div>
-            <label for="memberagree">개인 정보를 전송합니다.</label>
-            동의하려면 체크하세요.
-            <input
+          <!-- <div> -->
+          <!-- <label for="memberagree">개인 정보를 전송합니다.</label>
+            동의하려면 체크하세요. -->
+          <!-- <input
               v-model="memberagree"
               id="memberagree"
               type="checkbox"
               name="memberagree"
               value="memberagree"
-            />
-          </div>
+            /> -->
+          <!-- </div> -->
           <br />
           <b-field label="ID" type="" message="" align="left">
             <b-input
-              v-model="id"
+              v-model="username"
               placeholder="xxxx@xxxx.xxx"
               maxlength="30"
               size="is-medium"
@@ -27,7 +27,7 @@
           <br />
           <b-field label="비밀번호" type="" message="" align="left">
             <b-input
-              v-model="pw"
+              v-model="password"
               type="password"
               placeholder="비밀번호"
               maxlength="30"
@@ -39,7 +39,7 @@
           <br />
           <b-field label="이름" type="" message="" align="left">
             <b-input
-              v-model="name"
+              v-model="userRealName"
               placeholder="이름"
               maxlength="30"
               size="is-medium"
@@ -48,82 +48,48 @@
           <br />
           <b-field label="핸드폰 번호" type="" align="left">
             <b-input
-              v-model="phonenumber"
+              v-model="phoneNumber"
               placeholder="01x-xxxx-xxxx"
               maxlength="30"
               size="is-medium"
             ></b-input>
           </b-field>
           <br />
-          <!-- <b-field label="D" type="" message="" align="left">
-            <b-input
-              v-model="birth"
-              placeholder="생년월일"
-              maxlength="30"
-              size="is-medium"
-            ></b-input>
-          </b-field> -->
-          <b-field class="file">
-            <b-upload v-model="file" @input="upload" :accept="accept">
-              <a class="button is-primary">
-                <b-icon icon="upload" custom-size="default"></b-icon>
-                <span>{{ buttonLabel }}</span>
-              </a>
-            </b-upload>
-            <span class="file-name" v-if="file">{{ file.name }}</span>
+
+          <!-- 파일 선택 및 업로드 -->
+          <b-field label="프로필 사진 업로드">
+            <file-picker />
           </b-field>
-          <br />
-          <!-- <div>
-          <label for="gender">남성</label>
-          <input
-            v-model="gender"
-            id="male"
-            type="radio"
-            name="gender"
-            value="male"
-          />
-        </div>
-        <div>
-          <label for="gender">여성</label>
-          <input
-            v-model="gender"
-            id="female"
-            type="radio"
-            name="gender"
-            value="female"
-          />
-        </div> -->
-          <b-field label="역할" type="" message="" align="left">
+
+          <b-field label="권한 설정" type="" message="" align="left">
             <div class="block">
-              <b-radio v-model="ROLE" name="student" native-value="student">
-                학생
-              </b-radio>
               <b-radio
-                v-model="ROLE"
+                v-model="role"
                 name="instructor"
                 native-value="instructor"
               >
                 강사
               </b-radio>
+              <b-radio v-model="role" name="student" native-value="student">
+                학생
+              </b-radio>
             </div>
           </b-field>
           <br />
-          <button
-            class="btn btn-primary btn-sm"
+          <b-button
+            type="submit"
+            outlined
+            id="btn"
             v-bind:disabled="
               !isIdValid ||
-                !pw ||
-                !name ||
-                !nickname ||
+                !password ||
+                !userRealName ||
                 !isPhoneNumberValid ||
-                !isBirthValid ||
-                !gender ||
-                !memberagree
+                !role
             "
-            type="submit"
+            size="is-medium"
+            >회원가입</b-button
           >
-            회원 가입
-          </button>
         </form>
       </div>
     </div>
@@ -134,48 +100,60 @@
 import { signupUser } from "@/api/auth";
 import { validateEmail } from "@/utils/validation";
 import { validatePhoneNumber } from "@/utils/validation";
-import { validateBirth } from "@/utils/validation";
+import FilePicker from "@/components/FilePicker";
 
 export default {
+  name: "SignUpForm",
+  components: {
+    FilePicker
+  },
   data() {
     return {
       //form values
-      id: "",
-      pw: "",
-      name: "",
-      nickname: "",
-      phonenumber: "",
-      birth: "",
-      gender: "",
-      memberagree: false
+      username: "",
+      password: "",
+      userRealName: "",
+      phoneNumber: "",
+      userImage: "",
+      role: ""
     };
   },
   computed: {
     isIdValid() {
-      return validateEmail(this.id); //id가 이메일 형식이 맞는지 체크
+      return validateEmail(this.username); //id가 이메일 형식이 맞는지 체크
     },
     isPhoneNumberValid() {
-      return validatePhoneNumber(this.phonenumber); //phonenumber가 핸드폰 번호 형식이 맞는지 체크
-    },
-    isBirthValid() {
-      return validateBirth(this.birth); //birth가 YYYY-MM-DD 형식에 맞는지 체크
+      return validatePhoneNumber(this.phoneNumber); //phonenumber가 핸드폰 번호 형식이 맞는지 체크
     }
   },
   methods: {
     async submitForm() {
       try {
+        //   let formData = new FormData();
+
+        // formData.append("userId", this.userid);
+        // formData.append("password", this.password);
+        // formData.append("name", this.name);
+        // formData.append("age", this.age);
+        // formData.append("email", this.email);
+        // formData.append("phoneNum", this.phonenum);
+        // formData.append("address", this.address);
+        // formData.append("position", this.position);
+        // formData.append("stacklist", this.stacklist);
+        // formData.append("file", this.file);
+        // {headers: {
+        //     "Content-Type": "multipart/form-data"
+        //   }}
         // 비즈니스 로직
         const userData = {
-          id: this.id,
-          pw: this.pw,
-          name: this.name,
-          nickname: this.nickname,
-          phonenumber: this.phonenumber,
-          birth: this.birth,
-          gender: this.gender
+          username: this.username,
+          password: this.password,
+          userRealName: this.userRealName,
+          phoneNumber: this.phoneNumber,
+          file: this.userImage,
+          role: this.role
         };
         const data = await signupUser(userData);
-
         if (data.data == "Signin") {
           this.logMessage = "회원가입성공";
           alert("회원가입성공");
@@ -194,11 +172,10 @@ export default {
     initForm() {
       this.username = "";
       this.password = "";
-      this.name = "";
-      this.nickname = "";
-      this.phonenumber = "";
-      this.birth = "";
-      this.gender = "";
+      this.userRealName = "";
+      this.phoneNumber = "";
+      this.userImage = "";
+      this.role = "";
     }
   }
 };

@@ -36,6 +36,9 @@ public class UserController {
 	public ResponseEntity<User> insertUser(UserDto userDto,
 			@RequestParam(value = "file", required = false) MultipartFile mfile) {
 
+		System.out.println(userDto);
+		System.out.println("=================");
+		System.out.println(userDto.getUsername());
 		User inserteduser = null;
 		if (mfile != null) {
 			inserteduser = userService.insertUser(userDto, mfile);
@@ -45,7 +48,7 @@ public class UserController {
 		return new ResponseEntity<User>(inserteduser, HttpStatus.CREATED);
 	}
 
-	@PostMapping("/login")
+	@PostMapping("/signin")
 	public ResponseEntity<User> login(@RequestBody LoginDto loginDto, HttpServletResponse res) {
 		return new ResponseEntity<User>(userService.login(loginDto, res), HttpStatus.OK);
 	}
@@ -76,7 +79,7 @@ public class UserController {
 		List<User> usersInfo = userService.getUserList(role);
 		return new ResponseEntity<List<User>>(usersInfo, HttpStatus.OK);
 	}
-	
+
 	@PutMapping("/update")
 	public ResponseEntity<User> updateUser(UserDto userDto, @RequestParam(value = "file", required = false) MultipartFile mfile) {
 		User updatedUser = null;
@@ -87,11 +90,11 @@ public class UserController {
 		}
 		return new ResponseEntity<>(updatedUser, HttpStatus.OK);
 	}
-	
+
 	@DeleteMapping("/delete")
 	public ResponseEntity<HttpStatus> deleteUser(@RequestParam String username, HttpServletResponse res) {
 		userService.deleteUser(username, res);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
-	
+
 }

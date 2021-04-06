@@ -63,18 +63,33 @@
 
           <b-field label="권한 설정" type="" message="" align="left">
             <div class="block">
-              <b-radio v-model="role" name="female" native-value="female">
+              <b-radio
+                v-model="role"
+                name="instructor"
+                native-value="instructor"
+              >
                 강사
               </b-radio>
-              <b-radio v-model="role" name="male" native-value="male">
+              <b-radio v-model="role" name="student" native-value="student">
                 학생
               </b-radio>
             </div>
           </b-field>
-          <br />
-          <button class="btn btn-primary btn-sm">
-            회원 가입
-          </button>
+          <br/>
+          <b-button
+            type="submit"
+            outlined
+            id="btn"
+            v-bind:disabled="
+              !isIdValid ||
+                !password ||
+                !userRealName ||
+                !isPhoneNumberValid ||
+                !role
+            "
+            size="is-medium"
+            >회원가입</b-button
+          >
         </form>
       </div>
     </div>
@@ -89,6 +104,7 @@ import { validateBirth } from "@/utils/validation";
 import FilePicker from "@/components/FilePicker";
 import axios from "axios";
 
+
 export default {
   name: "SignUpForm",
   components: {
@@ -102,8 +118,7 @@ export default {
       userRealName: "",
       phoneNumber: "",
       userImage: "",
-      role: "",
-      memberagree: false
+      role: ""
     };
   },
   computed: {

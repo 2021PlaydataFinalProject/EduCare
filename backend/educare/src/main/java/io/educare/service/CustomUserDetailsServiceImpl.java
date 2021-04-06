@@ -16,7 +16,7 @@ public class CustomUserDetailsServiceImpl implements UserDetailsService {
 
    public CustomUserDetailsServiceImpl(UserRepository userRepository) {
       this.userRepository = userRepository;
-   }
+   }  
 
    @Override
    @Transactional // 쿼리 도중 에러가 발생시 rollback 

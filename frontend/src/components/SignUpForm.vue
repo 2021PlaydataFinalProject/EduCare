@@ -18,7 +18,7 @@
           <br />
           <b-field label="ID" type="" message="" align="left">
             <b-input
-              v-model="id"
+              v-model="username"
               placeholder="xxxx@xxxx.xxx"
               maxlength="30"
               size="is-medium"
@@ -27,7 +27,7 @@
           <br />
           <b-field label="비밀번호" type="" message="" align="left">
             <b-input
-              v-model="pw"
+              v-model="password"
               type="password"
               placeholder="비밀번호"
               maxlength="30"
@@ -39,7 +39,7 @@
           <br />
           <b-field label="이름" type="" message="" align="left">
             <b-input
-              v-model="name"
+              v-model="userRealName"
               placeholder="이름"
               maxlength="30"
               size="is-medium"
@@ -48,7 +48,7 @@
           <br />
           <b-field label="핸드폰 번호" type="" align="left">
             <b-input
-              v-model="phonenumber"
+              v-model="phoneNumber"
               placeholder="01x-xxxx-xxxx"
               maxlength="30"
               size="is-medium"
@@ -72,20 +72,7 @@
             </div>
           </b-field>
           <br />
-          <button
-            class="btn btn-primary btn-sm"
-            v-bind:disabled="
-              !isIdValid ||
-                !pw ||
-                !name ||
-                !nickname ||
-                !isPhoneNumberValid ||
-                !isBirthValid ||
-                !role ||
-                !memberagree
-            "
-            type="submit"
-          >
+          <button class="btn btn-primary btn-sm">
             회원 가입
           </button>
         </form>
@@ -109,38 +96,51 @@ export default {
   data() {
     return {
       //form values
-      id: "",
-      pw: "",
-      name: "",
-      nickname: "",
-      phonenumber: "",
-      birth: "",
+      username: "",
+      password: "",
+      userRealName: "",
+      phoneNumber: "",
+      userImage: "",
       role: "",
       memberagree: false
     };
   },
   computed: {
     isIdValid() {
-      return validateEmail(this.id); //id가 이메일 형식이 맞는지 체크
+      return validateEmail(this.username); //id가 이메일 형식이 맞는지 체크
     },
     isPhoneNumberValid() {
-      return validatePhoneNumber(this.phonenumber); //phonenumber가 핸드폰 번호 형식이 맞는지 체크
+      return validatePhoneNumber(this.phoneNumber); //phonenumber가 핸드폰 번호 형식이 맞는지 체크
     },
     isBirthValid() {
-      return validateBirth(this.birth); //birth가 YYYY-MM-DD 형식에 맞는지 체크
+      return validateBirth(this.userImage); //birth가 YYYY-MM-DD 형식에 맞는지 체크
     }
   },
   methods: {
     async submitForm() {
       try {
+      //   let formData = new FormData();
+
+      // formData.append("userId", this.userid);
+      // formData.append("password", this.password);
+      // formData.append("name", this.name);
+      // formData.append("age", this.age);
+      // formData.append("email", this.email);
+      // formData.append("phoneNum", this.phonenum);
+      // formData.append("address", this.address);
+      // formData.append("position", this.position);
+      // formData.append("stacklist", this.stacklist);
+      // formData.append("file", this.file);
+        // {headers: {
+        //     "Content-Type": "multipart/form-data"
+        //   }}
         // 비즈니스 로직
         const userData = {
-          id: this.id,
-          pw: this.pw,
-          name: this.name,
-          nickname: this.nickname,
-          phonenumber: this.phonenumber,
-          birth: this.birth,
+          username: this.username,
+          password: this.password,
+          userRealName: this.userRealName,
+          phoneNumber: this.phoneNumber,
+          file: this.userImage,
           role: this.role
         };
         const data = await signupUser(userData);
@@ -162,10 +162,9 @@ export default {
     initForm() {
       this.username = "";
       this.password = "";
-      this.name = "";
-      this.nickname = "";
-      this.phonenumber = "";
-      this.birth = "";
+      this.userRealName = "";
+      this.phoneNumber = "";
+      this.userImage = "";
       this.role = "";
     }
   }

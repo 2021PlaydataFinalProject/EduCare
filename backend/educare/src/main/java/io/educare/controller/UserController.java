@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,7 +32,7 @@ public class UserController {
 	public UserController(UserServiceImpl userService) {
 		this.userService = userService;
 	}
-
+	
 	@PostMapping("/signup")
 	public ResponseEntity<User> insertUser(UserDto userDto,
 			@RequestParam(value = "file", required = false) MultipartFile mfile) {

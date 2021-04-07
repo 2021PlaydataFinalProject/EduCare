@@ -126,7 +126,8 @@ export default {
       axios
         .post("http://localhost:8000/user/signup", formData, {
           headers: {
-            "Content-Type": "multipart/form-data"
+            "Content-Type": "multipart/form-data",
+            "Access-Control-Allow-Origin": "*"
           }
         })
         .then(response => {

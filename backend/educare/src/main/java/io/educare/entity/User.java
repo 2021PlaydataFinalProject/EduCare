@@ -1,6 +1,5 @@
 package io.educare.entity;
 
-
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
@@ -11,7 +10,6 @@ import javax.persistence.InheritanceType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,7 +28,7 @@ public abstract class User {
 	private String username;
 	
 	@JsonIgnore
-	@Column(name = "user_pw", length = 100)
+	@Column(name = "user_pw", length = 200)
 	private String password;
 	
 	@Column(name = "user_name", length = 50)

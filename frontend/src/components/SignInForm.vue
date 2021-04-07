@@ -91,7 +91,6 @@ export default {
           this.initForm();
         });
     },
-
     // async submitForm() {
     //   console.log("sub");
     //   alert(1);
@@ -109,10 +108,8 @@ export default {
     //     } else {
     //       alert("잘못된 정보를 입력하셨거나 이미 로그인중입니다.");
     //     }
-
     //     this.$store.commit("setToken", data.data.token);
     //     this.$store.commit("setId", data.data.memberinfo.id);
-
     //     this.$session.set("userinfo", data.data.memberinfo); //브라우저 localstorage에 멤버정보 저장
     //     this.$router.push("../" + data.data.desturl);
     //   } catch (error) {

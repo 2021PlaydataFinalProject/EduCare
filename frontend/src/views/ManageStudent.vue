@@ -5,59 +5,87 @@
       응시자 관리
     </hero-bar>
     <section class="section is-main-section">
-      <notification class="is-info">
-        <div>
-          <b-icon icon="buffer" custom-size="default" />
-          <b>Sorted and paginated table.</b>&nbsp;Based on Buefy's table.
-        </div>
-      </notification>
-
       <card-component
         class="has-table has-mobile-sort-spaced"
-        title="Clients"
+        title="응시자"
         icon="account-multiple"
       >
-        <clients-table-sample
-          :data-url="`${$router.options.base}data-sources/clients.json`"
-          :checkable="true"
-        />
+        <div id="app" class="container">
+          <section>
+            <b-table :data="isEmpty ? [] : apps" :hoverable="isHoverable">
+              <b-table-column
+                field="stuNum"
+                label="학생 번호"
+                numeric
+                centered
+                v-slot="props"
+              >
+                {{ props.row.rowNum }}
+              </b-table-column>
+
+              <b-table-column
+                field="userName"
+                label="응시자"
+                v-slot="props"
+                centered
+              >
+                {{ props.row.userName }}
+              </b-table-column>
+
+              <b-table-column
+                field="username"
+                label="학생ID"
+                v-slot="props"
+                centered
+              >
+                {{ props.row.username }}
+              </b-table-column>
+               <b-table-column
+                field="testResult"
+                label="점수"
+                v-slot="props"
+                centered
+              >
+                {{ props.row.testResult }}
+              </b-table-column>
+              <b-table-column label="감독" v-slot="props" centered>
+                <b-button
+                  type="is-primary is-light"
+                  outlined
+                  v-on:click="updateInstructorTest(props.row.pfSeq)"
+                  position="is-centered"
+                  size="is-small"
+                  >감독하기</b-button
+                >
+              </b-table-column>
+              <b-table-column label="삭제" v-slot="props" centered>
+                <b-button
+                  type="is-primary is-light"
+                  outlined
+                  v-on:click="manageInstructorTest(props.row.pfSeq)"
+                  position="is-centered"
+                  size="is-small"
+                  >삭제</b-button
+                >
+              </b-table-column>
+            </b-table>
+          </section>
+          <b-button
+            tag="router-link"
+            to="/addstudent"
+            type="is-link"
+            class="button is-primary is-pulled-right"
+            >응시자 추가</b-button
+          >
+        </div>
       </card-component>
 
       <hr />
-
-      <notification class="is-info">
-        <div>
-          <b-icon icon="buffer" custom-size="default" />
-          <b>Tightly wrapped</b> &mdash; table header becomes card header
-        </div>
-      </notification>
-
-      <card-component class="has-table has-mobile-sort-spaced">
-        <clients-table-sample
-          :data-url="`${$router.options.base}data-sources/clients.json`"
-          :checkable="true"
-        />
-      </card-component>
-
-      <hr />
-
-      <notification class="is-info">
-        <div>
-          <b-icon icon="buffer" custom-size="default" />
-          <b>Empty table.</b> When there's nothing to show
-        </div>
-      </notification>
-
-      <card-component class="has-table has-thead-hidden">
-        <clients-table-sample />
-      </card-component>
     </section>
   </div>
 </template>
 
 <script>
-import Notification from "@/components/Notification";
-import ClientsTableSample from "@/components/ClientsTableSample";
 import CardComponent from "@/components/CardComponent";
 import TitleBar from "@/components/TitleBar";
 import HeroBar from "@/components/HeroBar";
@@ -68,8 +96,6 @@ export default {
     HeroBar,
     TitleBar,
     CardComponent,
-    ClientsTableSample,
-    Notification
   },
   computed: {
     titleStack() {

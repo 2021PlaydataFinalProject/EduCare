@@ -61,7 +61,7 @@ export default {
                 label: "학생 시험"
               },
               {
-                href: "/managetest",
+                href: "/instructor",
                 label: "강사 시험"
               }
             ]

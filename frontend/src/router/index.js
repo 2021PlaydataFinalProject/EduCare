@@ -124,6 +124,14 @@ const routes = [
     name: "AddTest",
     component: () => import("../views/AddTest.vue")
   },
+  {
+    meta: {
+      title: "InstructorTest"
+    },
+    path: "/instructor",
+    name: "InstructorTest",
+    component: () => import("../views/InstructorTest.vue")
+  },
   // {
   //   meta: {
   //     title: "Forms"

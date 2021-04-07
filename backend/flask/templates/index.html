@@ -1,16 +1,163 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Streaming Video Recorder</title>
-</head>
-<body>
-  <h1>Streaming Video Recorder</h1>
-  <div id="recorder">
-    <button id="record">Record</button>
-    <button id="stop">Stop</button>
-    <a id="download"></a>
-    <script type="text/javascript" src="{{ url_for('static', filename='recorder.js') }}"></script>      
-  </div>
-  <img id="video" src="{{ url_for('video_viewer') }}">
-</body>
-</html>
+<DOCTYPE html>
+  <html>
+  <head>
+    <title>비디오 스트리밍</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://unpkg.com/buefy/dist/buefy.min.css">
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico"/>
+    <meta charset='utf-8' />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/buefy/dist/buefy.min.js"></script>
+  </head>
+  <body>
+    <!-- 헤더 네비게이션 -->
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="/">
+          <p class="title is-5">EDUCARE</p>
+          <!-- <img src="../assets/flasklogo.png" width="112" height="28"> -->
+        </a>
+    
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+    
+      <!-- <div id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item">
+            Home
+          </a>
+    
+          <a class="navbar-item">
+            Documentation
+          </a>
+    
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link">
+              More
+            </a>
+    
+            <div class="navbar-dropdown">
+              <a class="navbar-item">
+                About
+              </a>
+              <a class="navbar-item">
+                Jobs
+              </a>
+              <a class="navbar-item">
+                Contact
+              </a>
+              <hr class="navbar-divider">
+              <a class="navbar-item">
+                Report an issue
+              </a>
+            </div>
+          </div>
+        </div> -->
+    
+        <!-- <div class="navbar-end">
+          <div class="navbar-item">
+            <div class="buttons">
+              <a class="button is-primary">
+                <strong>Sign up</strong>
+              </a>
+              <a class="button is-light">
+                Log in
+              </a>
+            </div>
+          </div>
+        </div> -->
+      </div>
+    </nav>
+
+    <div id="app" class="container pt-3 mt-3">
+      <h1 class="title pt-3">시험보기</h1>
+      <!-- Buefy components goes here -->
+      <p class="has-text-right">남은시간 00:00:00</p>
+      <div class="tile is-ancestor">
+      <div class="tile is-4 is-vertical is-parent">
+        <div class="tile is-child box">
+          <p class="title is-5">시험 녹화</p>
+        </br>
+          <p>시험이 끝나면 녹화완료를 먼저 클릭한 후 시험완료를 클릭하면 감독관에게 전송됩니다. </p>
+      </br>
+          <div id="recorder">
+            <b-button id="record">녹화완료</b-button>
+            <b-button id="stop">시험완료</b-button>
+            <a id="download"></a>
+            <script type="application/javascript" src="{{ url_for('static', filename='recorder.js') }}"></script>      
+          </br>
+            <b-field label="녹화영상">
+              <input
+                type="file"
+                id="file"
+                ref="file"
+              />
+            </b-field>
+          </div>
+        </br>
+          <img id="video" src="{{ url_for('video_viewer') }}">
+        </div>
+      </div>
+      <div class="tile is-parent">
+        <div class="tile is-child box">
+          <p class="title is-5">시험 문제</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam semper diam at erat pulvinar, at pulvinar felis blandit. Vestibulum volutpat tellus diam, consequat gravida libero rhoncus ut. Morbi maximus, leo sit amet vehicula eleifend, nunc dui porta orci, quis semper odio felis ut quam.</p>
+        </br>
+        <!-- 예시 -->
+          <b-field>
+            <b-radio v-model="radio"
+                native-value="default">
+                Default
+            </b-radio>
+        </b-field>
+        <b-field>
+            <b-radio v-model="radio"
+                native-value="info"
+                type="is-info">
+                Info
+            </b-radio>
+        </b-field>
+        <b-field>
+            <b-radio v-model="radio"
+                native-value="success"
+                type="is-success">
+                Success
+            </b-radio>
+        </b-field>
+        <b-field>
+            <b-radio v-model="radio"
+                native-value="danger"
+                type="is-danger">
+                Danger
+            </b-radio>
+        </b-field>
+        <b-field>
+            <b-radio v-model="radio"
+                native-value="warning"
+                type="is-warning">
+                Warning
+            </b-radio>
+        </b-field>
+        </br>
+          <b-button>답안제출</b-button>
+        </div>
+      </div>
+    </div>
+  <script>
+  const vueApp = new Vue({
+    el: '#app',
+    //axios 들어가기 form data post로 보내고, get으로 문제 출력하고, 영상 파일에 관련된거 입력하고
+    //spring boot post json key-> answer, 문제, 
+    data() { 
+      return {
+      
+    };
+  }})
+  </script>
+  </body>
+  </html>

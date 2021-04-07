@@ -2,7 +2,7 @@
   <div>
     <title-bar :title-stack="titleStack" />
     <hero-bar>
-      시험 만들기
+      시험 수정하기
       <router-link slot="right" to="/" class="button">
         Dashboard
       </router-link>

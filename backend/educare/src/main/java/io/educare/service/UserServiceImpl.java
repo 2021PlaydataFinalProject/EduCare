@@ -47,12 +47,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public User login(LoginDto loginDto, HttpServletResponse res) {
-
 		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
 				loginDto.getUsername(), loginDto.getPassword());
+		
 		// authenticate(authenticationToken)하면 customeruserdetailsservice의
 		// loaduserbyusername 실행됨
 		Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+		
 		// 인증 정보를 JwtFilter 클래스의 doFilter 메소드와 유사하게 현재 실행중인 스레드 ( Security Context ) 에
 		// 저장
 		SecurityContextHolder.getContext().setAuthentication(authentication);

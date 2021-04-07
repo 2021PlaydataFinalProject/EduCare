@@ -2,7 +2,9 @@
   <div id="app">
     <nav-bar />
     <aside-menu :menu="menu" @menu-click="menuClick" />
-    <router-view />
+    <transition name="page">
+      <router-view></router-view>
+    </transition>
     <footer-bar />
   </div>
 </template>
@@ -87,3 +89,14 @@ export default {
   }
 };
 </script>
+
+<style>
+/* Router Transition - 페이지 전환이 부드럽게 하기 위함 (부드러운 페이지 이동) */
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.5s;
+}
+.page-enter, .page-leave-to /* .page-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+</style>

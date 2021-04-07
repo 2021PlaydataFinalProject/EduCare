@@ -36,9 +36,6 @@ public class UserController {
 	public ResponseEntity<User> insertUser(UserDto userDto,
 			@RequestParam(value = "file", required = false) MultipartFile mfile) {
 
-		System.out.println(userDto);
-		System.out.println("=================");
-		System.out.println(userDto.getUsername());
 		User inserteduser = null;
 		if (mfile != null) {
 			inserteduser = userService.insertUser(userDto, mfile);

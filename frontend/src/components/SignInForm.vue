@@ -52,10 +52,6 @@
 import { validateEmail } from "@/utils/validation";
 // import { signinUser } from "@/api/auth";
 import axios from "axios";
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 export default {
   data() {
     return {
@@ -84,6 +80,7 @@ export default {
         .then(response => {
           alert("로그인 성공");
           console.log(response.data);
+          sessionStorage.setItem("user", JSON.stringify(response.data));
           this.$router.push({ name: "Service" });
         })
         .catch(error => {
@@ -93,13 +90,8 @@ export default {
         .finally(() => {
           this.initForm();
         });
-<<<<<<< Updated upstream
-
-    },
-=======
     },
 
->>>>>>> Stashed changes
     // async submitForm() {
     //   console.log("sub");
     //   alert(1);
@@ -110,10 +102,6 @@ export default {
     //       password: this.password
     //     };
     //     const data = await signinUser(userData);
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
     //     if (data.data.desturl == "admin") {
     //       alert("관리자 admin 환영합니다.");
     //     } else if (data.data.desturl == "waittingroom") {
@@ -121,15 +109,10 @@ export default {
     //     } else {
     //       alert("잘못된 정보를 입력하셨거나 이미 로그인중입니다.");
     //     }
-<<<<<<< Updated upstream
-    //     this.$store.commit("setToken", data.data.token);
-    //     this.$store.commit("setId", data.data.memberinfo.id);
-=======
 
     //     this.$store.commit("setToken", data.data.token);
     //     this.$store.commit("setId", data.data.memberinfo.id);
 
->>>>>>> Stashed changes
     //     this.$session.set("userinfo", data.data.memberinfo); //브라우저 localstorage에 멤버정보 저장
     //     this.$router.push("../" + data.data.desturl);
     //   } catch (error) {

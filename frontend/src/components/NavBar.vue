@@ -67,7 +67,12 @@
               exact-active-class="is-active"
             >
               <b-icon icon="account" custom-size="default"></b-icon>
+              <!-- <template v-if="item.domain"> -->
               <span>마이 페이지</span>
+              <!-- </template> -->
+              <!-- <template v-else> -->
+              <!-- <span>로그인</span> -->
+              <!-- </template> -->
             </router-link>
             <!-- <a class="navbar-item">
               <b-icon icon="settings" custom-size="default"></b-icon>
@@ -80,7 +85,12 @@
             <hr class="navbar-divider" />
             <a class="navbar-item">
               <b-icon icon="logout" custom-size="default"></b-icon>
-              <span>로그아웃</span>
+              <!-- <template v-if="item.domain"> -->
+              <span @click="logout()">로그아웃</span>
+              <!-- </template> -->
+              <!-- <template v-else> -->
+              <!-- <span>회원가입</span> -->
+              <!-- </template> -->
             </a>
           </div>
         </nav-bar-menu>
@@ -162,6 +172,7 @@ export default {
       this.$store.commit("darkModeToggle");
     },
     logout() {
+      alert(1);
       this.$buefy.snackbar.open({
         message: "Log out clicked",
         queue: false

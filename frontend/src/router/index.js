@@ -62,6 +62,14 @@ const routes = [
   },
   {
     meta: {
+      title: "CompleteTest"
+    },
+    path: "/completetest",
+    name: "CompleteTest",
+    component: () => import("../views/CompleteTest.vue")
+  },
+  {
+    meta: {
       title: "StudentTestList"
     },
     path: "/student",

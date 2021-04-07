@@ -2,17 +2,20 @@
   <div>
     <title-bar :title-stack="titleStack" />
     <hero-bar>
-      Make Test
+      시험 만들기
+      <router-link slot="right" to="/" class="button">
+        Dashboard
+      </router-link>
     </hero-bar>
     <section class="section is-main-section">
       <card-component title="Forms" icon="ballot">
         <form @submit.prevent="submit">
-          <b-field label="From" horizontal>
+          <b-field label="출제자 정보" horizontal>
             <b-field>
               <b-input
                 icon="account"
                 v-model="form.name"
-                placeholder="Name"
+                placeholder="이름"
                 name="name"
                 required
               />
@@ -22,13 +25,13 @@
                 icon="email"
                 type="email"
                 v-model="form.email"
-                placeholder="E-mail"
+                placeholder="이메일"
                 name="email"
                 required
               />
             </b-field>
           </b-field>
-          <b-field message="Do not enter the leading zero" horizontal>
+          <b-field message="필수 작성 부분입니다." horizontal>
             <b-field>
               <p class="control">
                 <a class="button is-static">
@@ -38,9 +41,9 @@
               <b-input type="tel" v-model="form.phone" name="phone" expanded />
             </b-field>
           </b-field>
-          <b-field label="Department" horizontal>
+          <b-field label="시험 과목" horizontal>
             <b-select
-              placeholder="Select a department"
+              placeholder="시험 과목을 선택하세요."
               v-model="form.department"
               required
             >
@@ -54,21 +57,21 @@
             </b-select>
           </b-field>
           <hr />
-          <b-field label="Subject" message="Message subject" horizontal>
+          <b-field label="시험명" message="과목명을 적어주세요." horizontal>
             <b-input
-              placeholder="java minitest"
+              placeholder="자바 쪽지시험 : 소제목"
               v-model="form.subject"
               required
             />
           </b-field>
           <b-field
-            label="Question"
-            message="Your question. Max 255 characters"
+            label="문제"
+            message="당신의 문제를 255자 이내로 작성하세요."
             horizontal
           >
             <b-input
               type="textarea"
-              placeholder="Make Exam Question"
+              placeholder="시험 항목 만들기"
               v-model="form.question"
               maxlength="255"
               required
@@ -79,12 +82,12 @@
             <b-field grouped>
               <div class="control">
                 <b-button native-type="submit" type="is-primary"
-                  >Submit</b-button
+                  >시험 출제</b-button
                 >
               </div>
               <div class="control">
                 <b-button type="is-primary is-outlined" @click="reset"
-                  >Reset</b-button
+                  >다시 만들기</b-button
                 >
               </div>
             </b-field>
@@ -131,7 +134,7 @@ import FilePicker from "@/components/FilePicker";
 import HeroBar from "@/components/HeroBar";
 
 export default {
-  name: "Forms",
+  name: "AddTest",
   components: {
     HeroBar,
     FilePicker,
@@ -157,12 +160,12 @@ export default {
         switch: true,
         file: null
       },
-      departments: ["java", "python", "elasticsearch", "SQL"]
+      departments: ["JAVA", "SPRINGBOOT", "VUE", "SQL"]
     };
   },
   computed: {
     titleStack() {
-      return ["Instructor", "Test Forms"];
+      return ["Instructor", "Add Test"];
     }
   },
   methods: {

@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
 
 		Optional<User> userOpt = userRepository.findById(authentication.getName());
 
-		if (userOpt.isPresent() && userOpt.get().getPassword().equals(loginDto.getPassword())) {
+		if (userOpt.isPresent()) {
 			return userOpt.get();
 		} else {
 			return null;

@@ -1,4 +1,4 @@
-package educare.entity;
+package io.educare.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 
@@ -19,6 +20,10 @@ import lombok.Data;
 public class TestProblem {
 	
 	@Id
+	@Column(name = "pro_Id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long proId;
+	
 	@Column(name = "pro_num")
 	private long proNum;
 	

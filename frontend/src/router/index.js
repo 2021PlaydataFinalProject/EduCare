@@ -1,20 +1,45 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+// import Home from "../views/Home.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
-    // Document title tag
-    // We combine it with defaultDocumentTitle set in `src/main.js` on router.afterEach hook
     meta: {
-      title: "Dashboard"
+      title: "Home"
     },
     path: "/",
-    name: "home",
-    component: Home
+    name: "Home",
+    component: () => import("../views/Home.vue")
   },
+  {
+    meta: {
+      title: "Service"
+    },
+    path: "/service",
+    name: "Service",
+    component: () => import("../views/Service.vue")
+  },
+  {
+    meta: {
+      title: "Profile"
+    },
+    path: "/profile",
+    name: "profile",
+    component: () =>
+      import(/* webpackChunkName: "profile" */ "../views/Profile.vue")
+  },
+  // {
+  //   // Document title tag
+  //   // We combine it with defaultDocumentTitle set in `src/main.js` on router.afterEach hook
+  //   meta: {
+  //     title: "Dashboard"
+  //   },
+  //   path: "/",
+  //   name: "home",
+  //   component: Home
+  // },
   {
     meta: {
       title: "Tables"
@@ -26,14 +51,6 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "tables" */ "../views/Tables.vue")
-  },
-  {
-    meta: {
-      title: "Service"
-    },
-    path: "/service",
-    name: "Service",
-    component: () => import("../views/Service.vue")
   },
   {
     meta: {
@@ -94,15 +111,6 @@ const routes = [
   },
   {
     meta: {
-      title: "Profile"
-    },
-    path: "/profile",
-    name: "profile",
-    component: () =>
-      import(/* webpackChunkName: "profile" */ "../views/Profile.vue")
-  },
-  {
-    meta: {
       title: "New client"
     },
     path: "/client/new",
@@ -119,10 +127,29 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "client-form" */ "../views/ClientForm.vue"),
     props: true
+  },
+  {
+    meta: {
+      title: "Sign In"
+    },
+    path: "/signin",
+    name: "Sign In",
+    component: () => import("../views/SignIn.vue"),
+    props: true
+  },
+  {
+    meta: {
+      title: "Sign Up"
+    },
+    path: "/signup",
+    name: "Sign Up",
+    component: () => import("../views/SignUp.vue"),
+    props: true
   }
 ];
 
 const router = new VueRouter({
+  mode: "history", // # 값 제거 /#/
   base: process.env.BASE_URL,
   routes,
   scrollBehavior(to, from, savedPosition) {

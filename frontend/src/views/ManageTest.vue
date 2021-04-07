@@ -20,7 +20,7 @@
         title="시험"
         icon="account-multiple"
       >
-      <!-- 데이터가 들어갈 곳 -->
+        <!-- 데이터가 들어갈 곳 -->
         <clients-table-sample
           :data-url="`${$router.options.base}data-sources/clients.json`"
           :checkable="true"

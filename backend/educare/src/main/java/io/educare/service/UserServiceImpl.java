@@ -31,7 +31,7 @@ import io.educare.util.CookieUtil;
 
 @Service
 public class UserServiceImpl implements UserService {
-	private static final Logger logger = LoggerFactory.getLogger(JwtFilter.class);
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	private final UserRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
@@ -49,11 +49,11 @@ public class UserServiceImpl implements UserService {
 	public User login(LoginDto loginDto, HttpServletResponse res) {
 		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
 				loginDto.getUsername(), loginDto.getPassword());
-		
+
 		// authenticate(authenticationToken)하면 customeruserdetailsservice의
 		// loaduserbyusername 실행됨
 		Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-		
+
 		// 인증 정보를 JwtFilter 클래스의 doFilter 메소드와 유사하게 현재 실행중인 스레드 ( Security Context ) 에
 		// 저장
 		SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -81,7 +81,7 @@ public class UserServiceImpl implements UserService {
 	// 이미 같은 username으로 가입된 유저가 있는 지 확인하고, UserDto 객체의 정보들을 기반으로 권한 객체와 유저 객체를 생성하여
 	// Database에 저장
 	@Transactional
-	public boolean insertUser(UserDto userDto, MultipartFile mfile) {
+	public User insertUser(UserDto userDto, MultipartFile mfile) {
 		Optional<User> findMyUser = userRepository.findById(userDto.getUsername());
 
 		if (!findMyUser.isPresent()) {
@@ -89,44 +89,37 @@ public class UserServiceImpl implements UserService {
 
 			try {
 				imgname = String.valueOf(System.currentTimeMillis()) + mfile.getOriginalFilename();
-				mfile.transferTo(new File(System.getProperty("user.dir") + "\\src\\main\\webapp\\upload\\" + imgname));
+				mfile.transferTo(new File(System.getProperty("user.dir") + "\\src\\main\\webapp\\userimg\\" + imgname));
 				logger.info("{} 가입회원 이미지 등록", userDto.getUsername());
 			} catch (IllegalStateException | IOException e) {
 				e.printStackTrace();
 				logger.error("{} 가입회원 이미지 등록 오류", userDto.getUsername());
 			}
-			
-			try {
-				if (userDto.getRole().equals("student")) {
 
-					Student student = new Student();
-					student.setUsername(userDto.getUsername());
-					student.setPassword(passwordEncoder.encode(userDto.getPassword()));
-					student.setUserRealName(userDto.getUserRealname());
-					student.setPhoneNumber(userDto.getPhoneNumber());
-					student.setUserImage(imgname);
+			if (userDto.getRole().equals("student")) {
 
-					userRepository.save(student);
-				} else {
+				Student student = new Student();
+				student.setUsername(userDto.getUsername());
+				student.setPassword(passwordEncoder.encode(userDto.getPassword()));
+				student.setUserRealName(userDto.getUserRealname());
+				student.setPhoneNumber(userDto.getPhoneNumber());
+				student.setUserImage(imgname);
 
-					Instructor instructor = new Instructor();
-					instructor.setUsername(userDto.getUsername());
-					instructor.setPassword(passwordEncoder.encode(userDto.getPassword()));
-					instructor.setUserRealName(userDto.getUserRealname());
-					instructor.setPhoneNumber(userDto.getPhoneNumber());
-					instructor.setUserImage(imgname);
-					
-					userRepository.save(instructor);
-				}
-				return true;
-			}catch(Exception e) {
-				e.printStackTrace();
-				return false;
+				return userRepository.save(student);
+			} else {
+
+				Instructor instructor = new Instructor();
+				instructor.setUsername(userDto.getUsername());
+				instructor.setPassword(passwordEncoder.encode(userDto.getPassword()));
+				instructor.setUserRealName(userDto.getUserRealname());
+				instructor.setPhoneNumber(userDto.getPhoneNumber());
+				instructor.setUserImage(imgname);
+
+				return userRepository.save(instructor);
 			}
-		
 		} else {
 			logger.error("{} 기존가입 회원가입 오류", userDto.getUsername());
-			return false;
+			return null;
 		}
 	}
 
@@ -191,7 +184,7 @@ public class UserServiceImpl implements UserService {
 		logger.info("전체 {} 회원 조회 요청", role);
 		return (List<User>) userRepository.findAllUserByRole(role);
 	}
-	
+
 	@Transactional
 	public User updateUser(UserDto userDto, MultipartFile mfile) {
 
@@ -202,10 +195,10 @@ public class UserServiceImpl implements UserService {
 
 			try {
 				imgname = String.valueOf(System.currentTimeMillis()) + mfile.getOriginalFilename();
-				mfile.transferTo(new File(System.getProperty("user.dir") + "\\src\\main\\webapp\\upload\\" + imgname));
+				mfile.transferTo(new File(System.getProperty("user.dir") + "\\src\\main\\webapp\\userimg\\" + imgname));
 
 				String filename = findUser.get().getUserImage();
-				File file = new File(System.getProperty("user.dir") + "\\src\\main\\webapp\\upload\\" + filename);
+				File file = new File(System.getProperty("user.dir") + "\\src\\main\\webapp\\userimg\\" + filename);
 
 				if (file.exists() && !filename.equals("default.png")) {
 					if (file.delete()) {
@@ -231,7 +224,7 @@ public class UserServiceImpl implements UserService {
 			return null;
 		}
 	}
-	
+
 	@Transactional
 	public User updateUserNoimg(UserDto userDto) {
 		Optional<User> findUser = userRepository.findById(userDto.getUsername());
@@ -242,7 +235,6 @@ public class UserServiceImpl implements UserService {
 			finduser.setPassword(passwordEncoder.encode(userDto.getPassword()));
 			finduser.setUserRealName(userDto.getUserRealname());
 			finduser.setPhoneNumber(userDto.getPhoneNumber());
-			finduser.setUserImage("default.png");
 
 			return userRepository.save(finduser);
 		} else {
@@ -250,7 +242,7 @@ public class UserServiceImpl implements UserService {
 			return null;
 		}
 	}
-	
+
 	@Transactional
 	public void deleteUser(String username, HttpServletResponse res) {
 
@@ -259,7 +251,7 @@ public class UserServiceImpl implements UserService {
 		if (findUser.isPresent()) {
 
 			String filename = findUser.get().getUserImage();
-			File file = new File(System.getProperty("user.dir") + "\\src\\main\\webapp\\upload\\" + filename);
+			File file = new File(System.getProperty("user.dir") + "\\src\\main\\webapp\\userimg\\" + filename);
 
 			if (file.exists() && !filename.equals("default.png")) {
 				if (file.delete()) {
@@ -269,7 +261,7 @@ public class UserServiceImpl implements UserService {
 				}
 			}
 			userRepository.delete(findUser.get());
-
+			// 로그아웃
 			Cookie resetToken = CookieUtil.createCookie(TokenProvider.AUTHORITIES_KEY, null); // 쿠키 auth 값을 null
 			resetToken.setMaxAge(0); // 유효시간을 만료시킴
 			res.addCookie(resetToken); // 응답 헤더에 추가해서 없어지도록 함

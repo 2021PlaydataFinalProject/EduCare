@@ -67,7 +67,12 @@
               exact-active-class="is-active"
             >
               <b-icon icon="account" custom-size="default"></b-icon>
-              <span>마이 페이지</span>
+              <template v-if="user != null">
+                <span>마이 페이지</span>
+              </template>
+              <template v-else>
+                <router-link to="/signin">로그인</router-link>
+              </template>
             </router-link>
             <!-- <a class="navbar-item">
               <b-icon icon="settings" custom-size="default"></b-icon>
@@ -80,7 +85,12 @@
             <hr class="navbar-divider" />
             <a class="navbar-item">
               <b-icon icon="logout" custom-size="default"></b-icon>
-              <span>로그아웃</span>
+              <template v-if="user != null">
+                <span @click="logout()">로그아웃</span>
+              </template>
+              <template v-else>
+                <router-link to="/signup">회원가입</router-link>
+              </template>
             </a>
           </div>
         </nav-bar-menu>
@@ -105,8 +115,6 @@
           title="Log out"
           @click="logout"
         >
-          <b-icon icon="logout" custom-size="default" />
-          <span>Log out</span>
         </a>
       </div>
     </div>
@@ -126,7 +134,8 @@ export default {
   },
   data() {
     return {
-      isMenuNavBarActive: false
+      isMenuNavBarActive: false,
+      user: sessionStorage.getItem("user")
     };
   },
   computed: {
@@ -162,10 +171,18 @@ export default {
       this.$store.commit("darkModeToggle");
     },
     logout() {
-      this.$buefy.snackbar.open({
-        message: "Log out clicked",
-        queue: false
-      });
+      if (sessionStorage.getItem("user") != null) {
+        sessionStorage.removeItem("user");
+        this.loginUserAct(null);
+        this.$router.push({ name: "Home" });
+      } else {
+        alert("로그인을 먼저 해주세요");
+        this.$router.push({ name: "Sign In" });
+      }
+      // this.$buefy.snackbar.open({
+      //   message: "Log out clicked",
+      //   queue: false
+      // });
     }
   }
 };

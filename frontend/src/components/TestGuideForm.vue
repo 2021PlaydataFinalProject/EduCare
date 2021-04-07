@@ -36,8 +36,8 @@
                 </b-input>
               </b-field>
               <center>
-                <b-button class="btn btn-primary btn-sm" @click="submitForm()">
-                  로그인
+                <b-button class="btn btn-primary btn-sm">
+                  시험 시작
                 </b-button>
               </center>
               <br /><br />

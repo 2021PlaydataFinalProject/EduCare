@@ -1,166 +1,108 @@
 <template>
   <div>
     <title-bar :title-stack="titleStack" />
-    <hero-bar :has-right-visible="false">
-      Dashboard
+    <hero-bar>
+      서비스 소개
+      <router-link slot="right" to="/" class="button">
+        Dashboard
+      </router-link>
     </hero-bar>
-    <section class="section is-main-section">
-      <tiles>
-        <card-widget
-          class="tile is-child"
-          type="is-primary"
-          icon="account-multiple"
-          :number="512"
-          label="Clients"
-        />
-        <card-widget
-          class="tile is-child"
-          type="is-info"
-          icon="cart-outline"
-          :number="7770"
-          prefix="$"
-          label="Sales"
-        />
-        <card-widget
-          class="tile is-child"
-          type="is-success"
-          icon="chart-timeline-variant"
-          :number="256"
-          suffix="%"
-          label="Performance"
-        />
-      </tiles>
-
-      <card-component
-        title="Performance"
-        @header-icon-click="fillChartData"
-        icon="finance"
-        header-icon="reload"
-      >
-        <div v-if="defaultChart.chartData" class="chart-area">
-          <line-chart
-            style="height: 100%"
-            ref="bigChart"
-            chart-id="big-line-chart"
-            :chart-data="defaultChart.chartData"
-            :extra-options="defaultChart.extraOptions"
-          >
-          </line-chart>
+    <!-- <section class="section is-main-section">
+      서비스 소개란
+    </section> -->
+    <section class="hero is-white is-fullheight">
+      <div class="hero-body">
+        <div class="container">
+          <div class="columns  is-vcentered reverse-columns">
+            <div
+              class="column
+          is-10-mobile is-offset-1-mobile
+          is-10-tablet is-offset-1-tablet
+          is-5-desktop is-offset-1-desktop
+          is-5-widescreen is-offset-1-widescreen
+          is-5-fullhd is-offset-1-fullhd"
+            >
+              <h1 class="title titled is-1 mb-6">
+                당신의 시험 저희와 함께 하세요.
+              </h1>
+              <h2
+                class=" subtitled subtitle has-text-grey is-4 has-text-weight-normal is-family-sans-serif"
+              >
+                당신만을 위한, 당신이 찾던 그 서비스<br />
+                당신이 볼 그 시험 <br />
+                지금 여기서 시작하세요<br />
+              </h2>
+              <div class="buttons">
+                <b-button
+                  class="button is-black"
+                  tag="router-link"
+                  to="/"
+                  type="is-link"
+                >
+                  시험보기
+                </b-button>
+                <b-button
+                  class="button is-light"
+                  tag="router-link"
+                  to="/"
+                  type="is-link"
+                >
+                  서비스
+                </b-button>
+              </div>
+            </div>
+            <div
+              class="column
+          is-10-mobile is-offset-1-mobile
+          is-10-tablet is-offset-1-tablet
+          is-4-desktop is-offset-1-desktop
+          is-4-widescreen is-offset-1-widescreen
+          is-4-fullhd is-offset-1-fullhd"
+            >
+              <figure class="image is-square">
+                <img src="../assets/logo.png" />
+              </figure>
+            </div>
+          </div>
         </div>
-      </card-component>
+      </div>
+    </section>
+    <section class="hero is-medium has-text-centered">
+      <div class="hero-body">
+        <div class="container">
+          <div class="columns is-centered">
+            <div class="column is-8">
+              <figure class="image is-medium">
+                <img src="../assets/main.png" />
+              </figure>
+              <h1 class="title titled 40by40">
+                학생들과 강사들을 위한 서비스, '에듀케어'
+              </h1>
 
-      <card-component title="Clients" class="has-table has-mobile-sort-spaced">
-        <clients-table-sample
-          :data-url="`${$router.options.base}data-sources/clients.json`"
-        />
-      </card-component>
+              <h2 class="subtitle subtitled is-4">
+                서비스 소개
+              </h2>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   </div>
 </template>
 
 <script>
-import * as chartConfig from "@/components/Charts/chart.config";
 import TitleBar from "@/components/TitleBar";
 import HeroBar from "@/components/HeroBar";
-import Tiles from "@/components/Tiles";
-import CardWidget from "@/components/CardWidget";
-import CardComponent from "@/components/CardComponent";
-import LineChart from "@/components/Charts/LineChart";
-import ClientsTableSample from "@/components/ClientsTableSample";
 
 export default {
-  name: "home",
+  name: "Service",
   components: {
-    ClientsTableSample,
-    LineChart,
-    CardComponent,
-    CardWidget,
-    Tiles,
     HeroBar,
     TitleBar
   },
-  data() {
-    return {
-      defaultChart: {
-        chartData: null,
-        extraOptions: chartConfig.chartOptionsMain
-      }
-    };
-  },
   computed: {
     titleStack() {
-      return ["Admin", "Dashboard"];
-    }
-  },
-  mounted() {
-    this.fillChartData();
-
-    this.$buefy.snackbar.open({
-      message: "Welcome back",
-      queue: false
-    });
-  },
-  methods: {
-    randomChartData(n) {
-      const data = [];
-
-      for (let i = 0; i < n; i++) {
-        data.push(Math.round(Math.random() * 200));
-      }
-
-      return data;
-    },
-    fillChartData() {
-      this.defaultChart.chartData = {
-        datasets: [
-          {
-            fill: false,
-            borderColor: chartConfig.chartColors.default.primary,
-            borderWidth: 2,
-            borderDash: [],
-            borderDashOffset: 0.0,
-            pointBackgroundColor: chartConfig.chartColors.default.primary,
-            pointBorderColor: "rgba(255,255,255,0)",
-            pointHoverBackgroundColor: chartConfig.chartColors.default.primary,
-            pointBorderWidth: 20,
-            pointHoverRadius: 4,
-            pointHoverBorderWidth: 15,
-            pointRadius: 4,
-            data: this.randomChartData(9)
-          },
-          {
-            fill: false,
-            borderColor: chartConfig.chartColors.default.info,
-            borderWidth: 2,
-            borderDash: [],
-            borderDashOffset: 0.0,
-            pointBackgroundColor: chartConfig.chartColors.default.info,
-            pointBorderColor: "rgba(255,255,255,0)",
-            pointHoverBackgroundColor: chartConfig.chartColors.default.info,
-            pointBorderWidth: 20,
-            pointHoverRadius: 4,
-            pointHoverBorderWidth: 15,
-            pointRadius: 4,
-            data: this.randomChartData(9)
-          },
-          {
-            fill: false,
-            borderColor: chartConfig.chartColors.default.danger,
-            borderWidth: 2,
-            borderDash: [],
-            borderDashOffset: 0.0,
-            pointBackgroundColor: chartConfig.chartColors.default.danger,
-            pointBorderColor: "rgba(255,255,255,0)",
-            pointHoverBackgroundColor: chartConfig.chartColors.default.danger,
-            pointBorderWidth: 20,
-            pointHoverRadius: 4,
-            pointHoverBorderWidth: 15,
-            pointRadius: 4,
-            data: this.randomChartData(9)
-          }
-        ],
-        labels: ["01", "02", "03", "04", "05", "06", "07", "08", "09"]
-      };
+      return ["Admin", "Service"];
     }
   }
 };

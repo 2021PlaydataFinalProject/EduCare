@@ -36,9 +36,9 @@
                 </b-input>
               </b-field>
               <center>
-                <button class="btn btn-primary btn-sm">
+                <b-button class="btn btn-primary btn-sm">
                   로그인
-                </button>
+                </b-button>
               </center>
               <br /><br />
             </form>

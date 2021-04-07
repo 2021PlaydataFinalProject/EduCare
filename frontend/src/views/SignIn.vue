@@ -25,9 +25,9 @@ export default {
     HeroBar
   },
   computed: {
-    titleStack() {
-      return ["Admin", "SignInForm"];
-    }
+    // titleStack() {
+    //   return ["Admin", "SignInForm"];
+    // }
   }
 };
 </script>

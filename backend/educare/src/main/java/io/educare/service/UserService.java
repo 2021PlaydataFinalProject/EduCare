@@ -33,6 +33,10 @@ public class UserService {
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
+public interface UserService {
+	public boolean insertUser(UserDto userDto, MultipartFile mfile);
+
+
 public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, TokenProvider tokenProvider,
 			AuthenticationManagerBuilder authenticationManagerBuilder) {
 		this.userRepository = userRepository;

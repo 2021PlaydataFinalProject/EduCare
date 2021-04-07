@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -28,10 +30,6 @@ public class StudentTest{
 	@Column(name = "test_result")
 	private String testResult;
 
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name = "test_num")
-	private Test testNum;
-
 	@Column(name = "is_cheating")
 	private String isCheating;
 	
@@ -46,4 +44,9 @@ public class StudentTest{
 	
 	@Column(name = "test_status")
 	private String testStatus;
+	
+	//@JsonManagedReference
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name = "test_num")
+	private Test testNum;
 }

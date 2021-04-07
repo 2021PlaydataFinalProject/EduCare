@@ -31,7 +31,7 @@ import io.educare.util.CookieUtil;
 
 @Service
 public class UserServiceImpl implements UserService {
-	private static final Logger logger = LoggerFactory.getLogger(JwtFilter.class);
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	private final UserRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
 
 		Optional<User> userOpt = userRepository.findById(authentication.getName());
 
-		if (userOpt.isPresent() && userOpt.get().getPassword().equals(loginDto.getPassword())) {
+		if (userOpt.isPresent()) {
 			return userOpt.get();
 		} else {
 			return null;
@@ -89,7 +89,7 @@ public class UserServiceImpl implements UserService {
 
 			try {
 				imgname = String.valueOf(System.currentTimeMillis()) + mfile.getOriginalFilename();
-				mfile.transferTo(new File(System.getProperty("user.dir") + "\\src\\main\\webapp\\upload\\" + imgname));
+				mfile.transferTo(new File(System.getProperty("user.dir") + "\\src\\main\\webapp\\userimg\\" + imgname));
 				logger.info("{} 가입회원 이미지 등록", userDto.getUsername());
 			} catch (IllegalStateException | IOException e) {
 				e.printStackTrace();
@@ -195,10 +195,10 @@ public class UserServiceImpl implements UserService {
 
 			try {
 				imgname = String.valueOf(System.currentTimeMillis()) + mfile.getOriginalFilename();
-				mfile.transferTo(new File(System.getProperty("user.dir") + "\\src\\main\\webapp\\upload\\" + imgname));
+				mfile.transferTo(new File(System.getProperty("user.dir") + "\\src\\main\\webapp\\userimg\\" + imgname));
 
 				String filename = findUser.get().getUserImage();
-				File file = new File(System.getProperty("user.dir") + "\\src\\main\\webapp\\upload\\" + filename);
+				File file = new File(System.getProperty("user.dir") + "\\src\\main\\webapp\\userimg\\" + filename);
 
 				if (file.exists() && !filename.equals("default.png")) {
 					if (file.delete()) {
@@ -235,7 +235,6 @@ public class UserServiceImpl implements UserService {
 			finduser.setPassword(passwordEncoder.encode(userDto.getPassword()));
 			finduser.setUserRealName(userDto.getUserRealname());
 			finduser.setPhoneNumber(userDto.getPhoneNumber());
-			finduser.setUserImage("default.png");
 
 			return userRepository.save(finduser);
 		} else {
@@ -252,7 +251,7 @@ public class UserServiceImpl implements UserService {
 		if (findUser.isPresent()) {
 
 			String filename = findUser.get().getUserImage();
-			File file = new File(System.getProperty("user.dir") + "\\src\\main\\webapp\\upload\\" + filename);
+			File file = new File(System.getProperty("user.dir") + "\\src\\main\\webapp\\userimg\\" + filename);
 
 			if (file.exists() && !filename.equals("default.png")) {
 				if (file.delete()) {
@@ -262,7 +261,7 @@ public class UserServiceImpl implements UserService {
 				}
 			}
 			userRepository.delete(findUser.get());
-
+			// 로그아웃
 			Cookie resetToken = CookieUtil.createCookie(TokenProvider.AUTHORITIES_KEY, null); // 쿠키 auth 값을 null
 			resetToken.setMaxAge(0); // 유효시간을 만료시킴
 			res.addCookie(resetToken); // 응답 헤더에 추가해서 없어지도록 함

@@ -7,11 +7,11 @@ Vue.use(VueRouter);
 const routes = [
   {
     meta: {
-      title: "Main"
+      title: "Home"
     },
     path: "/",
-    name: "Main",
-    component: () => import("../views/Main.vue")
+    name: "Home",
+    component: () => import("../views/Home.vue")
   },
   {
     meta: {

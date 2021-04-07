@@ -2,10 +2,7 @@
   <div>
     <title-bar :title-stack="titleStack" />
     <hero-bar>
-      Forms
-      <router-link slot="right" to="/" class="button">
-        Dashboard
-      </router-link>
+      Make Test
     </hero-bar>
     <section class="section is-main-section">
       <card-component title="Forms" icon="ballot">
@@ -35,7 +32,7 @@
             <b-field>
               <p class="control">
                 <a class="button is-static">
-                  +44
+                  +82
                 </a>
               </p>
               <b-input type="tel" v-model="form.phone" name="phone" expanded />
@@ -59,7 +56,7 @@
           <hr />
           <b-field label="Subject" message="Message subject" horizontal>
             <b-input
-              placeholder="e.g. Partnership proposal"
+              placeholder="java minitest"
               v-model="form.subject"
               required
             />
@@ -71,7 +68,7 @@
           >
             <b-input
               type="textarea"
-              placeholder="Explain how we can help you"
+              placeholder="Make Exam Question"
               v-model="form.question"
               maxlength="255"
               required
@@ -160,12 +157,12 @@ export default {
         switch: true,
         file: null
       },
-      departments: ["Business Development", "Marketing", "Sales"]
+      departments: ["java", "python", "elasticsearch", "SQL"]
     };
   },
   computed: {
     titleStack() {
-      return ["Admin", "Forms"];
+      return ["Instructor", "Test Forms"];
     }
   },
   methods: {

@@ -3,15 +3,15 @@ package io.educare.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
@@ -29,6 +29,7 @@ public class Instructor  extends User {
 		super(username, password, userRealName, phoneNumber, userImage, "ROLE_INSTRUCTOR");
 		this.testList = testList;
 	}
-	@OneToMany(mappedBy="insId")
+	@JsonManagedReference
+	@OneToMany(mappedBy="insId", cascade = CascadeType.REMOVE)
 	List<Test> testList = new ArrayList<Test>();
 }

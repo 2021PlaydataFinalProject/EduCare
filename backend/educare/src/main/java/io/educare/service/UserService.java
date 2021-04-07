@@ -16,7 +16,7 @@ public interface UserService {
 
 	public User insertUserNoimg(UserDto userDto);
 
-	public User login(LoginDto loginDto, HttpServletResponse res) throws UserNotFoundException;
+	public User login(LoginDto loginDto, HttpServletResponse res);
 
 	public void logout(HttpServletResponse res);
 	

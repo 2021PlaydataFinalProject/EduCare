@@ -2,6 +2,7 @@ package io.educare.controller;
 
 import java.util.List;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpStatus;
@@ -21,14 +22,16 @@ import org.springframework.web.multipart.MultipartFile;
 import io.educare.dto.LoginDto;
 import io.educare.dto.UserDto;
 import io.educare.entity.User;
-import io.educare.service.UserServiceImpl;
+import io.educare.jwt.TokenProvider;
+import io.educare.service.UserService;
+import io.educare.util.CookieUtil;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
-	private final UserServiceImpl userService;
+	private final UserService userService;
 
-	public UserController(UserServiceImpl userService) {
+	public UserController(UserService userService) {
 		this.userService = userService;
 	}
 
@@ -47,7 +50,7 @@ public class UserController {
 
 	@PostMapping("/signin")
 	public ResponseEntity<User> login(@RequestBody LoginDto loginDto, HttpServletResponse res) {
-		return new ResponseEntity<User>(userService.login(loginDto, res), HttpStatus.OK);
+		return new ResponseEntity<>(userService.login(loginDto, res), HttpStatus.OK);
 	}
 
 	@PostMapping("/logout")
@@ -78,6 +81,7 @@ public class UserController {
 	}
 
 	@PutMapping("/update")
+	@PreAuthorize("hasAnyRole('STUDENT','INSTRUCTOR')")
 	public ResponseEntity<User> updateUser(UserDto userDto, @RequestParam(value = "file", required = false) MultipartFile mfile) {
 		User updatedUser = null;
 		if (mfile != null) {
@@ -89,6 +93,7 @@ public class UserController {
 	}
 
 	@DeleteMapping("/delete")
+	@PreAuthorize("hasAnyRole('STUDENT','INSTRUCTOR')")
 	public ResponseEntity<HttpStatus> deleteUser(@RequestParam String username, HttpServletResponse res) {
 		userService.deleteUser(username, res);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);

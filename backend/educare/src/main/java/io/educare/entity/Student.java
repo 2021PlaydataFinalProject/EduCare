@@ -3,14 +3,13 @@ package io.educare.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
@@ -28,6 +27,6 @@ public class Student  extends User {
 		super(username, password, userRealName, phoneNumber, userImage, "ROLE_STUDENT");
 		this.testList = testList;
 	}
-	@OneToMany(mappedBy="stuId")
+	@OneToMany(mappedBy="stuId", cascade = CascadeType.REMOVE)
 	List<StudentTest> testList = new ArrayList<StudentTest>();
 }

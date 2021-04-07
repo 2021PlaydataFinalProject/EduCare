@@ -122,17 +122,16 @@ const routes = [
     },
     path: "/addtest",
     name: "AddTest",
-    component: () => import("../components/AddTest.vue")
+    component: () => import("../views/AddTest.vue")
   },
-  {
-    meta: {
-      title: "Forms"
-    },
-    path: "/forms",
-    name: "forms",
-    component: () =>
-      import(/* webpackChunkName: "forms" */ "../views/Forms.vue")
-  },
+  // {
+  //   meta: {
+  //     title: "Forms"
+  //   },
+  //   path: "/forms",
+  //   name: "forms",
+  //   component: () => import("../views/Forms.vue")
+  // },
   {
     meta: {
       title: "New client"

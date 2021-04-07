@@ -26,7 +26,7 @@ const routes = [
       title: "Profile"
     },
     path: "/profile",
-    name: "profile",
+    name: "Profile",
     component: () =>
       import(/* webpackChunkName: "profile" */ "../views/Profile.vue")
   },
@@ -62,6 +62,14 @@ const routes = [
   },
   {
     meta: {
+      title: "CompleteTest"
+    },
+    path: "/completetest",
+    name: "CompleteTest",
+    component: () => import("../views/CompleteTest.vue")
+  },
+  {
+    meta: {
       title: "StudentTestList"
     },
     path: "/student",
@@ -86,6 +94,22 @@ const routes = [
   },
   {
     meta: {
+      title: "ModifyTest"
+    },
+    path: "/modifytest",
+    name: "ModifyTest",
+    component: () => import("../views/ModifyTest.vue")
+  },
+  {
+    meta: {
+      title: "TestSuperVision"
+    },
+    path: "/testsupervision",
+    name: "TestSuperVision",
+    component: () => import("../views/TestSuperVision.vue")
+  },
+  {
+    meta: {
       title: "ManageStudent"
     },
     path: "/managestudent",
@@ -98,17 +122,16 @@ const routes = [
     },
     path: "/addtest",
     name: "AddTest",
-    component: () => import("../components/AddTest.vue")
+    component: () => import("../views/AddTest.vue")
   },
-  {
-    meta: {
-      title: "Forms"
-    },
-    path: "/forms",
-    name: "forms",
-    component: () =>
-      import(/* webpackChunkName: "forms" */ "../views/Forms.vue")
-  },
+  // {
+  //   meta: {
+  //     title: "Forms"
+  //   },
+  //   path: "/forms",
+  //   name: "forms",
+  //   component: () => import("../views/Forms.vue")
+  // },
   {
     meta: {
       title: "New client"

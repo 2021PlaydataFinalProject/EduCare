@@ -75,7 +75,7 @@ export default {
   },
   computed: {
     titleStack() {
-      return ["Admin", "StudentTestList"];
+      return ["Student", "StudentTestList"];
     }
   }
 };

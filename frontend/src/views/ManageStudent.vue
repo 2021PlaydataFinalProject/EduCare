@@ -2,10 +2,7 @@
   <div>
     <title-bar :title-stack="titleStack" />
     <hero-bar>
-      Tables
-      <router-link slot="right" to="/" class="button">
-        Dashboard
-      </router-link>
+      응시자 관리
     </hero-bar>
     <section class="section is-main-section">
       <notification class="is-info">
@@ -76,7 +73,7 @@ export default {
   },
   computed: {
     titleStack() {
-      return ["Admin", "ManageStudent"];
+      return ["Instructor", "ManageStudent"];
     }
   }
 };

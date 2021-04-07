@@ -26,7 +26,7 @@ export default {
   },
   computed: {
     titleStack() {
-      return ["Student", "SignInForm"];
+      return ["Student", "TestGuide"];
     }
   }
 };

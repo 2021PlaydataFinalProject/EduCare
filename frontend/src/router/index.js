@@ -26,7 +26,7 @@ const routes = [
       title: "Profile"
     },
     path: "/profile",
-    name: "profile",
+    name: "Profile",
     component: () =>
       import(/* webpackChunkName: "profile" */ "../views/Profile.vue")
   },
@@ -91,6 +91,22 @@ const routes = [
     path: "/managetest",
     name: "ManageTest",
     component: () => import("../views/ManageTest.vue")
+  },
+  {
+    meta: {
+      title: "ModifyTest"
+    },
+    path: "/modifytest",
+    name: "ModifyTest",
+    component: () => import("../views/ModifyTest.vue")
+  },
+  {
+    meta: {
+      title: "TestSuperVision"
+    },
+    path: "/testsupervision",
+    name: "TestSuperVision",
+    component: () => import("../views/TestSuperVision.vue")
   },
   {
     meta: {

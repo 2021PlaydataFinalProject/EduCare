@@ -4,17 +4,6 @@
       <div class="box">
         <h2 class="subtitle is-5">회원가입</h2>
         <form @submit.prevent="submitForm()" class="form">
-          <!-- <div> -->
-          <!-- <label for="memberagree">개인 정보를 전송합니다.</label>
-            동의하려면 체크하세요. -->
-          <!-- <input
-              v-model="memberagree"
-              id="memberagree"
-              type="checkbox"
-              name="memberagree"
-              value="memberagree"
-            /> -->
-          <!-- </div> -->
           <br />
           <b-field label="ID" type="" message="" align="left">
             <b-input

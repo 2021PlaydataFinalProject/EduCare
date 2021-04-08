@@ -1,5 +1,6 @@
 from flask import Flask, render_template, Response, jsonify, request
 from camera import VideoCamera
+# from flask import send_file
 
 app = Flask(__name__)
 
@@ -49,6 +50,12 @@ def video_stream():
 def video_viewer():
     return Response(video_stream(),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
+
+# @app.route('/download')
+# def downloadFile ():
+#     #For windows you need to use drive name [ex: F:/Example.pdf]
+#     path = "/static/video.avi"
+#     return send_file(path, as_attachment=True)
 
 if __name__ == '__main__':
     app.run(debug=True, threaded=True)

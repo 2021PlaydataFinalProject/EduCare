@@ -3,8 +3,8 @@
     <title-bar :title-stack="titleStack" />
     <hero-bar>
       시험 만들기
-      <router-link slot="right" to="/" class="button">
-        Dashboard
+      <router-link slot="right" to="instructor" class="button">
+        시험 목록
       </router-link>
     </hero-bar>
     <section class="section is-main-section">
@@ -124,7 +124,6 @@
               :data-url="`${$router.options.base}data-sources/clients.json`"
               :checkable="true"
             /> -->
-            <add-test-table />
           </card-component>
           <div style="text-align: center;">
             <!-- <b-field horizontal> -->

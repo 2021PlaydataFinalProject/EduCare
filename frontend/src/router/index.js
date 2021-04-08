@@ -132,33 +132,6 @@ const routes = [
     name: "InstructorTest",
     component: () => import("../views/InstructorTest.vue")
   },
-  // {
-  //   meta: {
-  //     title: "Forms"
-  //   },
-  //   path: "/forms",
-  //   name: "forms",
-  //   component: () => import("../views/Forms.vue")
-  // },
-  {
-    meta: {
-      title: "New client"
-    },
-    path: "/client/new",
-    name: "client.new",
-    component: () =>
-      import(/* webpackChunkName: "client-form" */ "../views/ClientForm.vue")
-  },
-  {
-    meta: {
-      title: "Edit client"
-    },
-    path: "/client/:id",
-    name: "client.edit",
-    component: () =>
-      import(/* webpackChunkName: "client-form" */ "../views/ClientForm.vue"),
-    props: true
-  },
   {
     meta: {
       title: "Sign In"

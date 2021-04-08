@@ -22,6 +22,11 @@ export default {
     AsideMenu,
     NavBar
   },
+  data() {
+    return {
+      user: sessionStorage.getItem("user")
+    };
+  },
   computed: {
     menu() {
       return [
@@ -52,11 +57,11 @@ export default {
             icon: "view-list",
             menu: [
               {
-                href: "/#/student",
+                href: "/student",
                 label: "학생 시험"
               },
               {
-                href: "/#/managetest",
+                href: "/managetest",
                 label: "강사 시험"
               }
             ]
@@ -75,9 +80,9 @@ export default {
   },
   created() {
     this.$store.commit("user", {
-      name: "John Doe",
-      email: "john@example.com",
-      avatar: "https://avatars.dicebear.com/v2/gridy/John-Doe.svg"
+      name: "Jongwook",
+      email: "hijongwook@naver.com",
+      avatar: ""
     });
   },
   methods: {

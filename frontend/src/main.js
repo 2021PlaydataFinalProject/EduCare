@@ -1,40 +1,40 @@
 /* Styles */
-import '@/scss/main.scss'
+import "@/scss/main.scss";
 
 /* Core */
-import Vue from 'vue'
-import Buefy from 'buefy'
+import Vue from "vue";
+import Buefy from "buefy";
 
 /* Router & Store */
-import router from './router'
-import store from './store'
+import router from "./router";
+import store from "./store";
 
 /* Service Worker */
-import './registerServiceWorker'
+import "./registerServiceWorker";
 
 /* Vue. Main component */
-import App from './App.vue'
+import App from "./App.vue";
 
 /* Default title tag */
-const defaultDocumentTitle = 'Admin Null Bulma'
+const defaultDocumentTitle = "Admin Null Bulma";
 
 /* Collapse mobile aside menu on route change & set document title from route meta */
 router.afterEach(to => {
-  store.commit('asideMobileStateToggle', false)
+  store.commit("asideMobileStateToggle", false);
 
   if (to.meta.title) {
-    document.title = `${to.meta.title} — ${defaultDocumentTitle}`
+    document.title = `${to.meta.title} — ${defaultDocumentTitle}`;
   } else {
-    document.title = defaultDocumentTitle
+    document.title = defaultDocumentTitle;
   }
-})
+});
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
-Vue.use(Buefy)
+Vue.use(Buefy);
 
 new Vue({
   router,
   store,
   render: h => h(App)
-}).$mount('#app')
+}).$mount("#app");

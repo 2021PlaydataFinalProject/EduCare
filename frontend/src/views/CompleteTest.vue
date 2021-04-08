@@ -2,10 +2,10 @@
   <div>
     <title-bar :title-stack="titleStack" />
     <hero-bar>
-      로그인
-      <!-- <router-link slot="right" to="/profile" class="button">
+      시험 종료 안내
+      <router-link slot="right" to="/profile" class="button">
         마이 페이지
-      </router-link> -->
+      </router-link>
     </hero-bar>
     <section>
       <SignInForm></SignInForm>
@@ -26,8 +26,10 @@ export default {
   },
   computed: {
     titleStack() {
-      return ["SignInForm"];
+      return ["Student", "CompleteTest"];
     }
   }
 };
 </script>
+
+<style lang="scss" scoped></style>

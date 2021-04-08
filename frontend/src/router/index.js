@@ -7,9 +7,17 @@ Vue.use(VueRouter);
 const routes = [
   {
     meta: {
-      title: "Service"
+      title: "Home"
     },
     path: "/",
+    name: "Home",
+    component: () => import("../views/Home.vue")
+  },
+  {
+    meta: {
+      title: "Service"
+    },
+    path: "/service",
     name: "Service",
     component: () => import("../views/Service.vue")
   },

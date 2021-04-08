@@ -132,7 +132,7 @@ export default {
         .then(response => {
           alert("회원가입성공");
           console.log(response.data);
-          this.$router.push({ name: "Service" });
+          this.$router.push({ name: "Sign In" });
         })
         .catch(error => {
           alert("회원가입실패");

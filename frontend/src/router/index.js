@@ -4,6 +4,8 @@ import VueRouter from "vue-router";
 
 Vue.use(VueRouter);
 
+//라우터 가드를 사용하려면 주석을 없애야함 현재 로그인 데이터가 없기에 원할한 페이지 체크를 위해서 주석을 침
+
 // 라우터 가드
 // 로그인 유저 거절
 const rejectAuthUser = (to, from, next) => {
@@ -45,7 +47,7 @@ const routes = [
     },
     path: "/profile",
     name: "Profile",
-    beforeEnter: onlyAuthUser,
+    // beforeEnter: onlyAuthUser,
     component: () =>
       import(/* webpackChunkName: "profile" */ "../views/Profile.vue")
   },
@@ -68,7 +70,7 @@ const routes = [
     },
     path: "/testguide",
     name: "TestGuide",
-    beforeEnter: onlyAuthUser,
+    // beforeEnter: onlyAuthUser,
     component: () => import("../views/TestGuide.vue")
   },
   {
@@ -77,7 +79,7 @@ const routes = [
     },
     path: "/completetest",
     name: "CompleteTest",
-    beforeEnter: onlyAuthUser,
+    // beforeEnter: onlyAuthUser,
     component: () => import("../views/CompleteTest.vue")
   },
   {
@@ -86,7 +88,7 @@ const routes = [
     },
     path: "/student",
     name: "StudentTestList",
-    beforeEnter: onlyAuthUser,
+    // beforeEnter: onlyAuthUser,
     component: () => import("../views/StudentTestList.vue")
   },
   {
@@ -95,7 +97,7 @@ const routes = [
     },
     path: "/studenttest",
     name: "StudentTest",
-    beforeEnter: onlyAuthUser,
+    // beforeEnter: onlyAuthUser,
     component: () => import("../views/StudentTest.vue")
   },
   {
@@ -104,7 +106,7 @@ const routes = [
     },
     path: "/managetest",
     name: "ManageTest",
-    beforeEnter: onlyAuthUser,
+    // beforeEnter: onlyAuthUser,
     component: () => import("../views/ManageTest.vue")
   },
   {
@@ -113,7 +115,7 @@ const routes = [
     },
     path: "/modifytest",
     name: "ModifyTest",
-    beforeEnter: onlyAuthUser,
+    // beforeEnter: onlyAuthUser,
     component: () => import("../views/ModifyTest.vue")
   },
   {
@@ -122,7 +124,7 @@ const routes = [
     },
     path: "/testsupervision",
     name: "TestSuperVision",
-    beforeEnter: onlyAuthUser,
+    // beforeEnter: onlyAuthUser,
     component: () => import("../views/TestSuperVision.vue")
   },
   {
@@ -131,7 +133,7 @@ const routes = [
     },
     path: "/managestudent",
     name: "ManageStudent",
-    beforeEnter: onlyAuthUser,
+    // beforeEnter: onlyAuthUser,
     component: () => import("../views/ManageStudent.vue")
   },
   {
@@ -140,7 +142,7 @@ const routes = [
     },
     path: "/addtest",
     name: "AddTest",
-    beforeEnter: onlyAuthUser,
+    // beforeEnter: onlyAuthUser,
     component: () => import("../views/AddTest.vue")
   },
   {
@@ -149,7 +151,7 @@ const routes = [
     },
     path: "/instructor",
     name: "InstructorTest",
-    beforeEnter: onlyAuthUser,
+    // beforeEnter: onlyAuthUser,
     component: () => import("../views/InstructorTest.vue")
   },
   {

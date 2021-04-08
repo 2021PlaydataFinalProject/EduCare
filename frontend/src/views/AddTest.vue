@@ -3,8 +3,8 @@
     <title-bar :title-stack="titleStack" />
     <hero-bar>
       시험 만들기
-      <router-link slot="right" to="instructor" class="button">
-        시험 목록
+      <router-link slot="right" to="/" class="button">
+        Dashboard
       </router-link>
     </hero-bar>
     <section class="section is-main-section">
@@ -56,7 +56,6 @@
               </option>
             </b-select>
           </b-field>
-
           <b-field label="시험명" message="과목명을 적어주세요." horizontal>
             <b-input
               placeholder="자바 쪽지시험 : 소제목"
@@ -113,7 +112,6 @@
           >
           <!-- </div> -->
           <hr />
-
           <hr />
           <card-component
             class="has-table has-mobile-sort-spaced"
@@ -124,6 +122,7 @@
               :data-url="`${$router.options.base}data-sources/clients.json`"
               :checkable="true"
             /> -->
+            <add-test-table />
           </card-component>
           <div style="text-align: center;">
             <!-- <b-field horizontal> -->
@@ -146,7 +145,6 @@
     </section>
   </div>
 </template>
-
 <script>
 import TitleBar from "@/components/TitleBar";
 import CardComponent from "@/components/CardComponent";
@@ -155,7 +153,6 @@ import CardComponent from "@/components/CardComponent";
 // import FilePicker from "@/components/FilePicker";
 import HeroBar from "@/components/HeroBar";
 import AddTestTable from "@/components/AddTestTable";
-
 export default {
   name: "AddTest",
   components: {

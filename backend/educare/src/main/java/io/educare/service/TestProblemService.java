@@ -4,22 +4,23 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import io.educare.dto.TestProblemDto;
 import io.educare.entity.TestProblem;
 
 public interface TestProblemService {
 
-	public TestProblem insertTProblem(Long testnum, TestProblem tProblem, MultipartFile mfile);
+	public Boolean insertTProblem(Long testnum, TestProblem tProblem, MultipartFile mfile);
 	
-	public TestProblem insertTProblemNoimg(Long testnum, TestProblem tProblem);
+	public Boolean insertTProblemNoimg(Long testnum, TestProblem tProblem);
 
-	public List<TestProblem> getTProblemsByTNum(Long testnum);
+	public List<TestProblemDto> getTProblemsByTNum(Long testnum);
 	
-	public TestProblem getTProblem(Long pronum);
+	public TestProblemDto getTProblem(Long pronum);
 	
-	public TestProblem updateTProblem(TestProblem tProblem, MultipartFile mfile);
+	public Boolean updateTProblem(TestProblem tProblem, MultipartFile mfile);
 	
-	public TestProblem updateTProblemNoimg(TestProblem tProblem);
+	public Boolean updateTProblemNoimg(TestProblem tProblem);
 	
-	public void deleteTProblem(Long pronum);
+	public Boolean deleteTProblem(Long pronum, Long testnum);
 	
 }

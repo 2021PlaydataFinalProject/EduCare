@@ -4,5 +4,4 @@
 .metadata/.plugins/org.eclipse.core.resources/.root/.indexes/properties.index
 .metadata/.plugins/org.eclipse.core.resources/.safetable/org.eclipse.core.resources
 .metadata/.plugins/org.eclipse.m2e.logback.configuration/0.log
-.pom.xml
-
+./backend/educare/pom.xml

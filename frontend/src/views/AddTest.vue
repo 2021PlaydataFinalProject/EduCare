@@ -56,7 +56,6 @@
               </option>
             </b-select>
           </b-field>
-
           <b-field label="시험명" message="과목명을 적어주세요." horizontal>
             <b-input
               placeholder="자바 쪽지시험 : 소제목"
@@ -113,7 +112,6 @@
           >
           <!-- </div> -->
           <hr />
-
           <hr />
           <card-component
             class="has-table has-mobile-sort-spaced"
@@ -147,7 +145,6 @@
     </section>
   </div>
 </template>
-
 <script>
 import TitleBar from "@/components/TitleBar";
 import CardComponent from "@/components/CardComponent";
@@ -156,7 +153,6 @@ import CardComponent from "@/components/CardComponent";
 // import FilePicker from "@/components/FilePicker";
 import HeroBar from "@/components/HeroBar";
 import AddTestTable from "@/components/AddTestTable";
-
 export default {
   name: "AddTest",
   components: {

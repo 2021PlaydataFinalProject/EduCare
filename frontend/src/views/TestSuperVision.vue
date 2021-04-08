@@ -4,7 +4,7 @@
     <hero-bar>
       시험 감독
     </hero-bar>
-    <section>
+    <section class="pt-3 pl-3 pr-3 pb-3">
       <div class="tile is-ancestor">
         <div class="tile is-4 is-vertical is-parent">
           <div class="tile is-child box">
@@ -38,15 +38,25 @@
             <p class="title is-5">영상 확인</p>
             <!-- <b-button>플레이</b-button> -->
 
-            <iframe
-              width="560"
-              height="315"
-              src="https://www.youtube.com/embed/0-q1KafFCLU"
-              title="YouTube video player"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-            ></iframe>
+            <video-player
+              class="video-player-box"
+              ref="videoPlayer"
+              :options="playerOptions"
+              :playsinline="true"
+              customEventName="customstatechangedeventname"
+              @play="onPlayerPlay($event)"
+              @pause="onPlayerPause($event)"
+              @ended="onPlayerEnded($event)"
+              @waiting="onPlayerWaiting($event)"
+              @playing="onPlayerPlaying($event)"
+              @loadeddata="onPlayerLoadeddata($event)"
+              @timeupdate="onPlayerTimeupdate($event)"
+              @canplay="onPlayerCanplay($event)"
+              @canplaythrough="onPlayerCanplaythrough($event)"
+              @statechanged="playerStateChanged($event)"
+              @ready="playerReadied"
+            >
+            </video-player>
           </div>
         </div>
       </div>
@@ -57,15 +67,66 @@
 <script>
 import TitleBar from "@/components/TitleBar";
 import HeroBar from "@/components/HeroBar";
+import "video.js/dist/video-js.css";
+import { videoPlayer } from "vue-video-player";
 
 export default {
   components: {
     TitleBar,
-    HeroBar
+    HeroBar,
+    videoPlayer
+  },
+  data() {
+    return {
+      playerOptions: {
+        // videojs options
+        height: "360",
+        responsive: true,
+        muted: true,
+        language: "ko",
+        playbackRates: [0.7, 1.0, 1.5, 2.0],
+        sources: [
+          {
+            type: "video/mp4",
+            src:
+              "https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm"
+          }
+        ],
+        poster: "src/assets/videoposter.jpg"
+      }
+    };
+  },
+  mounted() {
+    console.log("this is current player instance object", this.player);
   },
   computed: {
     titleStack() {
       return ["Instructor", "TestSupervision"];
+    },
+    player() {
+      return this.$refs.videoPlayer.player;
+    }
+  },
+  methods: {
+    // listen event
+    onPlayerPlay(player) {
+      console.log("player play!", player);
+    },
+    onPlayerPause(player) {
+      console.log("player pause!", player);
+    },
+    // ...player event
+
+    // or listen state event
+    playerStateChanged(playerCurrentState) {
+      console.log("player current update state", playerCurrentState);
+    },
+
+    // player is ready
+    playerReadied(player) {
+      console.log("the player is readied", player);
+      // you can use it to do something...
+      //   player.[methods]
     }
   }
 };

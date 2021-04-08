@@ -35,7 +35,7 @@
 
               <b-table-column
                 field="testName"
-                label="시험과목"
+                label="시험명"
                 v-slot="props"
                 centered
               >

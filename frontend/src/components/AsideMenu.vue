@@ -2,7 +2,7 @@
   <aside v-show="isAsideVisible" class="aside is-placed-left is-expanded">
     <aside-tools :is-main-menu="true">
       <!-- 로고및 타이틀 -->
-      <span slot="label"> <b>EDUCARE</b></span>
+      <span slot="label"> <a href="/">EDUCARE</a></span>
     </aside-tools>
     <div class="menu is-menu-main">
       <template v-for="(menuGroup, index) in menu">

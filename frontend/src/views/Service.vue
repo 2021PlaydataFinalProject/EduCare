@@ -3,13 +3,7 @@
     <title-bar :title-stack="titleStack" />
     <hero-bar>
       서비스 소개
-      <router-link slot="right" to="/" class="button">
-        Dashboard
-      </router-link>
     </hero-bar>
-    <!-- <section class="section is-main-section">
-      서비스 소개란
-    </section> -->
     <section class="hero is-white is-fullheight">
       <div class="hero-body">
         <div class="container">

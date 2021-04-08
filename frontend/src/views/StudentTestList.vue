@@ -24,31 +24,21 @@
           <section>
             <b-table :data="isEmpty ? [] : apps" :hoverable="isHoverable">
               <b-table-column
-                field="rownum"
-                label="번호"
+                field="testNum"
+                label="시험번호"
                 numeric
                 centered
                 v-slot="props"
               >
-                {{ props.row.aplSeq }}
+                {{ props.row.testNum }}
               </b-table-column>
-
               <b-table-column
-                field="username"
-                label="학생ID"
+                field="testName"
+                label="시험명"
                 v-slot="props"
                 centered
               >
-                {{ props.row.username }}
-              </b-table-column>
-
-              <b-table-column
-                field="userName"
-                label="학생 이름"
-                v-slot="props"
-                centered
-              >
-                {{ props.row.userName }}
+                {{ props.row.testName }}
               </b-table-column>
               <b-table-column
                 field="testStatus"
@@ -75,14 +65,6 @@
                 centered
               >
                 {{ props.row.testResult }}
-              </b-table-column>
-              <b-table-column
-                field="testName"
-                label="시험과목"
-                v-slot="props"
-                centered
-              >
-                {{ props.row.testName }}
               </b-table-column>
             </b-table>
           </section>

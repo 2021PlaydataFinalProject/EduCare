@@ -40,16 +40,6 @@ export default {
         ],
         "메뉴",
         [
-          // {
-          //   to: "/forms",
-          //   label: "Forms",
-          //   icon: "square-edit-outline"
-          // },
-          // {
-          //   to: "/profile",
-          //   label: "Profile",
-          //   icon: "account-circle"
-          // },
           {
             label: "시험",
             //submenu가 강사와 어드민 학생에 따라 다르게 나와야함

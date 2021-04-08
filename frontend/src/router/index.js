@@ -4,6 +4,24 @@ import VueRouter from "vue-router";
 
 Vue.use(VueRouter);
 
+// 라우터 가드
+// 로그인 유저 거절
+const rejectAuthUser = (to, from, next) => {
+  if (sessionStorage.getItem("user") != null) {
+    next("/");
+  } else {
+    next();
+  }
+};
+// 비 로그인 유저 거절
+const onlyAuthUser = (to, from, next) => {
+  if (sessionStorage.getItem("user") == null) {
+    next("/signin");
+  } else {
+    next();
+  }
+};
+
 const routes = [
   {
     meta: {
@@ -27,25 +45,17 @@ const routes = [
     },
     path: "/profile",
     name: "Profile",
+    beforeEnter: onlyAuthUser,
     component: () =>
       import(/* webpackChunkName: "profile" */ "../views/Profile.vue")
   },
-  // {
-  //   // Document title tag
-  //   // We combine it with defaultDocumentTitle set in `src/main.js` on router.afterEach hook
-  //   meta: {
-  //     title: "Dashboard"
-  //   },
-  //   path: "/",
-  //   name: "home",
-  //   component: Home
-  // },
   {
     meta: {
       title: "Tables"
     },
     path: "/tables",
     name: "tables",
+    beforeEnter: onlyAuthUser,
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
@@ -58,6 +68,7 @@ const routes = [
     },
     path: "/testguide",
     name: "TestGuide",
+    beforeEnter: onlyAuthUser,
     component: () => import("../views/TestGuide.vue")
   },
   {
@@ -66,6 +77,7 @@ const routes = [
     },
     path: "/completetest",
     name: "CompleteTest",
+    beforeEnter: onlyAuthUser,
     component: () => import("../views/CompleteTest.vue")
   },
   {
@@ -74,6 +86,7 @@ const routes = [
     },
     path: "/student",
     name: "StudentTestList",
+    beforeEnter: onlyAuthUser,
     component: () => import("../views/StudentTestList.vue")
   },
   {
@@ -82,6 +95,7 @@ const routes = [
     },
     path: "/studenttest",
     name: "StudentTest",
+    beforeEnter: onlyAuthUser,
     component: () => import("../views/StudentTest.vue")
   },
   {
@@ -90,6 +104,7 @@ const routes = [
     },
     path: "/managetest",
     name: "ManageTest",
+    beforeEnter: onlyAuthUser,
     component: () => import("../views/ManageTest.vue")
   },
   {
@@ -98,6 +113,7 @@ const routes = [
     },
     path: "/modifytest",
     name: "ModifyTest",
+    beforeEnter: onlyAuthUser,
     component: () => import("../views/ModifyTest.vue")
   },
   {
@@ -106,6 +122,7 @@ const routes = [
     },
     path: "/testsupervision",
     name: "TestSuperVision",
+    beforeEnter: onlyAuthUser,
     component: () => import("../views/TestSuperVision.vue")
   },
   {
@@ -114,6 +131,7 @@ const routes = [
     },
     path: "/managestudent",
     name: "ManageStudent",
+    beforeEnter: onlyAuthUser,
     component: () => import("../views/ManageStudent.vue")
   },
   {
@@ -122,6 +140,7 @@ const routes = [
     },
     path: "/addtest",
     name: "AddTest",
+    beforeEnter: onlyAuthUser,
     component: () => import("../views/AddTest.vue")
   },
   {
@@ -130,34 +149,8 @@ const routes = [
     },
     path: "/instructor",
     name: "InstructorTest",
+    beforeEnter: onlyAuthUser,
     component: () => import("../views/InstructorTest.vue")
-  },
-  // {
-  //   meta: {
-  //     title: "Forms"
-  //   },
-  //   path: "/forms",
-  //   name: "forms",
-  //   component: () => import("../views/Forms.vue")
-  // },
-  {
-    meta: {
-      title: "New client"
-    },
-    path: "/client/new",
-    name: "client.new",
-    component: () =>
-      import(/* webpackChunkName: "client-form" */ "../views/ClientForm.vue")
-  },
-  {
-    meta: {
-      title: "Edit client"
-    },
-    path: "/client/:id",
-    name: "client.edit",
-    component: () =>
-      import(/* webpackChunkName: "client-form" */ "../views/ClientForm.vue"),
-    props: true
   },
   {
     meta: {
@@ -165,6 +158,7 @@ const routes = [
     },
     path: "/signin",
     name: "Sign In",
+    beforeEnter: rejectAuthUser,
     component: () => import("../views/SignIn.vue"),
     props: true
   },
@@ -174,6 +168,7 @@ const routes = [
     },
     path: "/signup",
     name: "Sign Up",
+    beforeEnter: rejectAuthUser,
     component: () => import("../views/SignUp.vue"),
     props: true
   }

@@ -12,16 +12,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 
 
-@Builder
 @Data
 @AllArgsConstructor
 @Entity
@@ -35,10 +31,6 @@ public class Test {
 	@Column(name = "test_name")
 	private String testName;
 	
-	@ManyToOne
-	@JoinColumn(name = "ins_id")
-	private Instructor insId;
-	
 	@Column(name = "start_time")
 	private LocalDateTime startTime;
 
@@ -47,6 +39,10 @@ public class Test {
 
 	@Column(name = "test_guide")
 	private String testGuide;
+	
+	@ManyToOne
+	@JoinColumn(name = "ins_id")
+	private Instructor insId;
 	
 	//@JsonBackReference
 	@OneToMany(mappedBy="testNum")

@@ -80,8 +80,8 @@ export default {
   },
   created() {
     this.$store.commit("user", {
-      name: "Jongwook",
-      email: "hijongwook@naver.com",
+      name: "",
+      email: "",
       avatar: ""
     });
   },

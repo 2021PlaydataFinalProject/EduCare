@@ -120,10 +120,11 @@
             title="문제/보기 확인"
             icon="account-multiple"
           >
-            <add-test-table
+            <!-- <add-test-table
               :data-url="`${$router.options.base}data-sources/clients.json`"
               :checkable="true"
-            />
+            /> -->
+            <add-test-table />
           </card-component>
           <div style="text-align: center;">
             <!-- <b-field horizontal> -->
@@ -150,7 +151,6 @@
 <script>
 import TitleBar from "@/components/TitleBar";
 import CardComponent from "@/components/CardComponent";
-import mapValues from "lodash/mapValues";
 // import CheckboxPicker from "@/components/CheckboxPicker";
 // import RadioPicker from "@/components/RadioPicker";
 // import FilePicker from "@/components/FilePicker";
@@ -191,21 +191,6 @@ export default {
       return ["Instructor", "Add Test"];
     }
   },
-  methods: {
-    submit() {},
-    reset() {
-      this.form = mapValues(this.form, item => {
-        if (item && typeof item === "object") {
-          return [];
-        }
-        return null;
-      });
-
-      this.$buefy.snackbar.open({
-        message: "Reset successfully",
-        queue: false
-      });
-    }
-  }
+  methods: {}
 };
 </script>

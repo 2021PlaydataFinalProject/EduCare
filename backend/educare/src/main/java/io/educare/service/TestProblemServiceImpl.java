@@ -192,14 +192,13 @@ public class TestProblemServiceImpl implements TestProblemService {
 						logger.error("{} 시험문제 이미지 삭제 실패", pronum);
 					}
 				}
-				List<TestProblem> tProblemlist = testOpt.get().getProblemList();
+				List<TestProblem> problemlist = testOpt.get().getProblemList();
 				
-				for (int i = 0; i < tProblemlist.size(); i++) {
-					Integer idx = tProblemlist.indexOf(TProblemOpt.get());
-					if (idx != -1) {
-						tProblemlist.remove(idx);
+				for (int i = 0; i < problemlist.size(); i++) {
+					if (problemlist.get(i).getProNum() == pronum) {
+						problemlist.remove(i);
 					} else {
-						logger.error("{} 시험 삭제 실패", testnum);
+						logger.error("{} 시험문제 삭제 실패", pronum);
 						return false;
 					}
 				}

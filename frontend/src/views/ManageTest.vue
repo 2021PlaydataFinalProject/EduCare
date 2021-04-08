@@ -20,7 +20,7 @@
         title="시험"
         icon="account-multiple"
       >
-       <div id="app" class="container">
+        <div id="app" class="container">
           <section>
             <b-table :data="isEmpty ? [] : apps" :hoverable="isHoverable">
               <b-table-column
@@ -131,7 +131,7 @@ export default {
   components: {
     HeroBar,
     TitleBar,
-    CardComponent,
+    CardComponent
   },
   computed: {
     titleStack() {

@@ -125,6 +125,7 @@
 import { mapState } from "vuex";
 import NavBarMenu from "@/components/NavBarMenu";
 import UserAvatar from "@/components/UserAvatar";
+import axios from "axios";
 
 export default {
   name: "NavBar",
@@ -171,14 +172,28 @@ export default {
       this.$store.commit("darkModeToggle");
     },
     logout() {
-      if (sessionStorage.getItem("user") != null) {
-        sessionStorage.removeItem("user");
-        this.loginUserAct(null);
-        this.$router.push({ name: "Home" });
-      } else {
-        alert("로그인을 먼저 해주세요");
-        this.$router.push({ name: "Sign In" });
-      }
+      axios
+        .post("http://localhost:8000/user/logout")
+        .then(() => {
+          alert("로그아웃 성공");
+
+          sessionStorage.setItem("user", JSON.stringify(response.data));
+          this.$router.push({ name: "Service" });
+        })
+        .catch(error => {
+          alert("로그아웃 실패");
+          console.log(error);
+        });
+
+      // if (sessionStorage.getItem("user") != null) {
+      //   sessionStorage.removeItem("user");
+      //   this.loginUserAct(null);
+      //   this.$router.push({ name: "Home" });
+      // } else {
+      //   alert("로그인을 먼저 해주세요");
+      //   this.$router.push({ name: "Sign In" });
+      // }
+
       // this.$buefy.snackbar.open({
       //   message: "Log out clicked",
       //   queue: false

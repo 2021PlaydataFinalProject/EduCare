@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,10 +32,19 @@ private final TestService testService;
 	
 	@PostMapping("/create")
 	@PreAuthorize("hasAnyRole('INSTRUCTOR')")
-	public ResponseEntity<Boolean> insertTest(@RequestParam String username, @RequestBody Test test) {
-		Boolean check = testService.insertTest(username, test);	
+	public ResponseEntity<Boolean> insertTest(@RequestParam String username, @RequestBody TestDto testDto) {
+		Boolean check = testService.insertTest(username, testDto);	
 		return new ResponseEntity<Boolean>(check, HttpStatus.CREATED);
 	}
+	
+//	@PostMapping("/create")
+//	@PreAuthorize("hasAnyRole('INSTRUCTOR')")
+//	public ResponseEntity<Boolean> insertTest(@RequestParam String username, @RequestBody TestDto testDto) {
+//		System.out.println(testDto.getTestName());
+//		return new ResponseEntity<Boolean>(true, HttpStatus.CREATED);
+//	//	Boolean check = testService.insertTest(username, testDto);	
+//	//	return new ResponseEntity<Boolean>(check, HttpStatus.CREATED);
+//	}
 	
 	@GetMapping("/get")
 	@PreAuthorize("hasAnyRole('INSTRUCTOR')")
@@ -50,10 +60,10 @@ private final TestService testService;
 		return new ResponseEntity<TestDto>(testDto, HttpStatus.OK);
 	}
 	
-	@PostMapping("/update")
+	@PutMapping("/update")
 	@PreAuthorize("hasAnyRole('INSTRUCTOR')")
-	public ResponseEntity<Boolean> updateTest(@RequestBody Test test) {
-		Boolean check = testService.updateTest(test);	
+	public ResponseEntity<Boolean> updateTest(@RequestBody TestDto testDto) { 
+		Boolean check = testService.updateTest(testDto);	
 		return new ResponseEntity<Boolean>(check, HttpStatus.CREATED);
 	}
 	@DeleteMapping("/delete")

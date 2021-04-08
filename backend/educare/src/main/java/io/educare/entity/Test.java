@@ -13,13 +13,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class Test {
 	
@@ -31,9 +35,11 @@ public class Test {
 	@Column(name = "test_name")
 	private String testName;
 	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul") // 2018-12-15T10:00:00
 	@Column(name = "start_time")
 	private LocalDateTime startTime;
-
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
 	@Column(name = "end_time")
 	private LocalDateTime endTime;
 

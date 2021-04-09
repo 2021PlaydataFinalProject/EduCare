@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService {
 		httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
 		
 		
-		// jwt 토큰을 쿠키에 넣어서 보내줌
+//		// jwt 토큰을 쿠키에 넣어서 보내줌
 //		Cookie accessToken = CookieUtil.createCookie(TokenProvider.AUTHORITIES_KEY, jwt);
 //		res.setContentType("text/plain;charset=UTF-8");
 //		res.addCookie(accessToken);
@@ -87,30 +87,9 @@ public class UserServiceImpl implements UserService {
 			return null;
 		}
 	}
-
-//	public Boolean logout(HttpServletResponse res) {
-//		try {
-//			Cookie resetToken = CookieUtil.createCookie(TokenProvider.AUTHORITIES_KEY, null); // 쿠키 auth 값을 null
-//			resetToken.setMaxAge(0); // 유효시간을 만료시킴
-//			res.addCookie(resetToken); // 응답 헤더에 추가해서 없어지도록 함
-//			return true;
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			logger.error("로그아웃 실패");
-//			return false;
-//		}
-//	}
 	
-	public Boolean logout(HttpServletResponse res, HttpServletRequest req) {
-		try {
-			System.out.println(CookieUtil.getCookie(req, "auth").getValue());
-			//System.out.println(req.getCookies().);
-			System.out.println("1");
-
-			Cookie resetToken = CookieUtil.createCookie(TokenProvider.AUTHORITIES_KEY, null); // 쿠키 auth 값을 null
-			resetToken.setMaxAge(0); // 유효시간을 만료시킴
-			res.addCookie(resetToken); // 응답 헤더에 추가해서 없어지도록 함
-			return true;
+	public Boolean logout(HttpServletRequest req) {
+		try { return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("로그아웃 실패");

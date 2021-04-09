@@ -35,7 +35,7 @@ public class TestProblemServiceImpl implements TestProblemService {
 	}
 
 	@Transactional
-	public Boolean insertTProblem(Long testnum, TestProblem tProblem, MultipartFile mfile) {
+	public Boolean insertTProblem(Long testnum, TestProblemDto tProblemDto, MultipartFile mfile) {
 
 		String imgname = null;
 		try {
@@ -43,18 +43,24 @@ public class TestProblemServiceImpl implements TestProblemService {
 				imgname = String.valueOf(System.currentTimeMillis()) + mfile.getOriginalFilename();
 				mfile.transferTo(
 						new File(System.getProperty("user.dir") + "\\src\\main\\webapp\\tproblemimg\\" + imgname));
-				logger.info("{}번 문제 이미지 등록", tProblem.getProId());
+				logger.info("{}번 문제 이미지 등록", tProblemDto.getProId());
 			} catch (IllegalStateException | IOException e) {
 				e.printStackTrace();
-				logger.error("{}번 문제 이미지 등록 실패", tProblem.getProId());
+				logger.error("{}번 문제 이미지 등록 실패", tProblemDto.getProId());
 			}
 			Optional<Test> testOpt = testRepository.findById(testnum);
+			TestProblem newtProblem = new TestProblem();
 
 			if (testOpt.isPresent()) {
-				tProblem.setProImage(imgname);
-				tProblem.setTestNum(testOpt.get());
+				
+				newtProblem.setProNum(tProblemDto.getProNum());
+				newtProblem.setProDes(tProblemDto.getProDes());
+				newtProblem.setProSel(tProblemDto.getProSel());
+				newtProblem.setProImage(imgname);
+				newtProblem.setProAnswer(tProblemDto.getProAnswer());
+				newtProblem.setTestNum(testOpt.get());
 
-				TestProblem testProblem = tProblemRepository.save(tProblem);
+				TestProblem testProblem = tProblemRepository.save(newtProblem);
 				testOpt.get().getProblemList().add(testProblem);
 
 				logger.info("{} 시험 문제 등록 성공", testnum);
@@ -71,14 +77,21 @@ public class TestProblemServiceImpl implements TestProblemService {
 	}
 
 	@Transactional
-	public Boolean insertTProblemNoimg(Long testnum, TestProblem tProblem) {
+	public Boolean insertTProblemNoimg(Long testnum, TestProblemDto tProblemDto) {
 		Optional<Test> testOpt = testRepository.findById(testnum);
+		TestProblem newtProblem = new TestProblem();
+		
 		try {
 			if (testOpt.isPresent()) {
-				tProblem.setProImage("default.png");
-				tProblem.setTestNum(testOpt.get());
-
-				TestProblem testProblem = tProblemRepository.save(tProblem);
+				
+				newtProblem.setProNum(tProblemDto.getProNum());
+				newtProblem.setProDes(tProblemDto.getProDes());
+				newtProblem.setProSel(tProblemDto.getProSel());
+				newtProblem.setProImage("default.png");
+				newtProblem.setProAnswer(tProblemDto.getProAnswer());
+				newtProblem.setTestNum(testOpt.get());
+				
+				TestProblem testProblem = tProblemRepository.save(newtProblem);
 				testOpt.get().getProblemList().add(testProblem);
 
 				logger.info("{} 시험 문제 등록 성공", testnum);
@@ -113,24 +126,26 @@ public class TestProblemServiceImpl implements TestProblemService {
 	}
 
 	@Transactional
-	public Boolean updateTProblem(TestProblem tProblem, MultipartFile mfile) {
+	public Boolean updateTProblem(TestProblemDto tProblemDto, MultipartFile mfile) {
 
-		Optional<TestProblem> findtProblem = tProblemRepository.findById(tProblem.getProNum());
+		Optional<TestProblem> findtProblem = tProblemRepository.findById(tProblemDto.getProNum());
 		String imgname = null;
+		
 		try {
 			if (findtProblem.isPresent()) {
 				try {
 					imgname = String.valueOf(System.currentTimeMillis()) + mfile.getOriginalFilename();
 					mfile.transferTo(
 							new File(System.getProperty("user.dir") + "\\src\\main\\webapp\\tproblemimg\\" + imgname));
-					logger.info("{} 시험 {}번 문제 이미지 수정", tProblem.getTestNum(), tProblem.getProNum());
+					logger.info("{}번 문제 이미지 수정", tProblemDto.getProId());
 				} catch (IllegalStateException | IOException e) {
 					e.printStackTrace();
-					logger.error("{} 시험 {}번 문제 이미지 수정 실패", tProblem.getTestNum(), tProblem.getProNum());
+					logger.error("{}번 문제 이미지 수정 실패", tProblemDto.getProId());
 				}
 				TestProblem testProblem = findtProblem.get();
-
-				testProblem.setProDes(tProblem.getProDes());
+				
+				testProblem.setProNum(tProblemDto.);
+				testProblem.setProDes(tProblemDto.getProDes());
 				testProblem.setProSel(tProblem.getProSel());
 				testProblem.setProImage(imgname);
 				testProblem.setProAnswer(tProblem.getProAnswer());

@@ -29,18 +29,19 @@ public class TestProblemController {
 		this.tProblemService = tProblemService;
 	}
 	
-	@PostMapping("/create/{strtnum}")
+	@PostMapping("/create/{testnum}")
 	@PreAuthorize("hasAnyRole('INSTRUCTOR')")
-	public ResponseEntity<Boolean> insertTestProblem(@PathVariable String strtnum, TestProblem tProblem, 
+	public ResponseEntity<Boolean> insertTestProblem(@PathVariable Long testnum, TestProblemDto tProblemDto, 
 			@RequestParam(value = "file", required = false) MultipartFile mfile) {
 		
-		Long testnum = Long.valueOf(strtnum);
+		System.out.println(testnum);
+		//Long testnum = Long.valueOf(strtnum);
 		Boolean check = null;
 		
 		if (mfile != null) {
-			check = tProblemService.insertTProblem(testnum, tProblem, mfile);
+			check = tProblemService.insertTProblem(testnum, tProblemDto, mfile);
 		} else {
-			check = tProblemService.insertTProblemNoimg(testnum, tProblem);
+			check = tProblemService.insertTProblemNoimg(testnum, tProblemDto);
 		}
 		return new ResponseEntity<Boolean>(check, HttpStatus.CREATED);
 	}

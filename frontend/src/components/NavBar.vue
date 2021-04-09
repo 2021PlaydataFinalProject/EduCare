@@ -85,10 +85,10 @@
             <hr class="navbar-divider" />
             <a class="navbar-item">
               <b-icon icon="logout" custom-size="default"></b-icon>
-              <template v-if="user != null">
+              <template>
                 <span @click="logout()">로그아웃</span>
               </template>
-              <template v-else>
+              <template>
                 <router-link to="/signup">회원가입</router-link>
               </template>
             </a>
@@ -172,13 +172,16 @@ export default {
       this.$store.commit("darkModeToggle");
     },
     logout() {
-      axios
+      let instance = axios.create();
+      instance.defaults.headers.common[
+        "Authorization"
+      ] = sessionStorage.getItem("Authorization");
+      instance
         .post("http://localhost:8000/user/logout")
         .then(response => {
           alert("로그아웃 성공");
-
-          sessionStorage.setItem("user", JSON.stringify(response.data));
-          this.$router.push({ name: "Service" });
+          sessionStorage.removeItem("Authorization");
+          this.$router.push({ name: "Home" });
         })
         .catch(error => {
           alert("로그아웃 실패");

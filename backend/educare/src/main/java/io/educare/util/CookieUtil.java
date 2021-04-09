@@ -7,7 +7,7 @@ public class CookieUtil {
 
     public static Cookie createCookie(String cookieName, String value) {
         Cookie token = new Cookie(cookieName,value);
-        //token.setHttpOnly(true);
+        token.setHttpOnly(true);
         token.setMaxAge(60 * 60 * 6); // 6시간
         token.setPath("/");
         // 교차 사이트 스크립팅 (XSS) 공격을 방지

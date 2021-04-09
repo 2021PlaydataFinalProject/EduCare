@@ -18,9 +18,7 @@ public interface UserService {
 
 	public ResponseEntity<UserDto> login(LoginDto loginDto, HttpServletResponse res);
 
-	//public Boolean logout(HttpServletResponse res);
-	
-	public Boolean logout(HttpServletResponse res, HttpServletRequest req);
+	public Boolean logout(HttpServletRequest req);	
 	
 	public UserDto getMyUser(String username);
 	

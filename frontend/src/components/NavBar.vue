@@ -180,6 +180,7 @@ export default {
         .post("http://localhost:8000/user/logout")
         .then(response => {
           alert("로그아웃 성공");
+          console.log(response)
           sessionStorage.removeItem("Authorization");
           this.$router.push({ name: "Home" });
         })

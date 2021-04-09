@@ -34,7 +34,7 @@ public class TestServiceimpl implements TestService {
 	}
 
 	@Transactional
-	public Boolean insertTest(String username, TestDto testDto) {
+	public Long insertTest(String username, TestDto testDto) {
 		Optional<User> userOpt = userRepository.findById(username);
 		
 		try {
@@ -51,15 +51,15 @@ public class TestServiceimpl implements TestService {
 			Test savedtest = testRepository.save(newTest);
 			ins.getTestList().add(savedtest);
 			logger.info("{} 강사 시험 등록 성공", username);
-			return true;
+			return savedtest.getTestNum();
 		} else {
 			logger.info("{} 강사 시험 등록 실패", username);
-			return false;
+			return null;
 		}
 		} catch(Exception e) {
 			e.printStackTrace();
 			logger.info("{} 강사 시험 등록 실패", username);
-			return false;
+			return null;
 		}
 	}
 

@@ -174,7 +174,7 @@ export default {
     logout() {
       axios
         .post("http://localhost:8000/user/logout")
-        .then(() => {
+        .then(response => {
           alert("로그아웃 성공");
 
           sessionStorage.setItem("user", JSON.stringify(response.data));

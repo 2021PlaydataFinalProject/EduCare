@@ -8,13 +8,13 @@ Vue.use(VueRouter);
 
 // 라우터 가드
 // 로그인 유저 거절
-const rejectAuthUser = (to, from, next) => {
-  if (sessionStorage.getItem("user") != null) {
-    next("/");
-  } else {
-    next();
-  }
-};
+// const rejectAuthUser = (to, from, next) => {
+//   if (sessionStorage.getItem("user") != null) {
+//     next("/");
+//   } else {
+//     next();
+//   }
+// };
 // 비 로그인 유저 거절
 const onlyAuthUser = (to, from, next) => {
   if (sessionStorage.getItem("user") == null) {
@@ -160,7 +160,7 @@ const routes = [
     },
     path: "/signin",
     name: "Sign In",
-    beforeEnter: rejectAuthUser,
+    // beforeEnter: rejectAuthUser,
     component: () => import("../views/SignIn.vue"),
     props: true
   },
@@ -170,7 +170,7 @@ const routes = [
     },
     path: "/signup",
     name: "Sign Up",
-    beforeEnter: rejectAuthUser,
+    // beforeEnter: rejectAuthUser,
     component: () => import("../views/SignUp.vue"),
     props: true
   }

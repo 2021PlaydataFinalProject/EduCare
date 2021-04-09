@@ -30,5 +30,5 @@ public interface UserService {
 	
 	public Boolean updateUserNoimg(UserDto userDto);
 	
-	public Boolean deleteUser(String username, HttpServletResponse res);
+	public Boolean deleteUser(String username);
 }

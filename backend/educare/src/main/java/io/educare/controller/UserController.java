@@ -89,8 +89,8 @@ public class UserController {
 
 	@DeleteMapping("/delete")
 	@PreAuthorize("hasAnyRole('STUDENT','INSTRUCTOR')")
-	public ResponseEntity<Boolean> deleteUser(@RequestParam String username, HttpServletResponse res) {
-		return new ResponseEntity<Boolean>(userService.deleteUser(username, res), HttpStatus.NO_CONTENT);
+	public ResponseEntity<Boolean> deleteUser(@RequestParam String username) {
+		return new ResponseEntity<Boolean>(userService.deleteUser(username), HttpStatus.NO_CONTENT);
 	}
 
 }

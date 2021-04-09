@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import io.educare.dto.TestProblemDto;
-import io.educare.entity.TestProblem;
 
 public interface TestProblemService {
 

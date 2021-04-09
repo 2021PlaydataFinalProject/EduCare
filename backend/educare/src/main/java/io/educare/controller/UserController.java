@@ -49,18 +49,11 @@ public class UserController {
 	public ResponseEntity<UserDto> login(@RequestBody LoginDto loginDto, HttpServletResponse res) {
 		return userService.login(loginDto, res);
 	}
-
-//	@PostMapping("/logout")
-//	@PreAuthorize("hasAnyRole('STUDENT','INSTRUCTOR')")
-//	public ResponseEntity<Boolean> logout(HttpServletResponse res) {
-//		return new ResponseEntity<Boolean>(userService.logout(res), HttpStatus.NO_CONTENT);
-//	}
 	
 	@PostMapping("/logout")
 	@PreAuthorize("hasAnyRole('STUDENT','INSTRUCTOR')")
-	public ResponseEntity<Boolean> logout(HttpServletResponse res, HttpServletRequest req) {
-		System.out.println(1);
-		return new ResponseEntity<Boolean>(userService.logout(res, req), HttpStatus.NO_CONTENT);
+	public ResponseEntity<Boolean> logout(HttpServletRequest req) {
+		return new ResponseEntity<Boolean>(userService.logout(req), HttpStatus.NO_CONTENT);
 	}
 
 	@GetMapping("/myinfo") // 프론트에서 로그인한 유저의 username 보내 조회
@@ -96,8 +89,8 @@ public class UserController {
 
 	@DeleteMapping("/delete")
 	@PreAuthorize("hasAnyRole('STUDENT','INSTRUCTOR')")
-	public ResponseEntity<Boolean> deleteUser(@RequestParam String username, HttpServletResponse res) {
-		return new ResponseEntity<Boolean>(userService.deleteUser(username, res), HttpStatus.NO_CONTENT);
+	public ResponseEntity<Boolean> deleteUser(@RequestParam String username) {
+		return new ResponseEntity<Boolean>(userService.deleteUser(username), HttpStatus.NO_CONTENT);
 	}
 
 }

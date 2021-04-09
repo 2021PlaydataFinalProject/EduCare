@@ -29,51 +29,50 @@ public class TestProblemController {
 		this.tProblemService = tProblemService;
 	}
 	
-	@PostMapping("/create/{strtnum}")
+	@PostMapping("/create/{testnum}")
 	@PreAuthorize("hasAnyRole('INSTRUCTOR')")
-	public ResponseEntity<Boolean> insertTestProblem(@PathVariable String strtnum, TestProblem tProblem, 
+	public ResponseEntity<Boolean> insertTestProblem(@PathVariable Long testnum, TestProblemDto tProblemDto, 
 			@RequestParam(value = "file", required = false) MultipartFile mfile) {
 		
-		Long testnum = Long.valueOf(strtnum);
 		Boolean check = null;
 		
 		if (mfile != null) {
-			check = tProblemService.insertTProblem(testnum, tProblem, mfile);
+			check = tProblemService.insertTProblem(testnum, tProblemDto, mfile);
 		} else {
-			check = tProblemService.insertTProblemNoimg(testnum, tProblem);
+			check = tProblemService.insertTProblemNoimg(testnum, tProblemDto);
 		}
 		return new ResponseEntity<Boolean>(check, HttpStatus.CREATED);
 	}
 	
 	@GetMapping("/get")
 	@PreAuthorize("hasAnyRole('INSTRUCTOR')")
-	public ResponseEntity<List<TestProblemDto>> getTProblemsByTNum(Long testnum) {
+	public ResponseEntity<List<TestProblemDto>> getTProblemsByTNum(@RequestParam Long testnum) {
 		return new ResponseEntity<List<TestProblemDto>>(tProblemService.getTProblemsByTNum(testnum), HttpStatus.OK);
 	}
 	
-	@GetMapping("/get/{pronum}")
+	@GetMapping("/get/{proid}")
 	@PreAuthorize("hasAnyRole('INSTRUCTOR')")
-	public ResponseEntity<TestProblemDto> getTestProblem(@PathVariable Long pronum) {
-		return new ResponseEntity<TestProblemDto>(tProblemService.getTProblem(pronum), HttpStatus.OK);
+	public ResponseEntity<TestProblemDto> getTestProblem(@PathVariable Long proid) {
+		return new ResponseEntity<TestProblemDto>(tProblemService.getTProblem(proid), HttpStatus.OK);
 	}
 	
 	@PutMapping("/update")
 	@PreAuthorize("hasAnyRole('INSTRUCTOR')")
-	public ResponseEntity<Boolean> updateTestProblem(TestProblem tProblem, 
+	public ResponseEntity<Boolean> updateTestProblem(TestProblemDto tProblemDto, 
 			@RequestParam(value = "file", required = false) MultipartFile mfile) {
 		
 		Boolean check = null;
 		if (mfile != null) {
-			check = tProblemService.updateTProblem(tProblem, mfile);
+			check = tProblemService.updateTProblem(tProblemDto, mfile);
 		} else {
-			check = tProblemService.updateTProblemNoimg(tProblem);
+			check = tProblemService.updateTProblemNoimg(tProblemDto);
 		}
 		return new ResponseEntity<Boolean>(check, HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/delete")
 	@PreAuthorize("hasAnyRole('INSTRUCTOR')")
-	public ResponseEntity<Boolean> deleteUser(@RequestParam Long pronum, @RequestParam Long testnum) {
-		return new ResponseEntity<Boolean>(tProblemService.deleteTProblem(pronum, testnum), HttpStatus.NO_CONTENT);
+	public ResponseEntity<Boolean> deleteTestProblem(@RequestParam Long proid, @RequestParam Long testnum) {
+		return new ResponseEntity<Boolean>(tProblemService.deleteTProblem(proid, testnum), HttpStatus.NO_CONTENT);
 	}
 }

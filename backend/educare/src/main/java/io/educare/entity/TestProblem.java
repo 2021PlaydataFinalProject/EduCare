@@ -12,10 +12,12 @@ import javax.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class TestProblem {
 	
@@ -25,7 +27,7 @@ public class TestProblem {
 	private long proId;
 	
 	@Column(name = "pro_num")
-	private long proNum;
+	private Integer proNum;
 	
 	@Column(name = "pro_des")
 	private String proDes;

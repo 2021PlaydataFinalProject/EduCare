@@ -37,15 +37,6 @@ private final TestService testService;
 		return new ResponseEntity<Boolean>(check, HttpStatus.CREATED);
 	}
 	
-//	@PostMapping("/create")
-//	@PreAuthorize("hasAnyRole('INSTRUCTOR')")
-//	public ResponseEntity<Boolean> insertTest(@RequestParam String username, @RequestBody TestDto testDto) {
-//		System.out.println(testDto.getTestName());
-//		return new ResponseEntity<Boolean>(true, HttpStatus.CREATED);
-//	//	Boolean check = testService.insertTest(username, testDto);	
-//	//	return new ResponseEntity<Boolean>(check, HttpStatus.CREATED);
-//	}
-	
 	@GetMapping("/get")
 	@PreAuthorize("hasAnyRole('INSTRUCTOR')")
 	public ResponseEntity<List<TestDto>> getTestsByUsername(@RequestParam String username) {

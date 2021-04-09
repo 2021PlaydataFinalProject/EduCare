@@ -88,8 +88,8 @@ export default {
         .then(Headers => {
           alert("로그인 성공");
           console.log(Headers); //get("Authorization")
-          // sessionStorage.setItem("user", JSON.stringify(response.data));
-          // this.$router.push({ name: "Service" });
+          // sessionStorage.setItem("Headers", JSON.stringify(response.data));
+          this.$router.push({ name: "Service" });
         })
         .catch(error => {
           alert("로그인 실패");

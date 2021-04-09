@@ -27,7 +27,7 @@ public class TestProblem {
 	private long proId;
 	
 	@Column(name = "pro_num")
-	private long proNum;
+	private Integer proNum;
 	
 	@Column(name = "pro_des")
 	private String proDes;

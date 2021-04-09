@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -51,10 +52,10 @@ public class Test {
 	private Instructor insId;
 	
 	//@JsonBackReference
-	@OneToMany(mappedBy="testNum")
+	@OneToMany(mappedBy="testNum", cascade = CascadeType.REMOVE)
 	List<StudentTest> studentList = new ArrayList<StudentTest>();
 	
 	//@JsonBackReference
-	@OneToMany(mappedBy="testNum")
+	@OneToMany(mappedBy="testNum", cascade = CascadeType.REMOVE)
 	List<TestProblem> problemList = new ArrayList<TestProblem>();
 }

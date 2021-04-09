@@ -34,21 +34,37 @@
               </b-table-column>
 
               <b-table-column
-                field="testName"
-                label="시험명"
+                field="endTime"
+                label="종료 시간"
                 v-slot="props"
                 centered
               >
-                {{ props.row.testName }}
+                {{ props.row.endTime }}
               </b-table-column>
 
               <b-table-column
-                field="userName"
-                label="학생 이름"
+                field="startTime"
+                label="시작 시간"
                 v-slot="props"
                 centered
               >
-                {{ props.row.userName }}
+                {{ props.row.startTime }}
+              </b-table-column>
+              <b-table-column
+                field="testGuide"
+                label="시험 유의사항"
+                v-slot="props"
+                centered
+              >
+                {{ props.row.testGuide }}
+              </b-table-column>
+              <b-table-column
+                field="instructorId"
+                label="담당교수명"
+                v-slot="props"
+                centered
+              >
+                {{ props.row.instructorId }}
               </b-table-column>
               <b-table-column label="수정 및 삭제" v-slot="props" centered>
                 <b-button

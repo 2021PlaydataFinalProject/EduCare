@@ -16,32 +16,31 @@
                 icon="account"
                 v-model="form.name"
                 placeholder="이름"
-                name="name"
+                name="username"
                 required
               />
             </b-field>
             <b-field>
               <b-input
-                icon="email"
-                type="email"
-                v-model="form.email"
-                placeholder="이메일"
-                name="email"
+                icon="finish"
+                v-model="form.number"
+                placeholder="시험 번호"
+                name="testnum"
                 required
               />
             </b-field>
           </b-field>
-          <b-field message="필수 작성 부분입니다." horizontal>
+          <!-- <b-field message="필수 작성 부분입니다." horizontal>
             <b-field>
               <p class="control">
                 <a class="button is-static">
                   +82
                 </a>
               </p>
-              <b-input type="tel" v-model="form.phone" name="phone" expanded />
+              <b-input type="subject" v-model="form.subject" name="" expanded />
             </b-field>
-          </b-field>
-          <b-field label="시험 과목" horizontal>
+          </b-field> -->
+          <!-- <b-field label="시험 과목" horizontal>
             <b-select
               placeholder="시험 과목을 선택하세요."
               v-model="form.department"
@@ -55,11 +54,58 @@
                 {{ department }}
               </option>
             </b-select>
-          </b-field>
+          </b-field> -->
           <b-field label="시험명" message="과목명을 적어주세요." horizontal>
             <b-input
-              placeholder="자바 쪽지시험 : 소제목"
+              placeholder="시험명 : 소제목"
               v-model="form.subject"
+              name="testname"
+              maxlength="150"
+              required
+            />
+          </b-field>
+          <b-field label="시험 시간 지정" horizontal>
+            <b-field
+              :label-position="labelPosition"
+              label="시험 시작 시간"
+              name="starttime"
+              message="필수 작성 부분입니다."
+            >
+              <b-timepicker
+                placeholder="시험 시작 시간을 설정해 주세요."
+                icon="clock"
+                name="starttime"
+                :incrementMinutes="minutesGranularity"
+                :incrementHours="hoursGranularity"
+              >
+              </b-timepicker>
+            </b-field>
+            <b-field
+              :label-position="labelPosition"
+              label="시험 종료 시간"
+              name="endtime"
+              message="필수 작성 부분입니다."
+            >
+              <b-timepicker
+                placeholder="시험 종료 시간을 설정해 주세요."
+                message="필수 작성 부분입니다."
+                name="endtime"
+                icon="clock"
+                :incrementMinutes="minutesGranularity"
+                :incrementHours="hoursGranularity"
+              >
+              </b-timepicker>
+            </b-field>
+          </b-field>
+          <b-field
+            label="시험 유의사항"
+            message="당신의 시험 유의사항을 255자 이내로 작성하세요."
+            horizontal
+          >
+            <b-input
+              type="textarea"
+              placeholder="해당 시험 유의사항 만들기"
+              v-model="form.testguide"
               maxlength="255"
               required
             />
@@ -148,11 +194,10 @@
 <script>
 import TitleBar from "@/components/TitleBar";
 import CardComponent from "@/components/CardComponent";
-// import CheckboxPicker from "@/components/CheckboxPicker";
-// import RadioPicker from "@/components/RadioPicker";
-// import FilePicker from "@/components/FilePicker";
 import HeroBar from "@/components/HeroBar";
 import AddTestTable from "@/components/AddTestTable";
+import axios from "axios";
+
 export default {
   name: "AddTest",
   components: {
@@ -166,19 +211,19 @@ export default {
       labelPosition: "on-border",
       isLoading: false,
       form: {
-        name: null,
-        email: null,
-        phone: null,
-        department: null,
-        subject: null,
-        question: null
+        username: null,
+        testnum: null,
+        testname: null,
+        endtime: null,
+        starttime: null,
+        testguide: null
       },
-      customElementsForm: {
-        checkbox: [],
-        radio: null,
-        switch: true,
-        file: null
-      },
+      // customElementsForm: {
+      //   checkbox: [],
+      //   radio: null,
+      //   switch: true,
+      //   file: null
+      // },
       departments: ["JAVA", "SPRINGBOOT", "VUE", "SQL"]
     };
   },
@@ -187,6 +232,79 @@ export default {
       return ["Instructor", "Add Test"];
     }
   },
-  methods: {}
+  methods: {
+    submitForm() {
+      const addtestData = {
+        username: this.username,
+        testnum: this.testnum,
+        testname: this.testname,
+        endtime: this.endtime,
+        starttime: this.starttime,
+        testguide: this.testguide
+      };
+      axios
+        .post(
+          "http://localhost:8000/test/create/" + "?username=",
+          addtestData,
+          {
+            headers: {
+              "Content-Type": "application/json"
+            }
+          }
+        )
+        .then(Headers => {
+          alert("시험 생성 성공!");
+          console.log(Headers); //get("Authorization")
+          // sessionStorage.setItem("user", JSON.stringify(response.data));
+          this.$router.push({ name: "InstructorTest" });
+        })
+        .catch(error => {
+          alert("시험 생성 실패");
+          console.log(error);
+        })
+        .finally(() => {
+          this.initForm();
+        });
+    },
+    submitForm2() {
+      const addtestproblemData = {
+        strtnum: this.strtnum,
+        proId: this.proId,
+        pronum: this.pronum,
+        proDes: this.proDes,
+        proSel: this.proSel,
+        proImage: this.proImage,
+        proAnswer: this.proAnswer
+      };
+      axios
+        .post("http://localhost:8000/testpro/create/", addtestproblemData, {
+          // headers: {
+          //   "Content-Type": "application/json"
+          // }
+        })
+        .then(Headers => {
+          alert("시험 문제 생성 성공!");
+          console.log(Headers); //get("Authorization")
+          // sessionStorage.setItem("user", JSON.stringify(response.data));
+          this.$router.push({ name: "InstructorTest" });
+        })
+        .catch(error => {
+          alert("시험 문제 생성 실패");
+          console.log(error);
+        })
+        .finally(() => {
+          this.initForm();
+        });
+    },
+    initForm() {
+      this.strtnum = "";
+      this.proId = "";
+      this.pronum = "";
+      this.proDes = "";
+      this.proSel = "";
+      this.proImage = "";
+      this.proAnswer = "";
+    }
+  }
 };
 </script>

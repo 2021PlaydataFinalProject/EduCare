@@ -34,8 +34,6 @@ public class TestProblemController {
 	public ResponseEntity<Boolean> insertTestProblem(@PathVariable Long testnum, TestProblemDto tProblemDto, 
 			@RequestParam(value = "file", required = false) MultipartFile mfile) {
 		
-		System.out.println(testnum);
-		//Long testnum = Long.valueOf(strtnum);
 		Boolean check = null;
 		
 		if (mfile != null) {
@@ -48,14 +46,14 @@ public class TestProblemController {
 	
 	@GetMapping("/get")
 	@PreAuthorize("hasAnyRole('INSTRUCTOR')")
-	public ResponseEntity<List<TestProblemDto>> getTProblemsByTNum(Long testnum) {
+	public ResponseEntity<List<TestProblemDto>> getTProblemsByTNum(@RequestParam Long testnum) {
 		return new ResponseEntity<List<TestProblemDto>>(tProblemService.getTProblemsByTNum(testnum), HttpStatus.OK);
 	}
 	
-	@GetMapping("/get/{pronum}")
+	@GetMapping("/get/{proid}")
 	@PreAuthorize("hasAnyRole('INSTRUCTOR')")
-	public ResponseEntity<TestProblemDto> getTestProblem(@PathVariable Long pronum) {
-		return new ResponseEntity<TestProblemDto>(tProblemService.getTProblem(pronum), HttpStatus.OK);
+	public ResponseEntity<TestProblemDto> getTestProblem(@PathVariable Long proid) {
+		return new ResponseEntity<TestProblemDto>(tProblemService.getTProblem(proid), HttpStatus.OK);
 	}
 	
 	@PutMapping("/update")
@@ -74,7 +72,7 @@ public class TestProblemController {
 	
 	@DeleteMapping("/delete")
 	@PreAuthorize("hasAnyRole('INSTRUCTOR')")
-	public ResponseEntity<Boolean> deleteUser(@RequestParam Long pronum, @RequestParam Long testnum) {
-		return new ResponseEntity<Boolean>(tProblemService.deleteTProblem(pronum, testnum), HttpStatus.NO_CONTENT);
+	public ResponseEntity<Boolean> deleteTestProblem(@RequestParam Long proid, @RequestParam Long testnum) {
+		return new ResponseEntity<Boolean>(tProblemService.deleteTProblem(proid, testnum), HttpStatus.NO_CONTENT);
 	}
 }

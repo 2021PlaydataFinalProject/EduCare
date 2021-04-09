@@ -121,10 +121,7 @@ public class TestServiceimpl implements TestService {
 				for (int i = 0; i < testlist.size(); i++) {
 					if (testlist.get(i).getTestNum() == testnum) {
 						testlist.remove(i);						
-					} else {
-						logger.error("{} 시험 삭제 실패", testnum);
-						return false;
-					}
+					} 
 				}
 				testRepository.delete(findTest.get());
 				logger.info("{} 시험 삭제 완료", testnum);

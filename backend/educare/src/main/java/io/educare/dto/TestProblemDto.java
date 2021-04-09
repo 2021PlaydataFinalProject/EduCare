@@ -22,7 +22,7 @@ public class TestProblemDto {
 	
 	   @NotNull
 	   @Size(min = 8, max = 20)
-	   private long proNum;
+	   private Integer proNum;
 	   
 	   @NotNull
 	   @Size(min = 8)

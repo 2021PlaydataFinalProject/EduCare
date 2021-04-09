@@ -14,12 +14,12 @@ public interface TestProblemService {
 
 	public List<TestProblemDto> getTProblemsByTNum(Long testnum);
 	
-	public TestProblemDto getTProblem(Long pronum);
+	public TestProblemDto getTProblem(Long proid);
 	
 	public Boolean updateTProblem(TestProblemDto tProblemDto, MultipartFile mfile);
 	
 	public Boolean updateTProblemNoimg(TestProblemDto tProblemDto);
 	
-	public Boolean deleteTProblem(Long pronum, Long testnum);
+	public Boolean deleteTProblem(Long proid, Long testnum);
 	
 }

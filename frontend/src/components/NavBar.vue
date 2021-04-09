@@ -178,7 +178,7 @@ export default {
       ] = sessionStorage.getItem("Authorization");
       instance
         .post("http://localhost:8000/user/logout")
-        .then(() => {
+        .then(response => {
           alert("로그아웃 성공");
           sessionStorage.removeItem("Authorization");
           this.$router.push({ name: "Home" });

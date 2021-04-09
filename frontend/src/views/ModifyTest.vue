@@ -2,20 +2,20 @@
   <div>
     <title-bar :title-stack="titleStack" />
     <hero-bar>
-      Forms
-      <router-link slot="right" to="/" class="button">
-        Dashboard
+      시험 수정하기
+      <router-link slot="right" to="instructor" class="button">
+        시험 목록
       </router-link>
     </hero-bar>
     <section class="section is-main-section">
       <card-component title="Forms" icon="ballot">
         <form @submit.prevent="submit">
-          <b-field label="From" horizontal>
+          <b-field label="출제자 정보" horizontal>
             <b-field>
               <b-input
                 icon="account"
                 v-model="form.name"
-                placeholder="Name"
+                placeholder="이름"
                 name="name"
                 required
               />
@@ -25,25 +25,25 @@
                 icon="email"
                 type="email"
                 v-model="form.email"
-                placeholder="E-mail"
+                placeholder="이메일"
                 name="email"
                 required
               />
             </b-field>
           </b-field>
-          <b-field message="Do not enter the leading zero" horizontal>
+          <b-field message="필수 작성 부분입니다." horizontal>
             <b-field>
               <p class="control">
                 <a class="button is-static">
-                  +44
+                  +82
                 </a>
               </p>
               <b-input type="tel" v-model="form.phone" name="phone" expanded />
             </b-field>
           </b-field>
-          <b-field label="Department" horizontal>
+          <b-field label="시험 과목" horizontal>
             <b-select
-              placeholder="Select a department"
+              placeholder="시험 과목을 선택하세요."
               v-model="form.department"
               required
             >
@@ -56,69 +56,92 @@
               </option>
             </b-select>
           </b-field>
-          <hr />
-          <b-field label="Subject" message="Message subject" horizontal>
+
+          <b-field label="시험명" message="과목명을 적어주세요." horizontal>
             <b-input
-              placeholder="e.g. Partnership proposal"
+              placeholder="자바 쪽지시험 : 소제목"
               v-model="form.subject"
-              required
-            />
-          </b-field>
-          <b-field
-            label="Question"
-            message="Your question. Max 255 characters"
-            horizontal
-          >
-            <b-input
-              type="textarea"
-              placeholder="Explain how we can help you"
-              v-model="form.question"
               maxlength="255"
               required
             />
           </b-field>
           <hr />
-          <b-field horizontal>
+          <b-field
+            label="문제"
+            message="당신의 문제를 255자 이내로 작성하세요."
+            horizontal
+          >
+            <b-input
+              type="textarea"
+              placeholder="시험 문제 만들기"
+              v-model="form.question"
+              maxlength="255"
+              required
+            />
+          </b-field>
+          <b-field
+            label="보기"
+            message="당신이 내고 싶은 문항을 작성하세요."
+            horizontal
+          >
+            <b-field label="1번" :label-position="labelPosition">
+              <b-input
+                placeholder="1번 보기를 입력하세요."
+                maxlength="150"
+              ></b-input>
+            </b-field>
+            <b-field label="2번" :label-position="labelPosition">
+              <b-input placeholder="2번 보기를 입력하세요." maxlength="150">
+              </b-input>
+            </b-field>
+            <b-field label="3번" :label-position="labelPosition">
+              <b-input
+                placeholder="3번 보기를 입력하세요."
+                maxlength="150"
+              ></b-input>
+            </b-field>
+            <b-field label="4번" :label-position="labelPosition">
+              <b-input
+                placeholder="4번 보기를 입력하세요."
+                maxlength="150"
+              ></b-input>
+            </b-field>
+          </b-field>
+          <!-- <div style="text-align: center;"> -->
+          <b-button native-type="submit" type="is-primary"
+            >문제/보기 등록</b-button
+          >
+          <!-- </div> -->
+          <hr />
+
+          <hr />
+          <card-component
+            class="has-table has-mobile-sort-spaced"
+            title="문제/보기 확인"
+            icon="account-multiple"
+          >
+            <add-test-table
+              :data-url="`${$router.options.base}data-sources/clients.json`"
+              :checkable="false"
+            />
+          </card-component>
+          <div style="text-align: center;">
+            <!-- <b-field horizontal> -->
             <b-field grouped>
               <div class="control">
                 <b-button native-type="submit" type="is-primary"
-                  >Submit</b-button
+                  >시험 출제</b-button
                 >
               </div>
               <div class="control">
                 <b-button type="is-primary is-outlined" @click="reset"
-                  >Reset</b-button
+                  >다시 만들기</b-button
                 >
               </div>
             </b-field>
-          </b-field>
+            <!-- </b-field> -->
+          </div>
         </form>
-      </card-component>
-      <card-component title="Custom elements" icon="ballot-outline">
-        <b-field label="Checkbox" class="has-check" horizontal>
-          <checkbox-picker
-            :options="{ lorem: 'Lorem', ipsum: 'Ipsum', dolore: 'Dolore' }"
-            v-model="customElementsForm.checkbox"
-            type="is-primary"
-          />
-        </b-field>
-        <hr />
-        <b-field label="Radio" class="has-check" horizontal>
-          <radio-picker
-            :options="{ one: 'One', two: 'Two' }"
-            v-model="customElementsForm.radio"
-          ></radio-picker>
-        </b-field>
-        <hr />
-        <b-field label="Switch" horizontal>
-          <b-switch v-model="customElementsForm.switch">
-            Default
-          </b-switch>
-        </b-field>
-        <hr />
-        <b-field label="File" horizontal>
-          <file-picker v-model="customElementsForm.file" />
-        </b-field>
       </card-component>
     </section>
   </div>
@@ -128,23 +151,23 @@
 import TitleBar from "@/components/TitleBar";
 import CardComponent from "@/components/CardComponent";
 import mapValues from "lodash/mapValues";
-import CheckboxPicker from "@/components/CheckboxPicker";
-import RadioPicker from "@/components/RadioPicker";
-import FilePicker from "@/components/FilePicker";
+// import CheckboxPicker from "@/components/CheckboxPicker";
+// import RadioPicker from "@/components/RadioPicker";
+// import FilePicker from "@/components/FilePicker";
 import HeroBar from "@/components/HeroBar";
+import AddTestTable from "@/components/AddTestTable";
 
 export default {
-  name: "Forms",
+  name: "AddTest",
   components: {
     HeroBar,
-    FilePicker,
-    RadioPicker,
-    CheckboxPicker,
+    AddTestTable,
     CardComponent,
     TitleBar
   },
   data() {
     return {
+      labelPosition: "on-border",
       isLoading: false,
       form: {
         name: null,
@@ -160,12 +183,12 @@ export default {
         switch: true,
         file: null
       },
-      departments: ["Business Development", "Marketing", "Sales"]
+      departments: ["JAVA", "SPRINGBOOT", "VUE", "SQL"]
     };
   },
   computed: {
     titleStack() {
-      return ["Admin", "Forms"];
+      return ["Instructor", "Add Test"];
     }
   },
   methods: {

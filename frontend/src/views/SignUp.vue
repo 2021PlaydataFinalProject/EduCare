@@ -3,9 +3,6 @@
     <title-bar :title-stack="titleStack" />
     <hero-bar>
       회원가입
-      <router-link slot="right" to="/profile" class="button">
-        마이 페이지
-      </router-link>
     </hero-bar>
     <section>
       <SignUpForm></SignUpForm>

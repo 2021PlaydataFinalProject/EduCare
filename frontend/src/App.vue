@@ -22,6 +22,11 @@ export default {
     AsideMenu,
     NavBar
   },
+  data() {
+    return {
+      user: sessionStorage.getItem("user")
+    };
+  },
   computed: {
     menu() {
       return [
@@ -35,16 +40,6 @@ export default {
         ],
         "메뉴",
         [
-          // {
-          //   to: "/forms",
-          //   label: "Forms",
-          //   icon: "square-edit-outline"
-          // },
-          // {
-          //   to: "/profile",
-          //   label: "Profile",
-          //   icon: "account-circle"
-          // },
           {
             label: "시험",
             //submenu가 강사와 어드민 학생에 따라 다르게 나와야함
@@ -52,11 +47,11 @@ export default {
             icon: "view-list",
             menu: [
               {
-                href: "/#/student",
+                href: "/student",
                 label: "학생 시험"
               },
               {
-                href: "/#/managetest",
+                href: "/instructor",
                 label: "강사 시험"
               }
             ]
@@ -75,9 +70,9 @@ export default {
   },
   created() {
     this.$store.commit("user", {
-      name: "John Doe",
-      email: "john@example.com",
-      avatar: "https://avatars.dicebear.com/v2/gridy/John-Doe.svg"
+      name: "",
+      email: "",
+      avatar: ""
     });
   },
   methods: {

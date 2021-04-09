@@ -2,32 +2,33 @@ package io.educare.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import io.educare.dto.LoginDto;
 import io.educare.dto.UserDto;
-import io.educare.entity.User;
 
 public interface UserService {
-	public User insertUser(UserDto userDto, MultipartFile mfile);
+	public Boolean insertUser(UserDto userDto, MultipartFile mfile);
 
-	public User insertUserNoimg(UserDto userDto);
+	public Boolean insertUserNoimg(UserDto userDto);
 
-	public User login(LoginDto loginDto, HttpServletResponse res);
-
-	public void logout(HttpServletResponse res);
-
-	public User getMyUser(String username);
-
-	public User getUser(String username);
-
-	public List<User> getUserList(String role);
-
-	public User updateUser(UserDto userDto, MultipartFile mfile);
-
-	public User updateUserNoimg(UserDto userDto);
-
-	public void deleteUser(String username, HttpServletResponse res);
+	public ResponseEntity<UserDto> login(LoginDto loginDto, HttpServletResponse res);
+  
+	public Boolean logout(HttpServletRequest req);	
+	
+	public UserDto getMyUser(String username);
+	
+	public UserDto getStudent(String username);
+	
+	public List<UserDto> getStudentList();
+	
+	public Boolean updateUser(UserDto userDto, MultipartFile mfile);
+	
+	public Boolean updateUserNoimg(UserDto userDto);
+	
+	public Boolean deleteUser(String username);
 }

@@ -85,10 +85,10 @@
             <hr class="navbar-divider" />
             <a class="navbar-item">
               <b-icon icon="logout" custom-size="default"></b-icon>
-              <template v-if="user != null">
+              <template>
                 <span @click="logout()">로그아웃</span>
               </template>
-              <template v-else>
+              <template>
                 <router-link to="/signup">회원가입</router-link>
               </template>
             </a>
@@ -125,6 +125,7 @@
 import { mapState } from "vuex";
 import NavBarMenu from "@/components/NavBarMenu";
 import UserAvatar from "@/components/UserAvatar";
+import axios from "axios";
 
 export default {
   name: "NavBar",
@@ -171,14 +172,31 @@ export default {
       this.$store.commit("darkModeToggle");
     },
     logout() {
-      if (sessionStorage.getItem("user") != null) {
-        sessionStorage.removeItem("user");
-        this.loginUserAct(null);
-        this.$router.push({ name: "Home" });
-      } else {
-        alert("로그인을 먼저 해주세요");
-        this.$router.push({ name: "Sign In" });
-      }
+      let instance = axios.create();
+      instance.defaults.headers.common[
+        "Authorization"
+      ] = sessionStorage.getItem("Authorization");
+      instance
+        .post("http://localhost:8000/user/logout")
+        .then(() => {
+          alert("로그아웃 성공");
+          sessionStorage.removeItem("Authorization");
+          this.$router.push({ name: "Home" });
+        })
+        .catch(error => {
+          alert("로그아웃 실패");
+          console.log(error);
+        });
+
+      // if (sessionStorage.getItem("user") != null) {
+      //   sessionStorage.removeItem("user");
+      //   this.loginUserAct(null);
+      //   this.$router.push({ name: "Home" });
+      // } else {
+      //   alert("로그인을 먼저 해주세요");
+      //   this.$router.push({ name: "Sign In" });
+      // }
+
       // this.$buefy.snackbar.open({
       //   message: "Log out clicked",
       //   queue: false

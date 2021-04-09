@@ -35,11 +35,19 @@
                 >
                 </b-input>
               </b-field>
-              <center>
-                <b-button class="btn btn-primary btn-sm" @click="submitForm()">
+              <div class="buttons is-centered">
+                <b-button class="btn is-primary" @click="submitForm()">
                   로그인
                 </b-button>
-              </center>
+                <b-button
+                  class="is-primary"
+                  tag="router-link"
+                  to="/signup"
+                  type="is-link"
+                >
+                  회원가입
+                </b-button>
+              </div>
               <br /><br />
             </form>
           </div>
@@ -79,9 +87,13 @@ export default {
         })
         .then(response => {
           alert("로그인 성공");
-          console.log(response.data);
-          sessionStorage.setItem("user", JSON.stringify(response.data));
-          this.$router.push({ name: "Service" });
+          console.log(response.headers.authorization);
+          sessionStorage.setItem(
+            "Authorization",
+            response.headers.authorization
+          );
+          // sessionStorage.setItem("user", JSON.stringify(response.data));
+          // this.$router.push({ name: "Service" });
         })
         .catch(error => {
           alert("로그인 실패");

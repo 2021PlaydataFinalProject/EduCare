@@ -9,14 +9,15 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import io.educare.dto.TestProblemDto;
 import io.educare.entity.TestProblem;
 import io.educare.service.TestProblemService;
-import io.educare.service.TestService;
 
 @RestController
 @RequestMapping("/testpro")
@@ -28,54 +29,52 @@ public class TestProblemController {
 		this.tProblemService = tProblemService;
 	}
 	
-	@PostMapping("/create/{strtnum}")
+	@PostMapping("/create/{testnum}")
 	@PreAuthorize("hasAnyRole('INSTRUCTOR')")
-	public ResponseEntity<TestProblem> insertTestProblem(@PathVariable String strtnum, TestProblem tProblem, 
+	public ResponseEntity<Boolean> insertTestProblem(@PathVariable Long testnum, TestProblemDto tProblemDto, 
 			@RequestParam(value = "file", required = false) MultipartFile mfile) {
 		
-		Long testnum = Long.valueOf(strtnum);
+		System.out.println(testnum);
+		//Long testnum = Long.valueOf(strtnum);
+		Boolean check = null;
 		
-		TestProblem testProblem = null;
 		if (mfile != null) {
-			testProblem = tProblemService.insertTProblem(testnum, tProblem, mfile);
+			check = tProblemService.insertTProblem(testnum, tProblemDto, mfile);
 		} else {
-			testProblem = tProblemService.insertTProblemNoimg(testnum, tProblem);
+			check = tProblemService.insertTProblemNoimg(testnum, tProblemDto);
 		}
-		return new ResponseEntity<TestProblem>(testProblem, HttpStatus.CREATED);
+		return new ResponseEntity<Boolean>(check, HttpStatus.CREATED);
 	}
 	
 	@GetMapping("/get")
 	@PreAuthorize("hasAnyRole('INSTRUCTOR')")
-	public ResponseEntity<List<TestProblem>> getTProblemsByTNum(Long testnum) {
-		List<TestProblem> tproblems = tProblemService.getTProblemsByTNum(testnum);
-		return new ResponseEntity<List<TestProblem>>(tproblems, HttpStatus.OK);
+	public ResponseEntity<List<TestProblemDto>> getTProblemsByTNum(Long testnum) {
+		return new ResponseEntity<List<TestProblemDto>>(tProblemService.getTProblemsByTNum(testnum), HttpStatus.OK);
 	}
 	
 	@GetMapping("/get/{pronum}")
 	@PreAuthorize("hasAnyRole('INSTRUCTOR')")
-	public ResponseEntity<TestProblem> getTestProblem(@PathVariable Long pronum) {
-		TestProblem tproblem = tProblemService.getTProblem(pronum);
-		return new ResponseEntity<TestProblem>(tproblem, HttpStatus.OK);
+	public ResponseEntity<TestProblemDto> getTestProblem(@PathVariable Long pronum) {
+		return new ResponseEntity<TestProblemDto>(tProblemService.getTProblem(pronum), HttpStatus.OK);
 	}
 	
-	@PostMapping("/update")
+	@PutMapping("/update")
 	@PreAuthorize("hasAnyRole('INSTRUCTOR')")
-	public ResponseEntity<TestProblem> updateTestProblem(TestProblem tProblem, 
+	public ResponseEntity<Boolean> updateTestProblem(TestProblemDto tProblemDto, 
 			@RequestParam(value = "file", required = false) MultipartFile mfile) {
 		
-		TestProblem testProblem = null;
+		Boolean check = null;
 		if (mfile != null) {
-			testProblem = tProblemService.updateTProblem(tProblem, mfile);
+			check = tProblemService.updateTProblem(tProblemDto, mfile);
 		} else {
-			testProblem = tProblemService.updateTProblemNoimg(tProblem);
+			check = tProblemService.updateTProblemNoimg(tProblemDto);
 		}
-		return new ResponseEntity<TestProblem>(testProblem, HttpStatus.OK);
+		return new ResponseEntity<Boolean>(check, HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/delete")
 	@PreAuthorize("hasAnyRole('INSTRUCTOR')")
-	public ResponseEntity<HttpStatus> deleteUser(@RequestParam Long pronum) {
-		tProblemService.deleteTProblem(pronum);
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	public ResponseEntity<Boolean> deleteUser(@RequestParam Long pronum, @RequestParam Long testnum) {
+		return new ResponseEntity<Boolean>(tProblemService.deleteTProblem(pronum, testnum), HttpStatus.NO_CONTENT);
 	}
 }

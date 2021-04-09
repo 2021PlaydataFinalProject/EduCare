@@ -2,14 +2,18 @@ package io.educare.service;
 
 import java.util.List;
 
-import io.educare.entity.Test;
+import io.educare.dto.TestDto;
 
 public interface TestService {
 
-	public Test insertTest(String username, Test test);
+	public Boolean insertTest(String username, TestDto testDto);
 	
-	public List<Test> getTestsByUsername(String username);
+	public List<TestDto> getTestsByUsername(String username);
 	
-	public Test getTest(Long testnum);
+	public TestDto getTest(Long testnum);
+	
+	public Boolean updateTest(TestDto testDto);
+	
+	public Boolean deleteTest(String username, Long testnum);
 	
 }

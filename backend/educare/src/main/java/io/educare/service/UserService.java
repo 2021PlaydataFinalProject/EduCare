@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import io.educare.dto.LoginDto;
@@ -15,11 +16,11 @@ public interface UserService {
 
 	public Boolean insertUserNoimg(UserDto userDto);
 
-	public UserDto login(LoginDto loginDto, HttpServletResponse res);
+	public ResponseEntity<UserDto> login(LoginDto loginDto, HttpServletResponse res);
 
-	public Boolean logout(HttpServletResponse res);
+	//public Boolean logout(HttpServletResponse res);
 	
-	//public Boolean logout(HttpServletResponse res, HttpServletRequest req);
+	public Boolean logout(HttpServletResponse res, HttpServletRequest req);
 	
 	public UserDto getMyUser(String username);
 	

@@ -1,133 +1,62 @@
 <template>
   <div id="app" class="container is-max-desktop pt-5">
-    <section>
-      <div class="hero-body">
-        <div class="container has-text-centered">
-          <h1 class="title ">
-            로그인
-          </h1>
-          <h2 class="subtitle centered">
-            오늘도 환영합니다.
-          </h2>
-        </div>
-      </div>
-    </section>
+    <!-- <section>
+      <div class="hero-body"></div>
+    </section> -->
     <section>
       <div class="container is-max-desktop">
-        <div class="columns is-mobile">
-          <div class="column is-half is-offset-one-quarter">
-            <form @submit.prevent="submitForm()" class="form">
-              <b-field label="ID" type="" message="" align="left">
-                <b-input
-                  v-model="username"
-                  placeholder="아이디"
-                  maxlength="30"
-                  size="is-medium"
-                ></b-input>
-              </b-field>
-              <b-field label="Password" type="" message="" align="left">
-                <b-input
-                  v-model="password"
-                  type="password"
-                  placeholder="비밀번호"
-                  maxlength="30"
-                  size="is-medium"
-                >
-                </b-input>
-              </b-field>
-              <center>
-                <b-button class="btn btn-primary btn-sm">
-                  시험 시작
-                </b-button>
-              </center>
-              <br /><br />
-            </form>
-          </div>
-        </div>
+        <b-notification
+          type="is-info is-light"
+          aria-close-label="Close notification"
+        >
+          <b>
+            시험 시작 전, 시험 외 다른 창이 열려 있을 경우 모두 로그아웃 후 닫아
+            주시기 바랍니다. PC 사용 및 Chrome 브라우져 응시를 권장드립니다.</b
+          >
+        </b-notification>
+        <b-notification
+          type="is-info is-light"
+          aria-close-label="Close notification"
+        >
+          <b>
+            시험응시 중에는 브라우저 내 메뉴를 누르거나 다른 창으로 이동할 경우
+            오류가 발생할 수 있으니 유의하여 주시기 바랍니다.</b
+          >
+        </b-notification>
+        <b-notification
+          type="is-info is-light"
+          aria-close-label="Close notification"
+        >
+          <b>
+            교수/강사님의 공지사항을 참고하시어, 시험시간이 되면 시험시작 버튼을
+            클릭합니다.시험 응시시작은 ‘바로 퀴즈에 응시’ 버튼을 누르는 시점부터
+            시작합니다.</b
+          >
+        </b-notification>
+
+        <b-notification
+          type="is-info is-light"
+          aria-close-label="Close notification"
+        >
+          <b
+            >오른쪽 상단에 시간이 얼마나 남았는지 확인하실 수 있습니다. 적절한
+            시간분배는 필수!</b
+          >
+        </b-notification>
+        <center>
+          <!-- 이 시험시작 버튼은 flask 화면 단으로 이동해야 함 -->
+          <b-button class="btn btn-primary btn-sm" size="is-large">
+            시험 시작
+          </b-button>
+        </center>
       </div>
     </section>
   </div>
 </template>
 <script>
-import { validateEmail } from "@/utils/validation";
-// import { signinUser } from "@/api/auth";
-import axios from "axios";
-export default {
-  data() {
-    return {
-      //form values
-      username: "",
-      password: ""
-    };
-  },
-  computed: {
-    isIdValid() {
-      return validateEmail(this.username); //id가 이메일 형식이 맞는지 체크
-    }
-  },
-  methods: {
-    submitForm() {
-      const loginData = {
-        username: this.username,
-        password: this.password
-      };
-      axios
-        .post("http://localhost:8000/user/signin", loginData, {
-          headers: {
-            "Content-Type": "application/json"
-          }
-        })
-        .then(response => {
-          alert("로그인 성공");
-          console.log(response.data);
-          sessionStorage.setItem("user", JSON.stringify(response.data));
-          this.$router.push({ name: "Service" });
-        })
-        .catch(error => {
-          alert("로그인 실패");
-          console.log(error);
-        })
-        .finally(() => {
-          this.initForm();
-        });
-    },
-    // async submitForm() {
-    //   console.log("sub");
-    //   alert(1);
-    //   try {
-    //     // 비즈니스 로직
-    //     const userData = {
-    //       username: this.username,
-    //       password: this.password
-    //     };
-    //     const data = await signinUser(userData);
-    //     if (data.data.desturl == "admin") {
-    //       alert("관리자 admin 환영합니다.");
-    //     } else if (data.data.desturl == "waittingroom") {
-    //       alert("환영합니다!");
-    //     } else {
-    //       alert("잘못된 정보를 입력하셨거나 이미 로그인중입니다.");
-    //     }
-    //     this.$store.commit("setToken", data.data.token);
-    //     this.$store.commit("setId", data.data.memberinfo.id);
-    //     this.$session.set("userinfo", data.data.memberinfo); //브라우저 localstorage에 멤버정보 저장
-    //     this.$router.push("../" + data.data.desturl);
-    //   } catch (error) {
-    //     // 에러 핸들링할 코드
-    //     console.log(error.response.data);
-    //     this.$router.push("../Signin");
-    //     alert("로그인 중 문제가 발생했습니다.");
-    //   } finally {
-    //     this.initForm();
-    //   }
-    // },
-    initForm() {
-      this.username = "";
-      this.password = "";
-    }
-  }
-};
+export default {};
 </script>
+
 <style>
 .btn {
   color: white;

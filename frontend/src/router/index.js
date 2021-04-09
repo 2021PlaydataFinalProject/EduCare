@@ -120,12 +120,12 @@ const routes = [
   },
   {
     meta: {
-      title: "TestSuperVision"
+      title: "TestSupervision"
     },
     path: "/testsupervision",
-    name: "TestSuperVision",
+    name: "TestSupervision",
     // beforeEnter: onlyAuthUser,
-    component: () => import("../views/TestSuperVision.vue")
+    component: () => import("../views/TestSupervision.vue")
   },
   {
     meta: {

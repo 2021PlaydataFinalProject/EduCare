@@ -85,9 +85,13 @@ export default {
             "Content-Type": "application/json"
           }
         })
-        .then(Headers => {
+        .then(response => {
           alert("로그인 성공");
-          console.log(Headers); //get("Authorization")
+          console.log(response.headers.authorization);
+          sessionStorage.setItem(
+            "Authorization",
+            response.headers.authorization
+          );
           // sessionStorage.setItem("user", JSON.stringify(response.data));
           // this.$router.push({ name: "Service" });
         })

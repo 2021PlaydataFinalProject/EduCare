@@ -9,17 +9,17 @@ import io.educare.entity.TestProblem;
 
 public interface TestProblemService {
 
-	public Boolean insertTProblem(Long testnum, TestProblem tProblem, MultipartFile mfile);
+	public Boolean insertTProblem(Long testnum, TestProblemDto tProblemDto, MultipartFile mfile);
 	
-	public Boolean insertTProblemNoimg(Long testnum, TestProblem tProblem);
+	public Boolean insertTProblemNoimg(Long testnum, TestProblemDto tProblemDto);
 
 	public List<TestProblemDto> getTProblemsByTNum(Long testnum);
 	
 	public TestProblemDto getTProblem(Long pronum);
 	
-	public Boolean updateTProblem(TestProblem tProblem, MultipartFile mfile);
+	public Boolean updateTProblem(TestProblemDto tProblemDto, MultipartFile mfile);
 	
-	public Boolean updateTProblemNoimg(TestProblem tProblem);
+	public Boolean updateTProblemNoimg(TestProblemDto tProblemDto);
 	
 	public Boolean deleteTProblem(Long pronum, Long testnum);
 	

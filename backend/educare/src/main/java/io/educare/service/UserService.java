@@ -17,7 +17,7 @@ public interface UserService {
 	public Boolean insertUserNoimg(UserDto userDto);
 
 	public ResponseEntity<UserDto> login(LoginDto loginDto, HttpServletResponse res);
-
+  
 	public Boolean logout(HttpServletRequest req);	
 	
 	public UserDto getMyUser(String username);

@@ -128,7 +128,7 @@ public class TestProblemServiceImpl implements TestProblemService {
 	@Transactional
 	public Boolean updateTProblem(TestProblemDto tProblemDto, MultipartFile mfile) {
 
-		Optional<TestProblem> findtProblem = tProblemRepository.findById(tProblemDto.getProNum());
+		Optional<TestProblem> findtProblem = tProblemRepository.findById(tProblemDto.getProId());
 		String imgname = null;
 		
 		try {
@@ -137,53 +137,64 @@ public class TestProblemServiceImpl implements TestProblemService {
 					imgname = String.valueOf(System.currentTimeMillis()) + mfile.getOriginalFilename();
 					mfile.transferTo(
 							new File(System.getProperty("user.dir") + "\\src\\main\\webapp\\tproblemimg\\" + imgname));
-					logger.info("{}번 문제 이미지 수정", tProblemDto.getProId());
+					
+					String filename = findtProblem.get().getProImage();
+					File file = new File(System.getProperty("user.dir") + "\\src\\main\\webapp\\tproblemimg\\" + filename);
+									
+					if (file.exists() && !filename.equals("default.png")) {
+						if (file.delete()) {
+							logger.info("{}번 문제 기존 이미지 삭제 완료", tProblemDto.getProId());
+						} else {
+							logger.debug("{}번 문제 기존 이미지 삭제 실패", tProblemDto.getProId());
+						}
+					}
 				} catch (IllegalStateException | IOException e) {
 					e.printStackTrace();
 					logger.error("{}번 문제 이미지 수정 실패", tProblemDto.getProId());
 				}
 				TestProblem testProblem = findtProblem.get();
 				
-				testProblem.setProNum(tProblemDto.);
+				testProblem.setProNum(tProblemDto.getProNum());
 				testProblem.setProDes(tProblemDto.getProDes());
-				testProblem.setProSel(tProblem.getProSel());
+				testProblem.setProSel(tProblemDto.getProSel());
 				testProblem.setProImage(imgname);
-				testProblem.setProAnswer(tProblem.getProAnswer());
+				testProblem.setProAnswer(tProblemDto.getProAnswer());
 
 				tProblemRepository.save(testProblem);
 				return true;
 			} else {
-				logger.error("{} 시험 {}번 문제 미존재 수정실패", tProblem.getTestNum(), tProblem.getProNum());
+				logger.error("{}번 문제 미존재 수정실패", tProblemDto.getProId());
 				return false;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("{} 시험 {}번 문제 수정실패", tProblem.getTestNum(), tProblem.getProNum());
+			logger.error("{}번 문제 수정실패", tProblemDto.getProId());
 			return false;
 		}
 	}
 
 	@Transactional
-	public Boolean updateTProblemNoimg(TestProblem tProblem) {
+	public Boolean updateTProblemNoimg(TestProblemDto tProblemDto) {
 
-		Optional<TestProblem> findtProblem = tProblemRepository.findById(tProblem.getProNum());
+		Optional<TestProblem> findtProblem = tProblemRepository.findById(tProblemDto.getProId());
 		try {
 			if (findtProblem.isPresent()) {
 				TestProblem testProblem = findtProblem.get();
-
-				testProblem.setProDes(tProblem.getProDes());
-				testProblem.setProSel(tProblem.getProSel());
-				testProblem.setProAnswer(tProblem.getProAnswer());
-
-				tProblemRepository.save(tProblem);
+				
+				testProblem.setProNum(tProblemDto.getProNum());
+				testProblem.setProDes(tProblemDto.getProDes());
+				testProblem.setProSel(tProblemDto.getProSel());
+				testProblem.setProAnswer(tProblemDto.getProAnswer());
+				
+				tProblemRepository.save(testProblem);
 				return true;
 			} else {
-				logger.error("{} 시험 {}번 문제 미존재 수정실패", tProblem.getTestNum(), tProblem.getProNum());
+				logger.error("{}번 문제 미존재 수정실패", tProblemDto.getProId());
 				return false;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("{} 시험 {}번 문제 수정실패", tProblem.getTestNum(), tProblem.getProNum());
+			logger.error("{}번 문제 수정실패", tProblemDto.getProId());
 			return false;
 		}
 	}

@@ -9,7 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
 import io.educare.dto.LoginDto;
 import io.educare.dto.UserDto;
 import io.educare.entity.User;
-import io.educare.exception.UserNotFoundException;
 
 public interface UserService {
 	public User insertUser(UserDto userDto, MultipartFile mfile);

@@ -71,12 +71,6 @@ public class UserServiceImpl implements UserService {
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
 		
-		
-//		// jwt 토큰을 쿠키에 넣어서 보내줌
-//		Cookie accessToken = CookieUtil.createCookie(TokenProvider.AUTHORITIES_KEY, jwt);
-//		res.setContentType("text/plain;charset=UTF-8");
-//		res.addCookie(accessToken);
-
 		Optional<User> userOpt = userRepository.findById(authentication.getName());
 
 		if (userOpt.isPresent()) {
@@ -292,7 +286,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Transactional
-	public Boolean deleteUser(String username, HttpServletResponse res) {
+	public Boolean deleteUser(String username) {
 
 		Optional<User> findUser = userRepository.findById(username);
 		try {
@@ -309,10 +303,6 @@ public class UserServiceImpl implements UserService {
 					}
 				}
 				userRepository.delete(findUser.get());
-				// 로그아웃
-				Cookie resetToken = CookieUtil.createCookie(TokenProvider.AUTHORITIES_KEY, null); // 쿠키 auth 값을 null
-				resetToken.setMaxAge(0); // 유효시간을 만료시킴
-				res.addCookie(resetToken); // 응답 헤더에 추가해서 없어지도록 함
 
 				logger.info("{} 회원 탈퇴 완료", username);
 				return true;

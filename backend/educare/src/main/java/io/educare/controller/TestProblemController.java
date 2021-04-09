@@ -60,14 +60,14 @@ public class TestProblemController {
 	
 	@PutMapping("/update")
 	@PreAuthorize("hasAnyRole('INSTRUCTOR')")
-	public ResponseEntity<Boolean> updateTestProblem(TestProblem tProblem, 
+	public ResponseEntity<Boolean> updateTestProblem(TestProblemDto tProblemDto, 
 			@RequestParam(value = "file", required = false) MultipartFile mfile) {
 		
 		Boolean check = null;
 		if (mfile != null) {
-			check = tProblemService.updateTProblem(tProblem, mfile);
+			check = tProblemService.updateTProblem(tProblemDto, mfile);
 		} else {
-			check = tProblemService.updateTProblemNoimg(tProblem);
+			check = tProblemService.updateTProblemNoimg(tProblemDto);
 		}
 		return new ResponseEntity<Boolean>(check, HttpStatus.OK);
 	}

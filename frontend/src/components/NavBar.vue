@@ -178,7 +178,7 @@ export default {
       ] = sessionStorage.getItem("Authorization");
       instance
         .post("http://localhost:8000/user/logout")
-        .then(response => {
+        .then(() => {
           alert("로그아웃 성공");
           console.log(response)
           sessionStorage.removeItem("Authorization");

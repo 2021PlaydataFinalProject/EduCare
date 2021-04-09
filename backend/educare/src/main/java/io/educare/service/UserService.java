@@ -17,7 +17,7 @@ public interface UserService {
 	public Boolean insertUserNoimg(UserDto userDto);
 
 	public ResponseEntity<UserDto> login(LoginDto loginDto, HttpServletResponse res);
-
+  
 	public Boolean logout(HttpServletRequest req);	
 	
 	public UserDto getMyUser(String username);
@@ -30,5 +30,5 @@ public interface UserService {
 	
 	public Boolean updateUserNoimg(UserDto userDto);
 	
-	public Boolean deleteUser(String username, HttpServletResponse res);
+	public Boolean deleteUser(String username);
 }

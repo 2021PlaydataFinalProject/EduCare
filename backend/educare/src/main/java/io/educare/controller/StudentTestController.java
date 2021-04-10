@@ -36,14 +36,14 @@ public class StudentTestController {
 	}
 
 	@GetMapping("/get/{username}/{testnum}")
-	@PreAuthorize("hasAnyRole('INSTRUCTOR','SUTDENT')")
+	@PreAuthorize("hasAnyRole('INSTRUCTOR','STUDENT')")
 	public StudentTest getStudentTest(@PathVariable String username, @PathVariable long testnum) {	//studenttest 객체 반환하는 메서드
 
 		return stTestservice.getStudentTest(username,testnum);
 	}
 
 	@PostMapping("/update-mytest")
-	@PreAuthorize("hasAnyRole('SUTDENT')")	//답안 등록은 학생들만 가능
+	@PreAuthorize("hasAnyRole('STUDENT')")	//답안 등록은 학생들만 가능
 	public String updateStudentTest(StudentTestDto sttDto, 
 			@RequestParam(value = "file", required = false) MultipartFile mfile) {	//학생이 시험답안, 영상 제출할때 request 처리메소드
 

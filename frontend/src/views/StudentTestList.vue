@@ -22,7 +22,10 @@
       >
         <div id="app" class="container">
           <section>
-            <b-table :data="isEmpty ? [] : apps" :hoverable="isHoverable">
+            <b-table
+              :data="isEmpty ? [] : studenttest"
+              :hoverable="isHoverable"
+            >
               <b-table-column
                 field="testNum"
                 label="시험번호"
@@ -47,7 +50,11 @@
                 centered
               >
                 <b-field>
-                  <span v-if="props.row.testStatus == 0" class="tag is-warn">
+                  <span
+                    v-if="props.row.testStatus == 0"
+                    class="tag is-warn"
+                    v-on:click="takeStudentTest(props.row.testNum)"
+                  >
                     시험 응시 하기
                   </span>
                   <span
@@ -107,6 +114,7 @@
 import CardComponent from "@/components/CardComponent";
 import TitleBar from "@/components/TitleBar";
 import HeroBar from "@/components/HeroBar";
+import axios from "axios";
 
 export default {
   name: "StudentTestList",
@@ -115,10 +123,43 @@ export default {
     TitleBar,
     CardComponent
   },
+  data: function() {
+    return {
+      stutest: ""
+    };
+  },
   computed: {
     titleStack() {
       return ["Student", "StudentTestList"];
     }
+  },
+  methods: {
+    getStudentTest() {
+      axios
+        .get("http://localhost:8000/studenttest/get/dkwjd/1", {
+          headers: {
+            Authorization: sessionStorage.getItem("Authorization")
+          }
+        })
+        .then(response => {
+          this.studenttest = response.data;
+          console.log(this.studenttest);
+          // alert(this.test);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+    takeStudentTest(testNum) {
+      //  수정버튼 클릭시 ModifyTest로 이동
+      return this.$router.push({
+        name: "Test Guide",
+        params: { testNum: testNum }
+      });
+    }
+  },
+  mounted() {
+    this.getStudentTest();
   }
 };
 </script>

@@ -35,7 +35,7 @@ public class TestProblemServiceImpl implements TestProblemService {
 	}
 
 	@Transactional
-	public Boolean insertTProblem(Long testnum, TestProblemDto tProblemDto, MultipartFile mfile) {
+	public Boolean insertTProblem(long testnum, TestProblemDto tProblemDto, MultipartFile mfile) {
 
 		String imgname = null;
 		try {
@@ -77,7 +77,7 @@ public class TestProblemServiceImpl implements TestProblemService {
 	}
 
 	@Transactional
-	public Boolean insertTProblemNoimg(Long testnum, TestProblemDto tProblemDto) {
+	public Boolean insertTProblemNoimg(long testnum, TestProblemDto tProblemDto) {
 		Optional<Test> testOpt = testRepository.findById(testnum);
 		TestProblem newtProblem = new TestProblem();
 		
@@ -107,7 +107,7 @@ public class TestProblemServiceImpl implements TestProblemService {
 		}
 	}
 
-	public List<TestProblemDto> getTProblemsByTNum(Long testnum) {
+	public List<TestProblemDto> getTProblemsByTNum(long testnum) {
 
 		List<TestProblem> tProblemlist = tProblemRepository.findAllTProblemByTNum(testnum);
 		List<TestProblemDto> tProblemDto = tProblemlist.stream().map(t -> new TestProblemDto(t.getProId(),
@@ -117,7 +117,7 @@ public class TestProblemServiceImpl implements TestProblemService {
 		return tProblemDto;
 	}
 
-	public TestProblemDto getTProblem(Long proid) {
+	public TestProblemDto getTProblem(long proid) {
 
 		Optional<TestProblem> tProblemOpt = tProblemRepository.findById(proid);
 		TestProblemDto tProblemDto = mapper.map(tProblemOpt.get(), TestProblemDto.class);
@@ -200,7 +200,7 @@ public class TestProblemServiceImpl implements TestProblemService {
 	}
 
 	@Transactional
-	public Boolean deleteTProblem(Long proid, Long testnum) {
+	public Boolean deleteTProblem(long proid, long testnum) {
 
 		Optional<TestProblem> TProblemOpt = tProblemRepository.findById(proid);
 		Optional<Test> testOpt = testRepository.findById(testnum);
@@ -217,13 +217,16 @@ public class TestProblemServiceImpl implements TestProblemService {
 					}
 				}
 				List<TestProblem> problemlist = testOpt.get().getProblemList();
-				System.out.println(problemlist);
+				int idx = 0; 
 				
-				for (int i = 0; i < problemlist.size(); i++) {
-					if (problemlist.get(i).getProId() == proid) {
-						problemlist.remove(i);
-					} 
+				while(idx < problemlist.size()) {
+					if (problemlist.get(idx).getProId() == proid) {
+						problemlist.remove(idx);
+						break;
+					}
+					idx += 1;
 				}
+				
 				tProblemRepository.delete(TProblemOpt.get());
 				logger.info("{} 시험문제 삭제 완료", proid);
 				return true;

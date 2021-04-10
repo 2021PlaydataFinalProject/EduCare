@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import io.educare.dto.TestProblemDto;
-import io.educare.entity.TestProblem;
 import io.educare.service.TestProblemService;
 
 @RestController
@@ -31,7 +30,7 @@ public class TestProblemController {
 	
 	@PostMapping("/create/{testnum}")
 	@PreAuthorize("hasAnyRole('INSTRUCTOR')")
-	public ResponseEntity<Boolean> insertTestProblem(@PathVariable Long testnum, TestProblemDto tProblemDto, 
+	public ResponseEntity<Boolean> insertTestProblem(@PathVariable long testnum, TestProblemDto tProblemDto, 
 			@RequestParam(value = "file", required = false) MultipartFile mfile) {
 		
 		Boolean check = null;
@@ -46,13 +45,13 @@ public class TestProblemController {
 	
 	@GetMapping("/get")
 	@PreAuthorize("hasAnyRole('INSTRUCTOR')")
-	public ResponseEntity<List<TestProblemDto>> getTProblemsByTNum(@RequestParam Long testnum) {
+	public ResponseEntity<List<TestProblemDto>> getTProblemsByTNum(@RequestParam long testnum) {
 		return new ResponseEntity<List<TestProblemDto>>(tProblemService.getTProblemsByTNum(testnum), HttpStatus.OK);
 	}
 	
 	@GetMapping("/get/{proid}")
 	@PreAuthorize("hasAnyRole('INSTRUCTOR')")
-	public ResponseEntity<TestProblemDto> getTestProblem(@PathVariable Long proid) {
+	public ResponseEntity<TestProblemDto> getTestProblem(@PathVariable long proid) {
 		return new ResponseEntity<TestProblemDto>(tProblemService.getTProblem(proid), HttpStatus.OK);
 	}
 	
@@ -72,7 +71,7 @@ public class TestProblemController {
 	
 	@DeleteMapping("/delete")
 	@PreAuthorize("hasAnyRole('INSTRUCTOR')")
-	public ResponseEntity<Boolean> deleteTestProblem(@RequestParam Long proid, @RequestParam Long testnum) {
+	public ResponseEntity<Boolean> deleteTestProblem(@RequestParam long proid, @RequestParam long testnum) {
 		return new ResponseEntity<Boolean>(tProblemService.deleteTProblem(proid, testnum), HttpStatus.NO_CONTENT);
 	}
 }

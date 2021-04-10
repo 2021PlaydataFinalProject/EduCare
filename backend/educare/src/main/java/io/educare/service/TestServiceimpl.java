@@ -117,12 +117,16 @@ public class TestServiceimpl implements TestService {
 			if (findTest.isPresent() && userOpt.isPresent()) {
 				Instructor ins = (Instructor) userOpt.get();
 				List<Test> testlist = ins.getTestList();
-
-				for (int i = 0; i < testlist.size(); i++) {
-					if (testlist.get(i).getTestNum() == testnum) {
-						testlist.remove(i);						
-					} 
+				int idx = 0; 
+				
+				while(idx < testlist.size()) {
+					if (testlist.get(idx).getTestNum() == testnum) {
+						testlist.remove(idx);
+						break;
+					}
+					idx += 1;
 				}
+				
 				testRepository.delete(findTest.get());
 				logger.info("{} 시험 삭제 완료", testnum);
 				return true;

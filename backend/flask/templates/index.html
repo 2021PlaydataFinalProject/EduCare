@@ -78,6 +78,9 @@
       <h1 class="title pt-3">시험보기</h1>
       <!-- Buefy components goes here -->
       <p class="has-text-right">남은시간 00:00:00</p>
+      {% for element in recordtime%}
+        <p>{{element}}</p>
+      {% endfor %}
       <div class="tile is-ancestor">
       <div class="tile is-4 is-vertical is-parent">
         <div class="tile is-child box">
@@ -106,58 +109,114 @@
       <div class="tile is-parent">
         <div class="tile is-child box">
           <p class="title is-5">시험 문제</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam semper diam at erat pulvinar, at pulvinar felis blandit. Vestibulum volutpat tellus diam, consequat gravida libero rhoncus ut. Morbi maximus, leo sit amet vehicula eleifend, nunc dui porta orci, quis semper odio felis ut quam.</p>
-        </br>
         <!-- 예시 -->
+          <br>
+          <br>
+          {{ data_list[0] }} 
+          <br>
+          <br>
+
           <b-field>
-            <b-radio v-model="radio"
-                native-value="default">
-                Default
+            <b-radio v-model="form.radio1"
+                native-value="①">
+                {{ data_list[1][0] }}
             </b-radio>
         </b-field>
         <b-field>
-            <b-radio v-model="radio"
-                native-value="info"
+            <b-radio v-model="form.radio1"
+                native-value="②"
                 type="is-info">
-                Info
+                {{ data_list[1][1] }}
             </b-radio>
         </b-field>
         <b-field>
-            <b-radio v-model="radio"
-                native-value="success"
+            <b-radio v-model="form.radio1"
+                native-value="③"
                 type="is-success">
-                Success
+                {{ data_list[1][2] }}
             </b-radio>
         </b-field>
         <b-field>
-            <b-radio v-model="radio"
-                native-value="danger"
-                type="is-danger">
-                Danger
-            </b-radio>
-        </b-field>
-        <b-field>
-            <b-radio v-model="radio"
-                native-value="warning"
+            <b-radio v-model="form.radio1"
+                native-value="④"
                 type="is-warning">
-                Warning
+                {{ data_list[1][3] }}
             </b-radio>
         </b-field>
+        
+        <br>
+        <br>
+          {{ data_list[2] }}
+        <br>
+        <br>
+        
+        <b-field>
+          <b-radio v-model="form.radio2"
+              native-value="①">
+              {{ data_list[3][0] }}
+          </b-radio>
+      </b-field>
+      <b-field>
+          <b-radio v-model="form.radio2"
+              native-value="②"
+              type="is-info">
+              {{ data_list[3][1] }}
+          </b-radio>
+      </b-field>
+      <b-field>
+          <b-radio v-model="form.radio2"
+              native-value="③"
+              type="is-success">
+              {{ data_list[3][2] }}
+          </b-radio>
+      </b-field>
+      <b-field>
+          <b-radio v-model="form.radio2"
+              native-value="④"
+              type="is-warning">
+              {{ data_list[3][3] }}
+          </b-radio>
+      </b-field>
+
+        
         </br>
-          <b-button>답안제출</b-button>
+          <b-button @click="submit()">답안제출</b-button>
         </div>
       </div>
     </div>
   <script>
+  
   const vueApp = new Vue({
     el: '#app',
     //axios 들어가기 form data post로 보내고, get으로 문제 출력하고, 영상 파일에 관련된거 입력하고
     //spring boot post json key-> answer, 문제, 
-    data() { 
-      return {
-      
-    };
-  }})
+    data: { 
+      form: {
+        radio1: '',
+        radio2: ''
+      },
+    },
+    methods: {
+      submit() {
+        alert(1)
+        alert(JSON.stringify(this.form))
+        axios.post("http://localhost:8000/user/logout",  this.form, {
+          headers: {
+            "Content-Type": `application/json`,
+          }
+        })  
+        .then((res) => {
+          alert("답안 제출 성공")
+          console.log(res);
+        })
+        .catch(error => {
+          alert("답안 제출 실패");
+          console.log(error);
+        });
+      }
+    }
+})
+
   </script>
   </body>
   </html>

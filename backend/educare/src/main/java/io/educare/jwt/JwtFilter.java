@@ -7,9 +7,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
 
-import io.educare.util.CookieUtil;
-
-import javax.servlet.http.Cookie;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -20,6 +17,8 @@ import java.io.IOException;
 public class JwtFilter extends GenericFilterBean {
 
 	private static final Logger logger = LoggerFactory.getLogger(JwtFilter.class);
+
+	public static final String AUTHORIZATION_HEADER = "Authorization";
 
 	private TokenProvider tokenProvider;
 
@@ -47,14 +46,12 @@ public class JwtFilter extends GenericFilterBean {
 
 	// HttpServletRequest 안에 쿠키에서 jwt 부분만 뽑는 역할
 	private String resolveToken(HttpServletRequest request) {
-		Cookie cookie = CookieUtil.getCookie(request, "auth");
 
-		if (cookie != null) {
-			String token = cookie.getValue();
-			if (StringUtils.hasText(token)) {
-				return token;
-			}
+		String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
+		if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+			return bearerToken.substring(7);
 		}
 		return null;
 	}
+
 }

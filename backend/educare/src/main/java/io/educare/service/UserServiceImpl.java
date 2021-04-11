@@ -6,13 +6,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -26,10 +28,11 @@ import io.educare.dto.LoginDto;
 import io.educare.dto.UserDto;
 import io.educare.entity.Instructor;
 import io.educare.entity.Student;
+import io.educare.entity.Test;
 import io.educare.entity.User;
+import io.educare.jwt.JwtFilter;
 import io.educare.jwt.TokenProvider;
 import io.educare.repository.UserRepository;
-import io.educare.util.CookieUtil;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -50,7 +53,7 @@ public class UserServiceImpl implements UserService {
 		this.mapper = mapper;
 	}
 
-	public UserDto login(LoginDto loginDto, HttpServletResponse res) {
+	public ResponseEntity<UserDto> login(LoginDto loginDto, HttpServletResponse res) {
 		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
 				loginDto.getUsername(), loginDto.getPassword());
 
@@ -63,49 +66,29 @@ public class UserServiceImpl implements UserService {
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		// 해당 인증 정보를 기반으로 jwt 토큰을 생성
 		String jwt = tokenProvider.createToken(authentication);
-		// jwt 토큰을 쿠키에 넣어서 보내줌
-		Cookie accessToken = CookieUtil.createCookie(TokenProvider.AUTHORITIES_KEY, jwt);
-		res.addCookie(accessToken);
-
+		
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
+		
 		Optional<User> userOpt = userRepository.findById(authentication.getName());
 
 		if (userOpt.isPresent()) {
 			UserDto userDto = mapper.map(userOpt.get(), UserDto.class);
-			return userDto;
+			return new ResponseEntity<>(userDto, httpHeaders, HttpStatus.OK);
 		} else {
 			logger.error("로그인 유저 정보 요청 실패");
 			return null;
 		}
 	}
-
-	public Boolean logout(HttpServletResponse res) {
-		try {
-			Cookie resetToken = CookieUtil.createCookie(TokenProvider.AUTHORITIES_KEY, null); // 쿠키 auth 값을 null
-			resetToken.setMaxAge(0); // 유효시간을 만료시킴
-			res.addCookie(resetToken); // 응답 헤더에 추가해서 없어지도록 함
-			return true;
+	
+	public Boolean logout(HttpServletRequest req) {
+		try { return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("로그아웃 실패");
 			return false;
 		}
 	}
-	
-//	public Boolean logout(HttpServletResponse res, HttpServletRequest req) {
-//		try {
-//
-//			System.out.println(req.getCookies());
-//
-//			Cookie resetToken = CookieUtil.createCookie(TokenProvider.AUTHORITIES_KEY, null); // 쿠키 auth 값을 null
-//			resetToken.setMaxAge(0); // 유효시간을 만료시킴
-//			res.addCookie(resetToken); // 응답 헤더에 추가해서 없어지도록 함
-//			return true;
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			logger.error("로그아웃 실패");
-//			return false;
-//		}
-//	}
 
 	// 이미 같은 username으로 가입된 유저가 있는 지 확인하고, UserDto 객체의 정보들을 기반으로 권한 객체와 유저 객체를 생성하여
 	// Database에 저장
@@ -127,7 +110,6 @@ public class UserServiceImpl implements UserService {
 				}
 
 				if (userDto.getRole().equals("student")) {
-
 					Student student = new Student();
 					student.setUsername(userDto.getUsername());
 					student.setPassword(passwordEncoder.encode(userDto.getPassword()));
@@ -137,7 +119,6 @@ public class UserServiceImpl implements UserService {
 					userRepository.save(student);
 					return true;
 				} else {
-
 					Instructor instructor = new Instructor();
 					instructor.setUsername(userDto.getUsername());
 					instructor.setPassword(passwordEncoder.encode(userDto.getPassword()));
@@ -302,7 +283,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Transactional
-	public Boolean deleteUser(String username, HttpServletResponse res) {
+	public Boolean deleteUser(String username) {
 
 		Optional<User> findUser = userRepository.findById(username);
 		try {
@@ -319,10 +300,10 @@ public class UserServiceImpl implements UserService {
 					}
 				}
 				userRepository.delete(findUser.get());
-				// 로그아웃
-				Cookie resetToken = CookieUtil.createCookie(TokenProvider.AUTHORITIES_KEY, null); // 쿠키 auth 값을 null
-				resetToken.setMaxAge(0); // 유효시간을 만료시킴
-				res.addCookie(resetToken); // 응답 헤더에 추가해서 없어지도록 함
+				
+				Instructor ins = (Instructor) findUser.get();
+				List<Test> testlist = ins.getTestList();
+				System.out.println(testlist.size());
 
 				logger.info("{} 회원 탈퇴 완료", username);
 				return true;

@@ -42,4 +42,5 @@ public class UserDto {
    @NotNull
    @Size(min = 2, max = 50)
    private String role;
+   
 }

@@ -34,25 +34,32 @@ public class TestServiceimpl implements TestService {
 	}
 
 	@Transactional
-	public Boolean insertTest(String username, Test test) {
+	public Long insertTest(String username, TestDto testDto) {
 		Optional<User> userOpt = userRepository.findById(username);
 		
 		try {
 		if (userOpt.isPresent()) {
 			Instructor ins = (Instructor) userOpt.get();
-			test.setInsId(ins);
-			Test savedtest = testRepository.save(test);
+			Test newTest = new Test();
+			
+			newTest.setTestName(testDto.getTestName());
+			newTest.setStartTime(testDto.getStartTime());
+			newTest.setEndTime(testDto.getEndTime());
+			newTest.setTestGuide(testDto.getTestGuide());
+			newTest.setInsId(ins);
+			
+			Test savedtest = testRepository.save(newTest);
 			ins.getTestList().add(savedtest);
 			logger.info("{} 강사 시험 등록 성공", username);
-			return true;
+			return savedtest.getTestNum();
 		} else {
 			logger.info("{} 강사 시험 등록 실패", username);
-			return false;
+			return null;
 		}
 		} catch(Exception e) {
 			e.printStackTrace();
 			logger.info("{} 강사 시험 등록 실패", username);
-			return false;
+			return null;
 		}
 	}
 
@@ -74,32 +81,32 @@ public class TestServiceimpl implements TestService {
 	}
 
 	@Transactional
-	public Boolean updateTest(Test test) {
-		Optional<Test> testOpt = testRepository.findById(test.getTestNum());
+	public Boolean updateTest(TestDto testDto) {
+		Optional<Test> testOpt = testRepository.findById(testDto.getTestNum());
 
 		try {
 			if (testOpt.isPresent()) {
 				Test savedTest = testOpt.get();
 
-				savedTest.setStartTime(test.getStartTime());
-				savedTest.setEndTime(test.getEndTime());
-				savedTest.setTestGuide(test.getTestGuide());
-				savedTest.setTestName(test.getTestName());
+				savedTest.setStartTime(testDto.getStartTime());
+				savedTest.setEndTime(testDto.getEndTime());
+				savedTest.setTestGuide(testDto.getTestGuide());
+				savedTest.setTestName(testDto.getTestName());
 
 				testRepository.save(savedTest);
-				logger.info("{} 시험 수정 성공", test.getTestNum());
+				logger.info("{} 시험 수정 성공", testDto.getTestNum());
 				return true;
 			} else {
-				logger.info("{} 강사 수정 실패", test.getTestNum());
+				logger.info("{} 강사 수정 실패", testDto.getTestNum());
 				return false;
 			}
 		} catch (Exception e) {
-			logger.error("{} 강사 수정 실패", test.getTestNum());
+			logger.error("{} 강사 수정 실패", testDto.getTestNum());
 			e.printStackTrace();
 			return false;
 		}
 	}
-
+	
 	@Transactional
 	public Boolean deleteTest(String username, Long testnum) {
 
@@ -110,16 +117,16 @@ public class TestServiceimpl implements TestService {
 			if (findTest.isPresent() && userOpt.isPresent()) {
 				Instructor ins = (Instructor) userOpt.get();
 				List<Test> testlist = ins.getTestList();
-
-				for (int i = 0; i < testlist.size(); i++) {
-					Integer idx = testlist.indexOf(findTest.get());
-					if (idx != -1) {
+				int idx = 0; 
+				
+				while(idx < testlist.size()) {
+					if (testlist.get(idx).getTestNum() == testnum) {
 						testlist.remove(idx);
-					} else {
-						logger.error("{} 시험 삭제 실패", testnum);
-						return false;
+						break;
 					}
+					idx += 1;
 				}
+				
 				testRepository.delete(findTest.get());
 				logger.info("{} 시험 삭제 완료", testnum);
 				return true;
@@ -132,4 +139,5 @@ public class TestServiceimpl implements TestService {
 			return false;
 		}
 	}
+
 }

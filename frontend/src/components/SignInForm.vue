@@ -87,9 +87,13 @@ export default {
         })
         .then(response => {
           alert("로그인 성공");
-          console.log(response.data);
-          sessionStorage.setItem("user", JSON.stringify(response.data));
-          this.$router.push({ name: "Service" });
+          console.log(response.headers.authorization);
+          sessionStorage.setItem(
+            "Authorization",
+            response.headers.authorization
+          );
+          // sessionStorage.setItem("user", JSON.stringify(response.data));
+          // this.$router.push({ name: "Service" });
         })
         .catch(error => {
           alert("로그인 실패");

@@ -3,17 +3,16 @@ package io.educare.service;
 import java.util.List;
 
 import io.educare.dto.TestDto;
-import io.educare.entity.Test;
 
 public interface TestService {
 
-	public Boolean insertTest(String username, Test test);
+	public Long insertTest(String username, TestDto testDto);
 	
 	public List<TestDto> getTestsByUsername(String username);
 	
 	public TestDto getTest(Long testnum);
 	
-	public Boolean updateTest(Test test);
+	public Boolean updateTest(TestDto testDto);
 	
 	public Boolean deleteTest(String username, Long testnum);
 	

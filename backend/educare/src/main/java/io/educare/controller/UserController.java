@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,20 +47,14 @@ public class UserController {
 
 	@PostMapping("/signin")
 	public ResponseEntity<UserDto> login(@RequestBody LoginDto loginDto, HttpServletResponse res) {
-		return new ResponseEntity<>(userService.login(loginDto, res), HttpStatus.OK);
-	}
-
-	@PostMapping("/logout")
-	@PreAuthorize("hasAnyRole('STUDENT','INSTRUCTOR')")
-	public ResponseEntity<Boolean> logout(HttpServletResponse res) {
-		return new ResponseEntity<Boolean>(userService.logout(res), HttpStatus.NO_CONTENT);
+		return userService.login(loginDto, res);
 	}
 	
-//	@PostMapping("/logout")
-//	@PreAuthorize("hasAnyRole('STUDENT','INSTRUCTOR')")
-//	public ResponseEntity<Boolean> logout(HttpServletResponse res, HttpServletRequest req) {
-//		return new ResponseEntity<Boolean>(userService.logout(res, req), HttpStatus.NO_CONTENT);
-//	}
+	@PostMapping("/logout")
+	@PreAuthorize("hasAnyRole('STUDENT','INSTRUCTOR')")
+	public ResponseEntity<Boolean> logout(HttpServletRequest req) {
+		return new ResponseEntity<Boolean>(userService.logout(req), HttpStatus.NO_CONTENT);
+	}
 
 	@GetMapping("/myinfo") // 프론트에서 로그인한 유저의 username 보내 조회
 	@PreAuthorize("hasAnyRole('STUDENT','INSTRUCTOR')")
@@ -96,8 +89,8 @@ public class UserController {
 
 	@DeleteMapping("/delete")
 	@PreAuthorize("hasAnyRole('STUDENT','INSTRUCTOR')")
-	public ResponseEntity<Boolean> deleteUser(@RequestParam String username, HttpServletResponse res) {
-		return new ResponseEntity<Boolean>(userService.deleteUser(username, res), HttpStatus.NO_CONTENT);
+	public ResponseEntity<Boolean> deleteUser(@RequestParam String username) {
+		return new ResponseEntity<Boolean>(userService.deleteUser(username), HttpStatus.NO_CONTENT);
 	}
 
 }

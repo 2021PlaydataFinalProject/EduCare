@@ -1135,3 +1135,46 @@ Caused by: org.apache.maven.model.building.ModelBuildingException: 1 problem was
 2021-04-08 16:26:05,871 [Worker-706: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
 2021-04-08 16:26:05,871 [Worker-706: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
 2021-04-08 16:26:05,871 [Worker-706: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\ITStudy\02.git\2021PlaydataFinalProject_EduCare\backend\educare\src\test\resources
+2021-04-08 21:24:17,085 [Worker-762: Building workspace] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.maven.ide.eclipse.wtp.WarLifecycleMapping lifecycle mapping for MavenProject: educare:educare:0.0.1-SNAPSHOT @ C:\ITStudy\02.git\2021PlaydataFinalProject_EduCare\backend\educare\pom.xml.
+2021-04-08 21:24:26,452 [Worker-762: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2021-04-08 21:24:26,458 [Worker-762: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2021-04-08 21:24:26,459 [Worker-762: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2021-04-08 21:24:26,462 [Worker-762: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2021-04-08 21:24:26,462 [Worker-762: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\ITStudy\02.git\2021PlaydataFinalProject_EduCare\backend\educare\src\test\resources
+2021-04-08 21:24:26,463 [Worker-762: Building workspace] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of educare
+2021-04-08 21:24:26,463 [Worker-762: Building workspace] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for educare
+2021-04-08 21:24:26,468 [Worker-762: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2021-04-08 21:24:31,743 [Worker-760: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2021-04-08 21:24:31,750 [Worker-760: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2021-04-08 21:24:31,790 [Worker-760: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2021-04-08 21:24:31,795 [Worker-760: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2021-04-08 21:24:31,795 [Worker-760: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\ITStudy\02.git\2021PlaydataFinalProject_EduCare\backend\educare\src\test\resources
+2021-04-08 21:25:19,723 [Worker-760: Launching educare - EducareApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2021-04-08 21:25:19,724 [Worker-760: Launching educare - EducareApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2021-04-08 21:25:19,729 [Worker-760: Launching educare - EducareApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2021-04-08 21:25:19,732 [Worker-760: Launching educare - EducareApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2021-04-08 21:25:19,732 [Worker-760: Launching educare - EducareApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\ITStudy\02.git\2021PlaydataFinalProject_EduCare\backend\educare\src\test\resources
+2021-04-08 21:28:51,828 [Worker-763: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2021-04-08 21:28:51,829 [Worker-763: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2021-04-08 21:28:51,830 [Worker-763: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2021-04-08 21:28:51,833 [Worker-763: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2021-04-08 21:28:51,833 [Worker-763: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\ITStudy\02.git\2021PlaydataFinalProject_EduCare\backend\educare\src\test\resources
+2021-04-08 22:26:42,803 [Worker-781: Building workspace] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.maven.ide.eclipse.wtp.WarLifecycleMapping lifecycle mapping for MavenProject: educare:educare:0.0.1-SNAPSHOT @ C:\ITStudy\02.git\2021PlaydataFinalProject_EduCare\backend\educare\pom.xml.
+2021-04-08 22:26:51,242 [Worker-781: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2021-04-08 22:26:51,242 [Worker-781: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2021-04-08 22:26:51,250 [Worker-781: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2021-04-08 22:26:51,349 [Worker-781: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2021-04-08 22:26:51,353 [Worker-781: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2021-04-08 22:26:51,353 [Worker-781: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2021-04-08 22:26:51,354 [Worker-781: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\ITStudy\02.git\2021PlaydataFinalProject_EduCare\backend\educare\src\test\resources
+2021-04-08 22:26:51,354 [Worker-781: Building workspace] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of educare
+2021-04-08 22:26:51,354 [Worker-781: Building workspace] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for educare
+2021-04-08 22:26:51,361 [Worker-781: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2021-04-08 22:26:51,361 [Worker-781: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2021-04-08 22:26:59,684 [Worker-787: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2021-04-08 22:26:59,685 [Worker-787: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2021-04-08 22:26:59,692 [Worker-787: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2021-04-08 22:26:59,727 [Worker-787: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2021-04-08 22:26:59,730 [Worker-787: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2021-04-08 22:26:59,730 [Worker-787: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2021-04-08 22:26:59,731 [Worker-787: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\ITStudy\02.git\2021PlaydataFinalProject_EduCare\backend\educare\src\test\resources

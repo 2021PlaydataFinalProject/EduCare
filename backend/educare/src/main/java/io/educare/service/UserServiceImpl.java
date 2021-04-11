@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -29,11 +28,11 @@ import io.educare.dto.LoginDto;
 import io.educare.dto.UserDto;
 import io.educare.entity.Instructor;
 import io.educare.entity.Student;
+import io.educare.entity.Test;
 import io.educare.entity.User;
 import io.educare.jwt.JwtFilter;
 import io.educare.jwt.TokenProvider;
 import io.educare.repository.UserRepository;
-import io.educare.util.CookieUtil;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -111,7 +110,6 @@ public class UserServiceImpl implements UserService {
 				}
 
 				if (userDto.getRole().equals("student")) {
-
 					Student student = new Student();
 					student.setUsername(userDto.getUsername());
 					student.setPassword(passwordEncoder.encode(userDto.getPassword()));
@@ -121,7 +119,6 @@ public class UserServiceImpl implements UserService {
 					userRepository.save(student);
 					return true;
 				} else {
-
 					Instructor instructor = new Instructor();
 					instructor.setUsername(userDto.getUsername());
 					instructor.setPassword(passwordEncoder.encode(userDto.getPassword()));
@@ -303,6 +300,10 @@ public class UserServiceImpl implements UserService {
 					}
 				}
 				userRepository.delete(findUser.get());
+				
+				Instructor ins = (Instructor) findUser.get();
+				List<Test> testlist = ins.getTestList();
+				System.out.println(testlist.size());
 
 				logger.info("{} 회원 탈퇴 완료", username);
 				return true;

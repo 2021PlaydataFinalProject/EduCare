@@ -6,7 +6,7 @@ import io.educare.dto.TestDto;
 
 public interface TestService {
 
-	public Boolean insertTest(String username, TestDto testDto);
+	public Long insertTest(String username, TestDto testDto);
 	
 	public List<TestDto> getTestsByUsername(String username);
 	

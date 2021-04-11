@@ -96,6 +96,7 @@
           </br>
             <b-field label="녹화영상">
               <input
+                v-model="form.file"
                 type="file"
                 id="file"
                 ref="file"
@@ -109,7 +110,6 @@
       <div class="tile is-parent">
         <div class="tile is-child box">
           <p class="title is-5">시험 문제</p>
-        <!-- 예시 -->
           <br>
           <br>
           {{ data_list[0] }} 
@@ -193,24 +193,27 @@
     data: { 
       form: {
         radio1: '',
-        radio2: ''
+        radio2: '',
+        file: ''
       },
     },
     methods: {
       submit() {
         alert(1)
         alert(JSON.stringify(this.form))
+        // alert(JSON.stringify(this.file))
         axios.post("http://localhost:8000/user/logout",  this.form, {
           headers: {
             "Content-Type": `application/json`,
+            "Content-Type": `multipart/form-data`,
           }
         })  
         .then((res) => {
-          alert("답안 제출 성공")
+          alert("답안,영상,부정행위 시간 보내기 성공")
           console.log(res);
         })
         .catch(error => {
-          alert("답안 제출 실패");
+          alert("답안,영상,부정행위 시간 보내기 실패");
           console.log(error);
         });
       }

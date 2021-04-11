@@ -208,6 +208,7 @@ export default {
   },
   data() {
     return {
+      aa: "",
       labelPosition: "on-border",
       isLoading: false,
       form: {
@@ -235,12 +236,12 @@ export default {
   methods: {
     submitForm() {
       const addtestData = {
-        username: this.username,
-        testnum: this.testnum,
-        testname: this.testname,
-        endtime: this.endtime,
-        starttime: this.starttime,
-        testguide: this.testguide
+        userName: this.userName,
+        testNum: this.testNum,
+        testName: this.testName,
+        endTime: this.endTime,
+        startTime: this.startTime,
+        testGuide: this.testGuide
       };
       axios
         .post(
@@ -252,11 +253,10 @@ export default {
             }
           }
         )
-        .then(Headers => {
+        .then(response => {
           alert("시험 생성 성공!");
-          console.log(Headers); //get("Authorization")
-          // sessionStorage.setItem("user", JSON.stringify(response.data));
-          this.$router.push({ name: "InstructorTest" });
+          console.log(response.data) -
+            this.$router.push({ name: "InstructorTest" });
         })
         .catch(error => {
           alert("시험 생성 실패");
@@ -268,7 +268,7 @@ export default {
     },
     submitForm2() {
       const addtestproblemData = {
-        strtnum: this.strtnum,
+        testnum: this.testnum,
         proId: this.proId,
         pronum: this.pronum,
         proDes: this.proDes,
@@ -276,12 +276,17 @@ export default {
         proImage: this.proImage,
         proAnswer: this.proAnswer
       };
+
       axios
-        .post("http://localhost:8000/testpro/create/", addtestproblemData, {
-          // headers: {
-          //   "Content-Type": "application/json"
-          // }
-        })
+        .post(
+          "http://localhost:8000/testpro/create/" + this.aa,
+          addtestproblemData,
+          {
+            // headers: {
+            //   "Content-Type": "application/json"
+            // }
+          }
+        )
         .then(Headers => {
           alert("시험 문제 생성 성공!");
           console.log(Headers); //get("Authorization")

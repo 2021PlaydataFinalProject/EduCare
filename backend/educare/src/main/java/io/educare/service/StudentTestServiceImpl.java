@@ -1,8 +1,13 @@
 package io.educare.service;
 
+import static org.hamcrest.CoreMatchers.nullValue;
+
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,9 +16,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import io.educare.dto.StudentTestDto;
+import io.educare.dto.UserDto;
 import io.educare.entity.Student;
 import io.educare.entity.StudentTest;
 import io.educare.entity.Test;
+import io.educare.entity.User;
 import io.educare.repository.StudentRepository;
 import io.educare.repository.StudentTestRepository;
 import io.educare.repository.TestRepository;
@@ -50,10 +57,10 @@ public class StudentTestServiceImpl implements StudentTestService {
 				studentTest.setStuId(st);
 				studentTest.setTestNum(test);
 				
-				if(studentTestRepository.save(studentTest)==null) {
+				if(studentTestRepository.save(studentTest) == null) {
 					logger.info("{} 학생 시험 매칭 등록 실패");
 					return false;
-				}else {
+				} else {
 					logger.info("{} 학생 시험 매칭 등록 성공", studentTest.getStTestNum());
 					return true;
 				}
@@ -63,26 +70,48 @@ public class StudentTestServiceImpl implements StudentTestService {
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
+			logger.error("{} 학생 시험 매칭 등록 실패");
 			return false;
 		}
 		
 	}
 	
-	public StudentTest getStudentTest(String username, long testNum) {	//id, testnum으로 studenttest 객체 정보 반환
+	public StudentTestDto getStudentTest(String username, long testNum) {
 		
 		try {
 			Optional<StudentTest> stTestOpt = studentTestRepository.findStudentTestByUserNameAndTestNum(username,testNum);
-			StudentTest stTest = stTestOpt.get();
 			
-			if(stTest==null) {
+			if(stTestOpt.isPresent()) {
+				StudentTest stTest = stTestOpt.get();
+			
+				List<String> cheatTimes = Arrays.asList(stTest.getCheatTime().split(","));
+				List<String> testAnswers = Arrays.asList(stTest.getTestAnswer().split(","));
+				
+				StudentTestDto stuTestDto = StudentTestDto.builder().userRealName(studentRepository.findById(username).get().getUserRealName())
+				.username(username).testName(testRepository.findById(testNum).get().getTestName()).testNum(testNum)
+				.isCheating(stTest.getIsCheating()).cheatTime(cheatTimes).videoName(stTest.getVideoName()).testAnswer(testAnswers)
+				.testStatus(stTest.getTestStatus()).testResult(stTest.getTestResult()).build();
+				
+				logger.info("{} 학생 {} 시험 정보 조회 성공", username, testNum);
+				return stuTestDto;
+			} else {
+				logger.info("{} 학생 {} 시험 정보 조회 실패", username, testNum);
 				return null;
-			}else {
-				return stTest;
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
+			logger.error("{} 학생 {} 시험 정보 조회 실패", username, testNum);
 			return null;
 		}		
+	}
+	
+	public List<StudentTestDto> getStudentTestList(String username) {
+		Optional<List<StudentTest>> stuTestList = studentTestRepository.findAllStudentTestByUserName(username);
+		List<StudentTestDto> stuTestDtoList = stuTestList.get().stream().map(st -> new StudentTestDto( username, null, testRepository.findById(st.getTestNum().getTestNum()).get().getTestName(), 
+				st.getTestResult(), st.getIsCheating(), Arrays.asList(st.getCheatTime().split(",")), st.getVideoName(),  Arrays.asList(st.getTestAnswer().split(",")), st.getTestStatus(), st.getTestNum().getTestNum() ))
+				.collect(Collectors.toList());
+	
+		return stuTestDtoList;
 	}
 	
 	@Transactional

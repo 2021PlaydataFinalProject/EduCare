@@ -28,7 +28,6 @@ import io.educare.dto.LoginDto;
 import io.educare.dto.UserDto;
 import io.educare.entity.Instructor;
 import io.educare.entity.Student;
-import io.educare.entity.Test;
 import io.educare.entity.User;
 import io.educare.jwt.JwtFilter;
 import io.educare.jwt.TokenProvider;
@@ -300,10 +299,6 @@ public class UserServiceImpl implements UserService {
 					}
 				}
 				userRepository.delete(findUser.get());
-				
-				Instructor ins = (Instructor) findUser.get();
-				List<Test> testlist = ins.getTestList();
-				System.out.println(testlist.size());
 
 				logger.info("{} 회원 탈퇴 완료", username);
 				return true;

@@ -30,17 +30,20 @@ public class TestProblemController {
 	
 	@PostMapping("/create/{testnum}")
 	@PreAuthorize("hasAnyRole('INSTRUCTOR')")
-	public ResponseEntity<Boolean> insertTestProblem(@PathVariable long testnum, TestProblemDto tProblemDto, 
+	public ResponseEntity<String> insertTestProblem(@PathVariable long testnum, TestProblemDto tProblemDto, 
 			@RequestParam(value = "file", required = false) MultipartFile mfile) {
-		
 		Boolean check = null;
-		
 		if (mfile != null) {
 			check = tProblemService.insertTProblem(testnum, tProblemDto, mfile);
 		} else {
 			check = tProblemService.insertTProblemNoimg(testnum, tProblemDto);
 		}
-		return new ResponseEntity<Boolean>(check, HttpStatus.CREATED);
+		
+		if (check) {
+			return new ResponseEntity<String>("시험 문제 생성 성공", HttpStatus.CREATED);			
+		} else {
+			return new ResponseEntity<String>("시험 문제 생성 실패", HttpStatus.INTERNAL_SERVER_ERROR);			
+		}
 	}
 	
 	@GetMapping("/get")
@@ -57,21 +60,31 @@ public class TestProblemController {
 	
 	@PutMapping("/update")
 	@PreAuthorize("hasAnyRole('INSTRUCTOR')")
-	public ResponseEntity<Boolean> updateTestProblem(TestProblemDto tProblemDto, 
+	public ResponseEntity<String> updateTestProblem(TestProblemDto tProblemDto, 
 			@RequestParam(value = "file", required = false) MultipartFile mfile) {
-		
 		Boolean check = null;
 		if (mfile != null) {
 			check = tProblemService.updateTProblem(tProblemDto, mfile);
 		} else {
 			check = tProblemService.updateTProblemNoimg(tProblemDto);
 		}
-		return new ResponseEntity<Boolean>(check, HttpStatus.OK);
+		
+		if (check) {
+			return new ResponseEntity<String>("시험 문제 수정 성공", HttpStatus.OK);			
+		} else {
+			return new ResponseEntity<String>("시험 문제 수정 실패", HttpStatus.NOT_MODIFIED);			
+		}
 	}
 	
 	@DeleteMapping("/delete")
 	@PreAuthorize("hasAnyRole('INSTRUCTOR')")
-	public ResponseEntity<Boolean> deleteTestProblem(@RequestParam long proid, @RequestParam long testnum) {
-		return new ResponseEntity<Boolean>(tProblemService.deleteTProblem(proid, testnum), HttpStatus.NO_CONTENT);
+	public ResponseEntity<String> deleteTestProblem(@RequestParam long proid, @RequestParam long testnum) {
+		
+		if (tProblemService.deleteTProblem(proid, testnum)) {
+			return new ResponseEntity<String>("시험 문제 삭제 성공", HttpStatus.NO_CONTENT);			
+		} else {
+			return new ResponseEntity<String>("시험 문제 삭제 실패", HttpStatus.INTERNAL_SERVER_ERROR);			
+		}
 	}
+	
 }

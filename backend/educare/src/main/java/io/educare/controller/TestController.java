@@ -49,13 +49,23 @@ private final TestService testService;
 	
 	@PutMapping("/update")
 	@PreAuthorize("hasAnyRole('INSTRUCTOR')")
-	public ResponseEntity<Boolean> updateTest(@RequestBody TestDto testDto) { 
-		return new ResponseEntity<Boolean>(testService.updateTest(testDto), HttpStatus.CREATED);
+	public ResponseEntity<String> updateTest(@RequestBody TestDto testDto) { 
+		
+		if (testService.updateTest(testDto)) {
+			return new ResponseEntity<String>("시험 수정 성공" , HttpStatus.OK);
+		} else {
+			return new ResponseEntity<String>("시험 수정 실패", HttpStatus.NOT_MODIFIED);			
+		}
 	}
 	@DeleteMapping("/delete")
 	@PreAuthorize("hasAnyRole('INSTRUCTOR')")
-	public ResponseEntity<Boolean> deleteTest(@RequestParam String username, @RequestParam Long testnum) {
-		return new ResponseEntity<Boolean>(testService.deleteTest(username, testnum), HttpStatus.NO_CONTENT);
+	public ResponseEntity<String> deleteTest(@RequestParam String username, @RequestParam Long testnum) {
+		
+		if (testService.deleteTest(username, testnum)) {
+			return new ResponseEntity<String>("시험 삭제 성공" , HttpStatus.NO_CONTENT);
+		} else {
+			return new ResponseEntity<String>("시험 삭제 실패", HttpStatus.INTERNAL_SERVER_ERROR);			
+		}
 	}
 	
 }

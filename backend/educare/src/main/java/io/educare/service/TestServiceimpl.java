@@ -101,8 +101,8 @@ public class TestServiceimpl implements TestService {
 				return false;
 			}
 		} catch (Exception e) {
-			logger.error("{} 강사 수정 실패", testDto.getTestNum());
 			e.printStackTrace();
+			logger.error("{} 강사 수정 실패", testDto.getTestNum());
 			return false;
 		}
 	}
@@ -117,14 +117,12 @@ public class TestServiceimpl implements TestService {
 			if (findTest.isPresent() && userOpt.isPresent()) {
 				Instructor ins = (Instructor) userOpt.get();
 				List<Test> testlist = ins.getTestList();
-				int idx = 0; 
 				
-				while(idx < testlist.size()) {
+				for(int idx = 0; idx < testlist.size(); idx++) {
 					if (testlist.get(idx).getTestNum() == testnum) {
 						testlist.remove(idx);
 						break;
 					}
-					idx += 1;
 				}
 				
 				testRepository.delete(findTest.get());
@@ -135,6 +133,7 @@ public class TestServiceimpl implements TestService {
 				return false;
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			logger.error("{} 시험 삭제 실패", testnum);
 			return false;
 		}

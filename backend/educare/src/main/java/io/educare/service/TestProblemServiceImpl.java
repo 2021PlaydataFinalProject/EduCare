@@ -217,14 +217,12 @@ public class TestProblemServiceImpl implements TestProblemService {
 					}
 				}
 				List<TestProblem> problemlist = testOpt.get().getProblemList();
-				int idx = 0; 
 				
-				while(idx < problemlist.size()) {
+				for(int idx = 0; idx < problemlist.size(); idx++) {
 					if (problemlist.get(idx).getProId() == proid) {
 						problemlist.remove(idx);
 						break;
 					}
-					idx += 1;
 				}
 				
 				tProblemRepository.delete(TProblemOpt.get());

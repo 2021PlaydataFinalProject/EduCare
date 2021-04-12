@@ -33,16 +33,20 @@ public class UserController {
 	}
 	
 	@PostMapping("/signup")
-	public ResponseEntity<Boolean> insertUser(UserDto userDto,
+	public ResponseEntity<String> insertUser(UserDto userDto,
 			@RequestParam(value = "file", required = false) MultipartFile mfile) {
-
 		Boolean check = null;
 		if (mfile != null) {
 			check = userService.insertUser(userDto, mfile);
 		} else {
 			check = userService.insertUserNoimg(userDto);
 		}
-		return new ResponseEntity<Boolean>(check, HttpStatus.CREATED);
+		
+		if (check) {
+			return new ResponseEntity<String>("회원 가입 성공" , HttpStatus.CREATED);
+		} else {
+			return new ResponseEntity<String>("회원 가입 실패", HttpStatus.INTERNAL_SERVER_ERROR);			
+		}
 	}
 
 	@PostMapping("/signin")
@@ -52,8 +56,13 @@ public class UserController {
 	
 	@PostMapping("/logout")
 	@PreAuthorize("hasAnyRole('STUDENT','INSTRUCTOR')")
-	public ResponseEntity<Boolean> logout(HttpServletRequest req) {
-		return new ResponseEntity<Boolean>(userService.logout(req), HttpStatus.NO_CONTENT);
+	public ResponseEntity<String> logout(HttpServletRequest req) {
+		
+		if (userService.logout(req)) {
+			return new ResponseEntity<String>("회원 로그아웃 성공" , HttpStatus.NO_CONTENT);
+		} else {
+			return new ResponseEntity<String>("회원 로그아웃 실패", HttpStatus.INTERNAL_SERVER_ERROR);			
+		}
 	}
 
 	@GetMapping("/myinfo") // 프론트에서 로그인한 유저의 username 보내 조회
@@ -77,20 +86,30 @@ public class UserController {
 
 	@PutMapping("/update")
 	@PreAuthorize("hasAnyRole('STUDENT','INSTRUCTOR')")
-	public ResponseEntity<Boolean> updateUser(UserDto userDto, @RequestParam(value = "file", required = false) MultipartFile mfile) {
+	public ResponseEntity<String> updateUser(UserDto userDto, @RequestParam(value = "file", required = false) MultipartFile mfile) {
 		Boolean check = null;
 		if (mfile != null) {
 			check = userService.updateUser(userDto, mfile);
 		} else {
 			check = userService.updateUserNoimg(userDto);
 		}
-		return new ResponseEntity<Boolean>(check, HttpStatus.OK);
+		
+		if (check) {
+			return new ResponseEntity<String>("회원 정보 수정 성공" , HttpStatus.OK);
+		} else {
+			return new ResponseEntity<String>("회원 정보 수정 실패", HttpStatus.NOT_MODIFIED);			
+		}
 	}
 
 	@DeleteMapping("/delete")
 	@PreAuthorize("hasAnyRole('STUDENT','INSTRUCTOR')")
-	public ResponseEntity<Boolean> deleteUser(@RequestParam String username) {
-		return new ResponseEntity<Boolean>(userService.deleteUser(username), HttpStatus.NO_CONTENT);
+	public ResponseEntity<String> deleteUser(@RequestParam String username) {
+		
+		if (userService.deleteUser(username)) {
+			return new ResponseEntity<String>("회원 탈퇴 성공" , HttpStatus.NO_CONTENT);
+		} else {
+			return new ResponseEntity<String>("회원 탈퇴 실패", HttpStatus.INTERNAL_SERVER_ERROR);			
+		}		
 	}
 
 }

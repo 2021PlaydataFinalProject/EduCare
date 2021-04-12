@@ -236,13 +236,17 @@ export default {
   methods: {
     submitForm() {
       const addtestData = {
-        userName: this.userName,
+        // userName: this.userName,
         testNum: this.testNum,
         testName: this.testName,
         endTime: this.endTime,
         startTime: this.startTime,
         testGuide: this.testGuide
       };
+      let instance = axios.create();
+      instance.defaults.headers.common[
+        "Authorization"
+      ] = sessionStorage.getItem("Authorization");
       axios
         .post(
           "http://localhost:8000/test/create/" + "?username=",
@@ -276,10 +280,13 @@ export default {
         proImage: this.proImage,
         proAnswer: this.proAnswer
       };
-
+      let instance = axios.create();
+      instance.defaults.headers.common[
+        "Authorization"
+      ] = sessionStorage.getItem("Authorization");
       axios
         .post(
-          "http://localhost:8000/testpro/create/" + this.aa,
+          "http://localhost:8000/testpro/create/" + this.addtestData,
           addtestproblemData,
           {
             // headers: {
@@ -302,7 +309,7 @@ export default {
         });
     },
     initForm() {
-      this.strtnum = "";
+      this.testnum = "";
       this.proId = "";
       this.pronum = "";
       this.proDes = "";

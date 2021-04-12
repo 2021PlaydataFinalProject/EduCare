@@ -17,6 +17,10 @@ public class StudentTestDto {
 	
 	private String username;
 	
+	private String userRealName;
+	
+	private String testName;
+	
 	private String testResult;
 	
 	private String isCheating;

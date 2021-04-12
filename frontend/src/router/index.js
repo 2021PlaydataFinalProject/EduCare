@@ -8,21 +8,21 @@ Vue.use(VueRouter);
 
 // 라우터 가드
 // 로그인 유저 거절
-const rejectAuthUser = (to, from, next) => {
-  if (sessionStorage.getItem("user") != null) {
-    next("/");
-  } else {
-    next();
-  }
-};
+// const rejectAuthUser = (to, from, next) => {
+//   if (sessionStorage.getItem("user") != null) {
+//     next("/");
+//   } else {
+//     next();
+//   }
+// };
 // 비 로그인 유저 거절
-const onlyAuthUser = (to, from, next) => {
-  if (sessionStorage.getItem("user") == null) {
-    next("/signin");
-  } else {
-    next();
-  }
-};
+// const onlyAuthUser = (to, from, next) => {
+//   if (sessionStorage.getItem("user") == null) {
+//     next("/signin");
+//   } else {
+//     next();
+//   }
+// };
 
 const routes = [
   {
@@ -35,14 +35,6 @@ const routes = [
   },
   {
     meta: {
-      title: "Service"
-    },
-    path: "/service",
-    name: "Service",
-    component: () => import("../views/Service.vue")
-  },
-  {
-    meta: {
       title: "Profile"
     },
     path: "/profile",
@@ -50,19 +42,6 @@ const routes = [
     // beforeEnter: onlyAuthUser,
     component: () =>
       import(/* webpackChunkName: "profile" */ "../views/Profile.vue")
-  },
-  {
-    meta: {
-      title: "Tables"
-    },
-    path: "/tables",
-    name: "tables",
-    beforeEnter: onlyAuthUser,
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "tables" */ "../views/Tables.vue")
   },
   {
     meta: {
@@ -120,12 +99,12 @@ const routes = [
   },
   {
     meta: {
-      title: "TestSuperVision"
+      title: "TestSupervision"
     },
     path: "/testsupervision",
-    name: "TestSuperVision",
+    name: "TestSupervision",
     // beforeEnter: onlyAuthUser,
-    component: () => import("../views/TestSuperVision.vue")
+    component: () => import("../views/TestSupervision.vue")
   },
   {
     meta: {
@@ -160,7 +139,7 @@ const routes = [
     },
     path: "/signin",
     name: "Sign In",
-    beforeEnter: rejectAuthUser,
+    // beforeEnter: rejectAuthUser,
     component: () => import("../views/SignIn.vue"),
     props: true
   },
@@ -170,9 +149,13 @@ const routes = [
     },
     path: "/signup",
     name: "Sign Up",
-    beforeEnter: rejectAuthUser,
+    // beforeEnter: rejectAuthUser,
     component: () => import("../views/SignUp.vue"),
     props: true
+  },
+  {
+    path: "/:catchAll(.*)",
+    component: () => import("../views/NotFoundPage.vue")
   }
 ];
 

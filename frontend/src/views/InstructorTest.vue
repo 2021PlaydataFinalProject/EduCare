@@ -22,7 +22,7 @@
       >
         <div id="app" class="container">
           <section>
-            <b-table :data="isEmpty ? [] : apps" :hoverable="isHoverable">
+            <b-table :data="isEmpty ? [] : test" :hoverable="isHoverable">
               <b-table-column
                 field="testNum"
                 label="시험번호"
@@ -70,7 +70,7 @@
                 <b-button
                   type="is-primary is-light"
                   outlined
-                  v-on:click="updateInstructorTest(props.row.pfSeq)"
+                  v-on:click="updateInstructorTest(props.row.testNum)"
                   position="is-centered"
                   size="is-small"
                   >수정</b-button
@@ -78,7 +78,7 @@
                 <b-button
                   type="is-danger is-light"
                   outlined
-                  v-on:click="deleteInstructorTest(props.row.pfSeq)"
+                  v-on:click="deleteInstructorTest(props.row.testNum)"
                   position="is-centered"
                   size="is-small"
                   >삭제</b-button
@@ -88,7 +88,7 @@
                 <b-button
                   type="is-primary is-light"
                   outlined
-                  v-on:click="manageInstructorTest(props.row.pfSeq)"
+                  v-on:click="manageStudentList(props.row.testNum)"
                   position="is-centered"
                   size="is-small"
                   >관리</b-button
@@ -115,7 +115,7 @@
 import CardComponent from "@/components/CardComponent";
 import TitleBar from "@/components/TitleBar";
 import HeroBar from "@/components/HeroBar";
-// import axios from "axios";
+import axios from "axios";
 
 export default {
   name: "InstructorTest",
@@ -124,43 +124,69 @@ export default {
     TitleBar,
     CardComponent
   },
+  data: function() {
+    return {
+      test: ""
+    };
+  },
   computed: {
     titleStack() {
       return ["Instructor", "InstructorTest"];
     }
+  },
+  methods: {
+    getInstructorTest() {
+      axios
+        .get("http://localhost:8000/test/get?username=teacher", {
+          headers: {
+            Authorization: sessionStorage.getItem("Authorization")
+          }
+        })
+        .then(response => {
+          this.test = response.data;
+          console.log(this.test);
+          // alert(this.test);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+    updateInstructorTest(testNum) {
+      //  수정버튼 클릭시 ModifyTest로 이동
+      return this.$router.push({
+        name: "ModifyTest",
+        params: { testNum: testNum }
+      });
+    },
+    manageStudentList(testNum) {
+      //  수정버튼 클릭시 ModifyTest로 이동
+      return this.$router.push({
+        name: "ManageStudent",
+        params: { testNum: testNum }
+      });
+    },
+    deleteInstructorTest(testNum) {
+      axios
+        .delete(
+          "http://localhost:8000/test/delete?username=java@educare.com&testnum=" +
+            testNum,
+          {
+            headers: {
+              Authorization: sessionStorage.getItem("Authorization")
+            }
+          }
+        )
+        .then(() => {
+          this.getInstructorTest();
+        })
+        .catch(e => {
+          console.log(e);
+        });
+      this.getInstructorTest();
+    }
+  },
+  mounted() {
+    this.getInstructorTest();
   }
 };
-//   methods: {
-//     getInstructorTest() {
-//       axios
-//         .get(
-//           "http://localhost:80/portfolio/getlist?userid=" +
-//             JSON.parse(sessionStorage.getItem("user")).userId
-//         )
-//         .then(response => {
-//           this.portfolio = response.data;
-//         })
-//         .catch(e => {
-//           console.log(e);
-//         });
-//     },
-//     updateInstructorTest(pfseq) {
-//        수정버튼 클릭시 ModifyTest로 이동
-//       return this.$router.push({
-//         name: "ModifyTest",
-//         params: { pfSeq: pfseq }
-//       });
-//     },
-//     deleteInstructorTest(pfSeq) {
-//       axios
-//         .delete("http://localhost:80/portfolio/delete?pfSeq=" + pfSeq)
-//         .then(() => {
-//           this.getInstructorTest();
-//         })
-//         .catch(e => {
-//           console.log(e);
-//         });
-//       this.getInstructorTest();
-//     }
-//   }
 </script>

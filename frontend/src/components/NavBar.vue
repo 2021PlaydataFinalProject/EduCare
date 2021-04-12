@@ -126,7 +126,6 @@ import { mapState } from "vuex";
 import NavBarMenu from "@/components/NavBarMenu";
 import UserAvatar from "@/components/UserAvatar";
 import axios from "axios";
-
 export default {
   name: "NavBar",
   components: {
@@ -187,7 +186,6 @@ export default {
           alert("로그아웃 실패");
           console.log(error);
         });
-
       // if (sessionStorage.getItem("user") != null) {
       //   sessionStorage.removeItem("user");
       //   this.loginUserAct(null);
@@ -196,7 +194,6 @@ export default {
       //   alert("로그인을 먼저 해주세요");
       //   this.$router.push({ name: "Sign In" });
       // }
-
       // this.$buefy.snackbar.open({
       //   message: "Log out clicked",
       //   queue: false
@@ -205,3 +202,4 @@ export default {
   }
 };
 </script>
+© 2021 GitHub, Inc.

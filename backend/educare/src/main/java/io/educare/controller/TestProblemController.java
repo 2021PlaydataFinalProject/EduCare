@@ -48,7 +48,7 @@ public class TestProblemController {
 	
 	@GetMapping("/get")
 	@PreAuthorize("hasAnyRole('INSTRUCTOR')")
-	public ResponseEntity<List<TestProblemDto>> getTProblemsByTNum(@RequestParam long testnum) {
+	public ResponseEntity<List<TestProblemDto>> getTestProblemsByTNum(@RequestParam long testnum) {
 		return new ResponseEntity<List<TestProblemDto>>(tProblemService.getTProblemsByTNum(testnum), HttpStatus.OK);
 	}
 	

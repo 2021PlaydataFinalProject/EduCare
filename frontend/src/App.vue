@@ -14,7 +14,6 @@
 import NavBar from "@/components/NavBar";
 import AsideMenu from "@/components/AsideMenu";
 import FooterBar from "@/components/FooterBar";
-
 export default {
   name: "home",
   components: {

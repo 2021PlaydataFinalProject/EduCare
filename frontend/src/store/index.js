@@ -8,10 +8,15 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     /* User */
+    // userName: sessionStorage.getItem("userName")
+    //   ? JSON.parse(sessionStorage.getItem("userName"))
+    //   : null,
     userName: null,
     userEmail: null,
     userAvatar: null,
-
+    // sessionStorage.getItem('LoginUser')
+    //     ? JSON.parse(sessionStorage.getItem("LoginUser"))
+    //     : null
     /* NavBar */
     isNavBarVisible: true,
 

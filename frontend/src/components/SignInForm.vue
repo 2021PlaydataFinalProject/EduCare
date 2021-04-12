@@ -93,7 +93,7 @@ export default {
             response.headers.authorization
           );
           // sessionStorage.setItem("user", JSON.stringify(response.data));
-          // this.$router.push({ name: "Service" });
+          this.$router.push({ name: "Service" });
         })
         .catch(error => {
           alert("로그인 실패");

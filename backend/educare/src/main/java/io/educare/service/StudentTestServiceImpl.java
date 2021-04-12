@@ -1,7 +1,5 @@
 package io.educare.service;
 
-import static org.hamcrest.CoreMatchers.nullValue;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -16,11 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import io.educare.dto.StudentTestDto;
-import io.educare.dto.UserDto;
 import io.educare.entity.Student;
 import io.educare.entity.StudentTest;
 import io.educare.entity.Test;
-import io.educare.entity.User;
 import io.educare.repository.StudentRepository;
 import io.educare.repository.StudentTestRepository;
 import io.educare.repository.TestRepository;
@@ -49,7 +45,7 @@ public class StudentTestServiceImpl implements StudentTestService {
 			stOpt = studentRepository.findById(username);
 			testOpt = testRepository.findById(testNum);
 			
-			if (stOpt.isPresent() && testOpt.isPresent()) {
+			if(stOpt.isPresent() && testOpt.isPresent()) {
 				StudentTest studentTest = new StudentTest(); 
 				Student st = stOpt.get();
 				Test test = testOpt.get();
@@ -68,7 +64,7 @@ public class StudentTestServiceImpl implements StudentTestService {
 				logger.info("{} 학생 시험 매칭 등록 실패");
 				return false;
 			}
-		}catch(Exception e) {
+		} catch(Exception e) {
 			e.printStackTrace();
 			logger.error("{} 학생 시험 매칭 등록 실패");
 			return false;
@@ -98,7 +94,7 @@ public class StudentTestServiceImpl implements StudentTestService {
 				logger.info("{} 학생 {} 시험 정보 조회 실패", username, testNum);
 				return null;
 			}
-		}catch(Exception e) {
+		} catch(Exception e) {
 			e.printStackTrace();
 			logger.error("{} 학생 {} 시험 정보 조회 실패", username, testNum);
 			return null;
@@ -118,7 +114,7 @@ public class StudentTestServiceImpl implements StudentTestService {
 	public boolean updateMyTest(StudentTestDto sttDto, MultipartFile mfile) {	//학생이 answer, cheattime, ischeating,   studenttest table update
 		Optional<StudentTest> sttOpt = studentTestRepository.findById(sttDto.getTestNum());
 		
-		if (sttOpt.isPresent()) {
+		if(sttOpt.isPresent()) {
 			StudentTest stt = sttOpt.get();
 			String videoname;
 			
@@ -144,7 +140,7 @@ public class StudentTestServiceImpl implements StudentTestService {
 			
 			if(sttDto.getCheatTime().size()==0) { //컨닝 여부 저장
 				stt.setIsCheating("false");
-			}else {
+			} else {
 				stt.setIsCheating("true");
 			}
 			
@@ -156,10 +152,9 @@ public class StudentTestServiceImpl implements StudentTestService {
 			
 			if(studentTestRepository.save(stt)!=null) {
 				return true;
-			}else {
+			} else {
 				return false;
 			}
-			
 		} else {
 			logger.info("{} 학생 시험 답안, 녹화파일 등록 실패");
 			return false;
@@ -171,7 +166,7 @@ public class StudentTestServiceImpl implements StudentTestService {
 		
 		Optional<StudentTest> sttOpt = studentTestRepository.findById(sttDto.getTestNum());
 		
-		if (sttOpt.isPresent()) {
+		if(sttOpt.isPresent()) {
 			try {
 				StudentTest stt = sttOpt.get();
 				stt.setTestResult(sttDto.getTestResult());			
@@ -179,16 +174,15 @@ public class StudentTestServiceImpl implements StudentTestService {
 				if(studentTestRepository.save(stt)!=null) {
 					logger.info("{} 학생 시험점수 update성공");
 					return true;
-				}else {
+				} else {
 					logger.info("{} 학생 시험점수 update실패");
 					return false;
 				}
-			}catch(Exception e) {
+			} catch(Exception e) {
 				e.printStackTrace();
 				logger.info("{} 학생 시험점수 update실패");
 				return false;
 			}		
-			
 		} else {
 			logger.info("{} 학생 시험점수 update실패");
 			return false;

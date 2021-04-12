@@ -6,6 +6,8 @@ export default {
 
   /* User */
   user(state, payload) {
+    console.log(payload.name);
+    console.log(state.userName);
     if (payload.name) {
       state.userName = payload.name;
     }

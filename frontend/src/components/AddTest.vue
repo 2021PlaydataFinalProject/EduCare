@@ -132,7 +132,6 @@ import CheckboxPicker from "@/components/CheckboxPicker";
 import RadioPicker from "@/components/RadioPicker";
 import FilePicker from "@/components/FilePicker";
 import HeroBar from "@/components/HeroBar";
-
 export default {
   name: "AddTest",
   components: {
@@ -177,7 +176,6 @@ export default {
         }
         return null;
       });
-
       this.$buefy.snackbar.open({
         message: "Reset successfully",
         queue: false

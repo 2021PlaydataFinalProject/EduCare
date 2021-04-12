@@ -2,7 +2,7 @@ from flask import Flask, render_template, Response, jsonify, request
 from camera import VideoCamera
 from flask_mysqldb import MySQL
 # 설치! : pip install Flask-MySQLdb
-
+from camera import timelist
 
 app = Flask(__name__)
 # database에 접근
@@ -34,7 +34,7 @@ def index():
     prosel_list.append(fetchdata[0][2])
     
     # 시험 선지1
-    prosel_list.append(fetchdata[0][4].split(','))
+    prosel_list.append(fetchdata[0][5].split(','))
     # [string(시험문제), [1.assdaf, 2.fasdfasd, 3.asdfasdf 4.asdfasd]]
     # print('prosel_list size : ',len(prosel_list))
 
@@ -42,7 +42,7 @@ def index():
     prosel_list.append(fetchdata[1][2])
 
     # 시험 선지2
-    prosel_list.append(fetchdata[1][4].split(','))
+    prosel_list.append(fetchdata[1][5].split(','))
 
     #cur.close()
     #aaa = VideoCamera().get_frame().total
@@ -50,7 +50,7 @@ def index():
     #return render_template('index.html', data = aaa)
 
     # print('testproblem_list : ',testproblem_list)
-
+    print('server timelist :', timelist)
     return render_template('index.html', data_list = prosel_list)
     #print("server.py!!!!!!!!!!!!!!!!!!!!!!!!",data2)
     # timelist = ["Hey", "How", "Are", "You"]

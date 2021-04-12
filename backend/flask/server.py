@@ -5,10 +5,11 @@ from flask_mysqldb import MySQL
 
 
 app = Flask(__name__)
+# database에 접근
 app.config['MYSQL_HOST'] = '127.0.0.1'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = '0000'
-app.config['MYSQL_DB']='security'
+app.config['MYSQL_DB']='educare'
 #app.config['MYSQL_DATABASE']='security'
 #app.config['MYSQL_PORT']=3306
 
@@ -20,16 +21,41 @@ global_frame = None
 @app.route('/')
 def index():
     #data2 = video_camera.gettimelist()
-    #cur = mysql.connection.cursor()
-    #cur.execute("SELECT * FROM test")
-    #fetchdata = cur.fetchall()
+    # database를 사용하기 위한 cursor를 세팅합니다.
+    cur = mysql.connection.cursor()
+    # 쿼리문 실행
+    cur.execute("SELECT * FROM testproblem")
+    fetchdata = cur.fetchall()
+    # print(fetchdata[0][4])
+
+    prosel_list = []
+
+    # 시험 문제1
+    prosel_list.append(fetchdata[0][2])
+    
+    # 시험 선지1
+    prosel_list.append(fetchdata[0][4].split(','))
+    # [string(시험문제), [1.assdaf, 2.fasdfasd, 3.asdfasdf 4.asdfasd]]
+    # print('prosel_list size : ',len(prosel_list))
+
+    # 시험 문제2
+    prosel_list.append(fetchdata[1][2])
+
+    # 시험 선지2
+    prosel_list.append(fetchdata[1][4].split(','))
+
     #cur.close()
     #aaa = VideoCamera().get_frame().total
     #total
     #return render_template('index.html', data = aaa)
-    #return render_template('index.html', data = fetchdata)
+
+    # print('testproblem_list : ',testproblem_list)
+
+    return render_template('index.html', data_list = prosel_list)
     #print("server.py!!!!!!!!!!!!!!!!!!!!!!!!",data2)
-    return render_template('index.html')
+    # timelist = ["Hey", "How", "Are", "You"]
+    # return render_template('index.html',recordtime=timelist)
+
 
 @app.route('/record_status', methods=['POST'])
 def record_status():

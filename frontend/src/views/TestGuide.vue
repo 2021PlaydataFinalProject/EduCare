@@ -3,9 +3,6 @@
     <title-bar :title-stack="titleStack" />
     <hero-bar>
       시험 안내사항
-      <!-- <router-link slot="right" to="/profile" class="button">
-        마이 페이지
-      </router-link> -->
     </hero-bar>
     <section>
       <TestGuideForm></TestGuideForm>

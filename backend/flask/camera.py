@@ -16,21 +16,6 @@ load_darknet_weights(yolo, 'yolov3.weights')
 timelist = list()
 import time
 
-# class STOPWATCH(object):
-#     def time_convert(sec):
-#         mins = sec // 60 
-#         sec = sec % 60
-#         hours = mins // 60
-#         mins = mins % 60
-#         print("Time lapsed = {0}:{1}:{2}".format(int(hours),int(mins),sec))
-#     try:
-#         hours = 0
-#         while True:
-#             for minutes in range(0,60):
-#                 for seconds in range(0,60):
-#                     time.sleep(1)
-#                     print(hours,":",minutes,":",seconds+1)
-
 
 
 class RecordingThread (threading.Thread):
@@ -83,9 +68,9 @@ class VideoCamera(object):
             boxes, scores, classes, nums = yolo(img)
             count=0
             #mysql 연동
-            #conn = pymysql.connect(host='localhost', user='root', password='0000',
-            #                    db='security', charset='utf8')
-            #curs = conn.cursor()
+            conn = pymysql.connect(host='localhost', user='root', password='0000',
+                                db='security', charset='utf8')
+            curs = conn.cursor()
             #timelist = list()
             if self.is_record:
                 elapsed_time = time.time() - start_time
@@ -95,6 +80,9 @@ class VideoCamera(object):
                     count +=1
                 if self.is_record and int(temp==62 or temp == 63 or temp==67 or temp==73): #tvmonitor, laptop, cell phone, book
                     timelist.append(time.strftime("%H:%M:%S", time.gmtime(elapsed_time)))
+                    curs.execute('''INSERT INTO studenttest (cheat_time) values (%s)''',(timelist))
+                    conn.commit()
+                    conn.close()
                     #print('test용', cheat_time) # 녹화중일때만  --> if써서!
                     #print('doubt',timelist)
                     #print('Mobile Phone detected')

@@ -14,18 +14,18 @@
             <b-field>
               <b-input
                 icon="account"
-                v-model="form.name"
+                v-model="form.username"
                 placeholder="이름"
-                name="username"
+                name="userName"
                 required
               />
             </b-field>
             <b-field>
               <b-input
                 icon="finish"
-                v-model="form.number"
+                v-model="form.testNum"
                 placeholder="시험 번호"
-                name="testnum"
+                name="testNum"
                 required
               />
             </b-field>
@@ -58,8 +58,8 @@
           <b-field label="시험명" message="과목명을 적어주세요." horizontal>
             <b-input
               placeholder="시험명 : 소제목"
-              v-model="form.subject"
-              name="testname"
+              v-model="form.testName"
+              name="testName"
               maxlength="150"
               required
             />
@@ -68,13 +68,13 @@
             <b-field
               :label-position="labelPosition"
               label="시험 시작 시간"
-              name="starttime"
+              name="startTime"
               message="필수 작성 부분입니다."
             >
               <b-timepicker
                 placeholder="시험 시작 시간을 설정해 주세요."
                 icon="clock"
-                name="starttime"
+                name="startTime"
                 :incrementMinutes="minutesGranularity"
                 :incrementHours="hoursGranularity"
               >
@@ -83,13 +83,13 @@
             <b-field
               :label-position="labelPosition"
               label="시험 종료 시간"
-              name="endtime"
+              name="endTime"
               message="필수 작성 부분입니다."
             >
               <b-timepicker
                 placeholder="시험 종료 시간을 설정해 주세요."
                 message="필수 작성 부분입니다."
-                name="endtime"
+                name="endTime"
                 icon="clock"
                 :incrementMinutes="minutesGranularity"
                 :incrementHours="hoursGranularity"
@@ -105,14 +105,29 @@
             <b-input
               type="textarea"
               placeholder="해당 시험 유의사항 만들기"
-              v-model="form.testguide"
+              v-model="form.testGuide"
               maxlength="255"
               required
             />
           </b-field>
+          <b-button native-type="submit" type="is-primary"
+            >시험 만들기</b-button
+          >
           <hr />
+          <b-field label="문항 번호" horizontal>
+            <b-field>
+              <b-input
+                icon="account"
+                v-model="form.proNum"
+                placeholder="문항 번호를 작성해 주세요."
+                name="proNum"
+                required
+              />
+            </b-field>
+          </b-field>
           <b-field
             label="문제"
+            name="proDes"
             message="당신의 문제를 255자 이내로 작성하세요."
             horizontal
           >
@@ -126,6 +141,7 @@
           </b-field>
           <b-field
             label="보기"
+            name="proSel"
             message="당신이 내고 싶은 문항을 작성하세요."
             horizontal
           >
@@ -148,6 +164,20 @@
             <b-field label="4번" :label-position="labelPosition">
               <b-input
                 placeholder="4번 보기를 입력하세요."
+                maxlength="150"
+              ></b-input>
+            </b-field>
+          </b-field>
+
+          <b-field
+            label="정답"
+            name="proAnswer"
+            message="당신이 낸 문항의 정답을 작성하세요."
+            horizontal
+          >
+            <b-field label="정답" :label-position="labelPosition">
+              <b-input
+                placeholder="정답을 입력하세요."
                 maxlength="150"
               ></b-input>
             </b-field>
@@ -208,8 +238,9 @@ export default {
   },
   data() {
     return {
-      aa: "",
+      testService: "",
       labelPosition: "on-border",
+      selectedOptions: [],
       isLoading: false,
       form: {
         username: null,
@@ -234,7 +265,7 @@ export default {
     }
   },
   methods: {
-    submitForm() {
+    testForm() {
       const addtestData = {
         // userName: this.userName,
         testNum: this.testNum,
@@ -259,8 +290,8 @@ export default {
         )
         .then(response => {
           alert("시험 생성 성공!");
-          console.log(response.data) -
-            this.$router.push({ name: "InstructorTest" });
+          console.log(response.data);
+          // this.$router.push({ name: "InstructorTest" });
         })
         .catch(error => {
           alert("시험 생성 실패");
@@ -270,11 +301,11 @@ export default {
           this.initForm();
         });
     },
-    submitForm2() {
+    testproblemForm() {
       const addtestproblemData = {
-        testnum: this.testnum,
+        // testnum: this.testnum,
         proId: this.proId,
-        pronum: this.pronum,
+        proNum: this.proNum,
         proDes: this.proDes,
         proSel: this.proSel,
         proImage: this.proImage,
@@ -286,7 +317,7 @@ export default {
       ] = sessionStorage.getItem("Authorization");
       axios
         .post(
-          "http://localhost:8000/testpro/create/" + this.addtestData,
+          "http://localhost:8000/testpro/create/" + this.testService,
           addtestproblemData,
           {
             // headers: {

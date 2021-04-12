@@ -28,7 +28,6 @@ import io.educare.dto.LoginDto;
 import io.educare.dto.UserDto;
 import io.educare.entity.Instructor;
 import io.educare.entity.Student;
-import io.educare.entity.Test;
 import io.educare.entity.User;
 import io.educare.jwt.JwtFilter;
 import io.educare.jwt.TokenProvider;

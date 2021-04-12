@@ -18,14 +18,14 @@
         <b-field label="시험 시간 지정" horizontal>
           <b-field
             :label-position="labelPosition"
-            message="시험 시작 시간 지정."
+            message="시험 시작 시간 지정"
           >
             <b-datetimepicker
               rounded
               label="시험 시작 시간"
               icon="calendar-today"
               v-model="form.startTime"
-              :locale="locale"
+              :localISOdt="localISOdt"
               :datepicker="{ showWeekNumber }"
               :timepicker="{ enableSeconds, hourFormat }"
               horizontal-time-picker
@@ -40,10 +40,10 @@
           >
             <b-datetimepicker
               rounded
-              label="시험 시작 시간"
+              label="시험 종료 시간"
               icon="calendar-today"
               v-model="form.endTime"
-              :locale="locale"
+              :localISOdt="localISOdt"
               :datepicker="{ showWeekNumber }"
               :timepicker="{ enableSeconds, hourFormat }"
               horizontal-time-picker
@@ -165,7 +165,7 @@
 import TitleBar from "@/components/TitleBar";
 import CardComponent from "@/components/CardComponent";
 import HeroBar from "@/components/HeroBar";
-
+import { localISOdt } from "local-iso-dt";
 // import AddTestTable from "@/components/AddTestTable";
 import axios from "axios";
 
@@ -182,6 +182,7 @@ export default {
       enableSeconds: true,
       hourFormat: undefined, // Browser locale
       locale: undefined, // Browser locale
+      localISOdt,
       testService: "",
       labelPosition: "on-border",
       selectedOptions: [],
@@ -219,7 +220,7 @@ export default {
       // ] = sessionStorage.getItem("Authorization");
       axios
         .post(
-          "http://localhost:8000/test/create?username=teacher",
+          "http://localhost:8000/test/create?username=teacher@educare.com",
           addTestData,
           {
             headers: {

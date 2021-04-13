@@ -1,6 +1,7 @@
 var buttonRecord = document.getElementById("record");
 var buttonStop = document.getElementById("stop");
 
+buttonRecord.disabled = false;
 buttonStop.disabled = true;
 
 buttonRecord.onclick = function() {
@@ -27,7 +28,7 @@ buttonRecord.onclick = function() {
 
 buttonStop.onclick = function() {
     buttonRecord.disabled = false;
-    buttonStop.disabled = true;    
+    buttonStop.disabled = false;    
 
     // XMLHttpRequest
     var xhr = new XMLHttpRequest();
@@ -38,7 +39,7 @@ buttonStop.onclick = function() {
             // enable download link
             var downloadLink = document.getElementById("download");
             downloadLink.text = "Download Video";
-            downloadLink.href = "/static/video.avi";
+            downloadLink.href = "/static/video.mp4";
         }
     }
     xhr.open("POST", "/record_status");

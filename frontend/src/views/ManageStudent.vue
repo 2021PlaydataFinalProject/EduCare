@@ -41,7 +41,7 @@
                 <b-button
                   type="is-primary is-light"
                   outlined
-                  v-on:click="updateInstructorTest(props.row.pfSeq)"
+                  v-on:click="manageStudentVideo(props.row.username)"
                   position="is-centered"
                   size="is-small"
                   >감독하기</b-button
@@ -51,7 +51,7 @@
                 <b-button
                   type="is-primary is-light"
                   outlined
-                  v-on:click="manageInstructorTest(props.row.pfSeq)"
+                  v-on:click="deleteApplicant(props.row.username)"
                   position="is-centered"
                   size="is-small"
                   >삭제</b-button
@@ -154,7 +154,7 @@ export default {
         })
         .then(response => {
           this.applicants = response.data;
-          console.log("응시자 확인")
+          console.log("응시자 확인");
           console.log(this.applicants);
           // alert(this.test);
         })
@@ -171,7 +171,7 @@ export default {
         })
         .then(response => {
           this.students = response.data;
-          console.log("총학생 확인")
+          console.log("총학생 확인");
           console.log(this.students);
           // alert(this.test);
         })
@@ -194,13 +194,13 @@ export default {
         .then(response => {
           // this.applicants = response.data;
           console.log(response);
-          // alert(this.test);
+          this.getAllApplicants;
         })
         .catch(e => {
           console.log(e);
         });
     },
-    deleteInstructorTest(testNum) {
+    deleteApplicant(testNum) {
       axios
         .delete(
           "http://localhost:8000/test/delete?username=java@educare.com&testnum=" +
@@ -218,6 +218,12 @@ export default {
           console.log(e);
         });
       this.getAllApplicants();
+    },
+    manageStudentVideo(userName) {
+      return this.$router.push({
+        name: "TestSupervision",
+        params: { testNum: this.testNum, userName: userName }
+      });
     }
   },
   mounted() {

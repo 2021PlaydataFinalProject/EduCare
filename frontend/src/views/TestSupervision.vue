@@ -16,6 +16,7 @@
             <p>
               영상 분석 데이터 확인 (부정행위 감지 시간)
             </p>
+            <p>학생 답 띄우기</p>
             <b-field label="시험 점수를 입력하세요. 부정행위시 0점">
               <b-field>
                 <b-numberinput
@@ -27,16 +28,19 @@
                   aria-minus-label="Decrement by 5"
                   aria-plus-label="Increment by 5"/>
                 <p class="control">
-                  <b-button label="시험 점수 입력" /></p
+                  <b-button
+                    @click="updateStudentScore"
+                    label="시험 점수 입력"
+                  /></p
               ></b-field>
             </b-field>
-             <b-field grouped>
-            <div class="control">
-              <b-button tag="router-link" to="/instructor" type="is-link">
-                시험 출제
-              </b-button>
-            </div>
-          </b-field>
+            <b-field grouped>
+              <div class="control">
+                <b-button tag="router-link" to="/instructor" type="is-link">
+                  시험 감독 완료
+                </b-button>
+              </div>
+            </b-field>
           </div>
         </div>
         <div class="tile is-parent">
@@ -83,13 +87,15 @@ export default {
   },
   data() {
     return {
+      testNum: this.$route.params.testNum,
+      userName: this.$route.params.userName,
       testResult: "",
       studentTest: "",
       studentTest2: "",
       videoName: "",
       playerOptions: {
         // videojs options
-        height: "360",
+        height: "480",
         responsive: true,
         muted: true,
         language: "ko",
@@ -99,7 +105,9 @@ export default {
             type: "video/mp4",
             src:
               // "https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm"
-              this.videoName
+              //testNum+username+video.avi 
+              //\\src\\main\\webapp\\tproblemvideo\\ + testnum + username + video.avi
+              "http://localhost:8000/video.mp4"
           }
         ],
         poster: "src/assets/videoposter.jpg"
@@ -140,7 +148,7 @@ export default {
     },
 
     //video 정보 가져오기
-    getVideoName() {
+    getStudentTest() {
       axios
         .get("http://localhost:8000/stutest/get/dkwjd/1", {
           headers: {
@@ -184,6 +192,9 @@ export default {
         .catch(e => {
           console.log(e);
         });
+    },
+    mounted() {
+      this.getStudentTest();
     }
   }
 };

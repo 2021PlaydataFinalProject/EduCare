@@ -52,7 +52,7 @@
                 <b-field>
                   <span
                     v-if="props.row.testStatus == 'T'"
-                    class="tag is-warn"
+                    class="tag is-danger"
                     v-on:click="takeStudentTest(props.row.testNum)"
                   >
                     시험 응시 하기

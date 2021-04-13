@@ -35,8 +35,12 @@ public class TestServiceimpl implements TestService {
 		try {
 			if (userOpt.isPresent()) {
 				Instructor ins = (Instructor) userOpt.get();
-				Test newTest = Test.builder().testName(testDto.getTestName()).startTime(testDto.getStartTime())
-						.endTime(testDto.getEndTime()).testGuide(testDto.getTestGuide()).insId(ins).build();
+				Test newTest = new Test();
+				newTest.setTestName(testDto.getTestName());
+				newTest.setStartTime(testDto.getStartTime());
+				newTest.setEndTime(testDto.getEndTime());
+				newTest.setTestGuide(testDto.getTestGuide());
+				newTest.setInsId(ins);
 
 				Test savedtest = testRepository.save(newTest);
 				ins.getTestList().add(savedtest);

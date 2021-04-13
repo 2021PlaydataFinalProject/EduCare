@@ -15,4 +15,7 @@ public interface StudentTestRepository extends JpaRepository<StudentTest, Long>{
 
 	@Query(value = "SELECT * FROM studenttest WHERE stu_id=?" , nativeQuery = true)
 	Optional <List<StudentTest>> findAllStudentTestByUserName(String username);
+	
+	@Query(value = "SELECT * FROM studenttest WHERE test_num=?" , nativeQuery = true)
+	Optional <List<StudentTest>> findAllStudentTestByTestNum(long testnum);
 }

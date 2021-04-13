@@ -12,9 +12,11 @@ public interface StudentTestService {
 	
 	public StudentTestDto getStudentTest(String username, long testNum);
 	
-	public List<StudentTestDto> getStudentTestList(String username);
+	public List<StudentTestDto> getStudentTestListByUname(String username);
+	
+	public List<StudentTestDto> getStudentTestListByTNum(long testNum);
 	
 	public boolean updateMyTest(StudentTestDto sttDto, MultipartFile mfile);
 	
-	public boolean updateTestScore(StudentTestDto sttDto);
+	public boolean updateTestScore(String username, Long testnum, String testresult);
 }

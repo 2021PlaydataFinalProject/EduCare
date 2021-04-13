@@ -58,7 +58,7 @@
           <div class="is-user-name">
             <!-- 여기에 user role을 데이터 싱크 맞추어서 적으면 됨 
             {{userRole}} 이런식으로 -->
-            <span>{{ userName }} 강사</span>
+            <span>{{ userName }}</span>
           </div>
           <div slot="dropdown" class="navbar-dropdown">
             <router-link

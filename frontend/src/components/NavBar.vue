@@ -67,7 +67,7 @@
               exact-active-class="is-active"
             >
               <b-icon icon="account" custom-size="default"></b-icon>
-              <template v-if="user != null">
+              <template v-if="authorization != null">
                 <span>마이 페이지</span>
               </template>
               <template v-else>
@@ -85,10 +85,10 @@
             <hr class="navbar-divider" />
             <a class="navbar-item">
               <b-icon icon="logout" custom-size="default"></b-icon>
-              <template>
+              <template v-if="authorization != null">
                 <span @click="logout()">로그아웃</span>
               </template>
-              <template>
+              <template v-else>
                 <router-link to="/signup">회원가입</router-link>
               </template>
             </a>
@@ -135,7 +135,7 @@ export default {
   data() {
     return {
       isMenuNavBarActive: false,
-      user: sessionStorage.getItem("user")
+      authorization: sessionStorage.getItem("Authorization")
     };
   },
   computed: {

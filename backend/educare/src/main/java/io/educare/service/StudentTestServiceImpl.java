@@ -1,18 +1,15 @@
 package io.educare.service;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
 import io.educare.dto.StudentTestDto;
 import io.educare.entity.Student;
 import io.educare.entity.StudentTest;
@@ -20,12 +17,10 @@ import io.educare.entity.Test;
 import io.educare.repository.StudentRepository;
 import io.educare.repository.StudentTestRepository;
 import io.educare.repository.TestRepository;
-
 @Service
 public class StudentTestServiceImpl implements StudentTestService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	
 	private final TestRepository testRepository;
 	private final StudentRepository studentRepository;
 	private final StudentTestRepository studentTestRepository;
@@ -38,15 +33,15 @@ public class StudentTestServiceImpl implements StudentTestService {
 	
 	@Transactional
 	public boolean insertStudentTest(String username, long testNum) {	//강사가 시험에 학생을 추가하면 studenttest table에 학생id, 시험id와 함께 insert
-		Optional<Student> stOpt; 
-		Optional<Test> testOpt; 
+		Optional<Student> stOpt;
+		Optional<Test> testOpt;
 		
 		try {
 			stOpt = studentRepository.findById(username);
 			testOpt = testRepository.findById(testNum);
 			
 			if(stOpt.isPresent() && testOpt.isPresent()) {
-				StudentTest studentTest = new StudentTest(); 
+				StudentTest studentTest = new StudentTest();
 				Student st = stOpt.get();
 				Test test = testOpt.get();
 				
@@ -103,10 +98,10 @@ public class StudentTestServiceImpl implements StudentTestService {
 	
 	public List<StudentTestDto> getStudentTestList(String username) {
 		Optional<List<StudentTest>> stuTestList = studentTestRepository.findAllStudentTestByUserName(username);
-		List<StudentTestDto> stuTestDtoList = stuTestList.get().stream().map(st -> new StudentTestDto( username, null, testRepository.findById(st.getTestNum().getTestNum()).get().getTestName(), 
+		List<StudentTestDto> stuTestDtoList = stuTestList.get().stream().map(st -> new StudentTestDto( username, null, testRepository.findById(st.getTestNum().getTestNum()).get().getTestName(),
 				st.getTestResult(), st.getIsCheating(), Arrays.asList(st.getCheatTime().split(",")), st.getVideoName(),  Arrays.asList(st.getTestAnswer().split(",")), st.getTestStatus(), st.getTestNum().getTestNum() ))
 				.collect(Collectors.toList());
-	
+		logger.info("{} 학생 모든 시험 정보 조회", username);
 		return stuTestDtoList;
 	}
 	
@@ -126,10 +121,9 @@ public class StudentTestServiceImpl implements StudentTestService {
 				
 			} catch (IllegalStateException | IOException e) {
 				e.printStackTrace();
-				logger.info("{}번 문제 녹화파일 등록 실패", sttDto.getTestNum());
+				logger.error("{}번 문제 녹화파일 등록 실패", sttDto.getTestNum());
 				return false;
 			}			
-
 			stt.setTestStatus(sttDto.getTestStatus());	//db에 시험 참석 여부 저장
 			
 			String cheattime = "";
@@ -151,8 +145,10 @@ public class StudentTestServiceImpl implements StudentTestService {
 			stt.setTestAnswer(answer);	//작성 답안 목록 저장(list to string)
 			
 			if(studentTestRepository.save(stt)!=null) {
+				logger.info("{} 학생 시험 답안, 녹화파일 등록 성공");
 				return true;
 			} else {
+				logger.info("{} 학생 시험 답안, 녹화파일 등록 실패");
 				return false;
 			}
 		} else {
@@ -160,7 +156,6 @@ public class StudentTestServiceImpl implements StudentTestService {
 			return false;
 		}
 	}
-
 	@Transactional
 	public boolean updateTestScore(StudentTestDto sttDto) {	//강사가 학생 점수 update
 		
@@ -180,7 +175,7 @@ public class StudentTestServiceImpl implements StudentTestService {
 				}
 			} catch(Exception e) {
 				e.printStackTrace();
-				logger.info("{} 학생 시험점수 update실패");
+				logger.error("{} 학생 시험점수 update실패");
 				return false;
 			}		
 		} else {

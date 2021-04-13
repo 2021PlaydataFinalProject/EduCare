@@ -1,11 +1,7 @@
 package io.educare.service;
-
 import java.util.List;
-
 import org.springframework.web.multipart.MultipartFile;
-
 import io.educare.dto.StudentTestDto;
-
 public interface StudentTestService {
 	
 	public boolean insertStudentTest(String username, long testNum);	//강사가 시험에 학생을 추가하면 studenttest table에 학생id, 시험id와 함께 insert
@@ -18,3 +14,8 @@ public interface StudentTestService {
 	
 	public boolean updateTestScore(StudentTestDto sttDto);
 }
+
+
+
+
+

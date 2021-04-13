@@ -6,3 +6,4 @@
 .metadata/.plugins/org.eclipse.m2e.logback.configuration/0.log
 ./backend/educare/pom.xml
 config.addAllowedOrigin("http://localhost:8081");
+*.log

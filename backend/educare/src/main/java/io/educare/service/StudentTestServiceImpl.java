@@ -99,8 +99,7 @@ public class StudentTestServiceImpl implements StudentTestService {
 		}		
 	}
 	
-	// 학생이 자신이 참여할 시험 리스트 조회
-	public List<StudentTestDto> getStudentTestList(String username) {
+	public List<StudentTestDto> getStudentTestListByUname(String username) {
 		Optional<List<StudentTest>> stuTestList = studentTestRepository.findAllStudentTestByUserName(username);
 		
 		Stream<StudentTest> rawStuTestListBef = stuTestList.get().stream().filter(st -> st.getTestAnswer() == null);
@@ -120,6 +119,16 @@ public class StudentTestServiceImpl implements StudentTestService {
 		logger.info("{} 학생 모든 시험 정보 조회", username);
 		return joined;
 	}
+	
+		public List<StudentTestDto> getStudentTestListByTNum(long testnum) {
+			Optional<List<StudentTest>> stuTestList = studentTestRepository.findAllStudentTestByTestNum(testnum);
+
+			List<StudentTestDto> stuTestDtoList = stuTestList.get().stream().map(st -> new StudentTestDto(st.getStuId().getUsername(), 
+					studentRepository.findById(st.getStuId().getUsername()).get().getUserRealName() , null, st.getTestResult(), st.getIsCheating(), null, 
+					null, null, st.getTestStatus(), st.getTestNum().getTestNum())).collect(Collectors.toList());
+			logger.info("{} 시험 응시 학생 정보 조회", testnum);
+			return stuTestDtoList;
+		}
 	
 	@Transactional
 	public boolean updateMyTest(StudentTestDto sttDto, MultipartFile mfile) {	//학생이 answer, cheattime, ischeating,   studenttest table update
@@ -172,13 +181,13 @@ public class StudentTestServiceImpl implements StudentTestService {
 		}
 	}
 	@Transactional
-	public boolean updateTestScore(StudentTestDto sttDto) {	//강사가 학생 점수 update
-		Optional<StudentTest> sttOpt = studentTestRepository.findById(sttDto.getTestNum());
+	public boolean updateTestScore(String username, Long testnum, String testresult) {	//강사가 학생 점수 update
+		Optional<StudentTest> sttOpt = studentTestRepository.findStudentTestByUserNameAndTestNum(username,testnum);
 		
 		if(sttOpt.isPresent()) {
 			try {
 				StudentTest stt = sttOpt.get();
-				stt.setTestResult(sttDto.getTestResult());			
+				stt.setTestResult(testresult);			
 				
 				if(studentTestRepository.save(stt) != null) {
 					logger.info("{} 학생 시험점수 update성공");

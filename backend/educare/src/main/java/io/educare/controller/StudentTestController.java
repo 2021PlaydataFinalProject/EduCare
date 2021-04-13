@@ -21,6 +21,7 @@ public class StudentTestController {
 	public StudentTestController(StudentTestService stTestservice) {
 		this.stTestservice = stTestservice;
 	}
+  
 	@PostMapping("/insert/{username}/{testnum}")
 	@PreAuthorize("hasAnyRole('INSTRUCTOR')")
 	public ResponseEntity<String> insertStudentTestProblem(@PathVariable String username, @PathVariable long testnum) {	//강사가 테스트에 학생 추가하는 메서드
@@ -30,18 +31,28 @@ public class StudentTestController {
 			return  new ResponseEntity<String>("학생 시험 매칭 등록 실패", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+
 	@GetMapping("/get/{username}/{testnum}")
 	@PreAuthorize("hasAnyRole('INSTRUCTOR','STUDENT')")
 	public ResponseEntity<StudentTestDto> getStudentTest(@PathVariable String username, @PathVariable long testnum) {
 		return new ResponseEntity<StudentTestDto>(stTestservice.getStudentTest(username,testnum), HttpStatus.OK) ;
 	}
 	
+	// 학생이 자신이 참여할 시험 리스트 조회
 	@GetMapping("/get/{username}")
 	@PreAuthorize("hasAnyRole('INSTRUCTOR','STUDENT')")
-	public ResponseEntity<List<StudentTestDto>> getStudentTestList(@PathVariable String username) {
-		return new ResponseEntity<List<StudentTestDto>>(stTestservice.getStudentTestList(username), HttpStatus.OK) ;
+	public ResponseEntity<List<StudentTestDto>> getStudentTestListByUname(@PathVariable String username) {
+		return new ResponseEntity<List<StudentTestDto>>(stTestservice.getStudentTestListByUname(username), HttpStatus.OK) ;
 	}
 	
+	// 강사가 studentTest에서 자기 출제한 testpk 주고 시험에 등록한 학생 응시자들 조회
+	@GetMapping("/getstu/{testnum}")
+	@PreAuthorize("hasAnyRole('INSTRUCTOR')")
+	public ResponseEntity<List<StudentTestDto>> getStudentTestListByTNum(@PathVariable long testnum) {
+		return new ResponseEntity<List<StudentTestDto>>(stTestservice.getStudentTestListByTNum(testnum), HttpStatus.OK) ;
+	}
+	
+
 	@PutMapping("/update-mytest")
 	@PreAuthorize("hasAnyRole('STUDENT')")	//답안 등록은 학생들만 가능
 	public ResponseEntity<String> updateStudentTest(StudentTestDto sttDto,
@@ -51,12 +62,13 @@ public class StudentTestController {
 		}else {
 			return new ResponseEntity<String>("답안 작성, 녹화파일 저장 실패", HttpStatus.NOT_MODIFIED);
 		}
-	}
-	@PutMapping("/update-score")
+  }
+  
+	@PutMapping("/update-score/{username}/{testnum}/{testResult}")
 	@PreAuthorize("hasAnyRole('INSTRUCTOR')")
-	public ResponseEntity<String> updateScore(@RequestBody StudentTestDto sttDto) {
+	public ResponseEntity<String> updateScore(@PathVariable String username,@PathVariable Long testnum,@PathVariable String testResult) {
 		
-		if (stTestservice.updateTestScore(sttDto)) {
+		if (stTestservice.updateTestScore(username, testnum, testResult)) {
 			return  new ResponseEntity<String>("채점 결과 저장 성공",  HttpStatus.OK);
 		} else {
 			return new ResponseEntity<String>("채점 결과 저장 실패",  HttpStatus.NOT_MODIFIED);		

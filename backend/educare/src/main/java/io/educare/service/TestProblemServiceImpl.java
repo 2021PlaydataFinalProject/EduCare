@@ -50,8 +50,13 @@ public class TestProblemServiceImpl implements TestProblemService {
 			if (testOpt.isPresent()) {
 				
 				String proSel = String.join("/", tProblemDto.getProSel());
-				TestProblem newtProblem = TestProblem.builder().proNum(tProblemDto.getProNum()).proDes(tProblemDto.getProDes())
-						.proSel(proSel).proImage(imgname).proAnswer(tProblemDto.getProAnswer()).testNum(testOpt.get()).build();
+				TestProblem newtProblem = new TestProblem();
+				newtProblem.setProNum(tProblemDto.getProNum());
+				newtProblem.setProDes(tProblemDto.getProDes());
+				newtProblem.setProSel(proSel);
+				newtProblem.setProImage(imgname);
+				newtProblem.setProAnswer(tProblemDto.getProAnswer());
+				newtProblem.setTestNum(testOpt.get());
 				
 				TestProblem testProblem = tProblemRepository.save(newtProblem);
 				testOpt.get().getProblemList().add(testProblem);
@@ -76,8 +81,13 @@ public class TestProblemServiceImpl implements TestProblemService {
 		try {
 			if (testOpt.isPresent()) {
 				String proSel = String.join("/", tProblemDto.getProSel());
-				TestProblem newtProblem = TestProblem.builder().proNum(tProblemDto.getProNum()).proDes(tProblemDto.getProDes())
-						.proSel(proSel).proImage("default.png").proAnswer(tProblemDto.getProAnswer()).testNum(testOpt.get()).build();
+				TestProblem newtProblem = new TestProblem();
+				newtProblem.setProNum(tProblemDto.getProNum());
+				newtProblem.setProDes(tProblemDto.getProDes());
+				newtProblem.setProSel(proSel);
+				newtProblem.setProImage("default.png");
+				newtProblem.setProAnswer(tProblemDto.getProAnswer());
+				newtProblem.setTestNum(testOpt.get());
 				
 				TestProblem testProblem = tProblemRepository.save(newtProblem);
 				testOpt.get().getProblemList().add(testProblem);

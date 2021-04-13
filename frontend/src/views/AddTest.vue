@@ -126,7 +126,7 @@ export default {
       // ] = sessionStorage.getItem("Authorization");
       axios
         .post(
-          "http://localhost:8000/test/create?username=teacher@educare.com",
+          "http://localhost:8000/test/create?username=teacher",
           addTestData,
           {
             headers: {

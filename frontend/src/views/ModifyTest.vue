@@ -2,101 +2,71 @@
   <div>
     <title-bar :title-stack="titleStack" />
     <hero-bar>
-      시험 수정하기
+      시험 만들기
     </hero-bar>
     <section class="section is-main-section">
-      <card-component
-        class="has-table has-mobile-sort-spaced"
-        title="시험 수정하기"
-        icon="account-multiple"
-      >
-        <div id="app" class="container">
-          <section>
-            <b-table :data="isEmpty ? [] : test" :hoverable="isHoverable">
-              <b-table-column
-                field="testNum"
-                label="시험번호"
-                numeric
-                centered
-                v-slot="props"
-              >
-                {{ props.row.testNum }}
-              </b-table-column>
-
-              <b-table-column
-                field="endTime"
-                label="종료 시간"
-                v-slot="props"
-                centered
-              >
-                {{ props.row.endTime }}
-              </b-table-column>
-
-              <b-table-column
-                field="startTime"
-                label="시작 시간"
-                v-slot="props"
-                centered
-              >
-                {{ props.row.startTime }}
-              </b-table-column>
-              <b-table-column
-                field="testGuide"
-                label="시험 유의사항"
-                v-slot="props"
-                centered
-              >
-                {{ props.row.testGuide }}
-              </b-table-column>
-              <b-table-column
-                field="instructorId"
-                label="담당교수명"
-                v-slot="props"
-                centered
-              >
-                {{ props.row.instructorId }}
-              </b-table-column>
-              <b-table-column label="수정 및 삭제" v-slot="props" centered>
-                <b-button
-                  type="is-primary is-light"
-                  outlined
-                  v-on:click="updateInstructorTest(props.row.testNum)"
-                  position="is-centered"
-                  size="is-small"
-                  >수정</b-button
-                >
-                <b-button
-                  type="is-danger is-light"
-                  outlined
-                  v-on:click="deleteInstructorTest(props.row.testNum)"
-                  position="is-centered"
-                  size="is-small"
-                  >삭제</b-button
-                >
-              </b-table-column>
-              <b-table-column label="응시자 관리" v-slot="props" centered>
-                <b-button
-                  type="is-primary is-light"
-                  outlined
-                  v-on:click="manageStudentList(props.row.testNum)"
-                  position="is-centered"
-                  size="is-small"
-                  >관리</b-button
-                >
-              </b-table-column>
-            </b-table>
-          </section>
-          <b-button
-            tag="router-link"
-            to="/addtest"
-            type="is-link"
-            class="button is-primary is-pulled-right"
-            >시험생성</b-button
+      <card-component title="시험" icon="ballot">
+        <b-field label="시험명" message="과목명을 적어주세요." horizontal>
+          <b-input
+            placeholder="시험명 : 소제목"
+            v-model="form.testName"
+            name="testName"
+            maxlength="150"
+            required
+          />
+        </b-field>
+        <b-field label="시험 시간 지정" horizontal>
+          <b-field
+            :label-position="labelPosition"
+            message="시험 시작 시간 지정"
           >
-        </div>
+            <b-datetimepicker
+              rounded
+              label="시험 시작 시간"
+              icon="calendar-today"
+              v-model="form.startTime"
+              :localISOdt="localISOdt"
+              :datepicker="{ showWeekNumber }"
+              :timepicker="{ enableSeconds, hourFormat }"
+              horizontal-time-picker
+            >
+            </b-datetimepicker>
+          </b-field>
+          <b-field
+            :label-position="labelPosition"
+            name="endTime"
+            message="시험 종료 시간 지정"
+          >
+            <b-datetimepicker
+              rounded
+              icon="calendar-today"
+              v-model="form.endTime"
+              :localISOdt="localISOdt"
+              :datepicker="{ showWeekNumber }"
+              :timepicker="{ enableSeconds, hourFormat }"
+              horizontal-time-picker
+            >
+            </b-datetimepicker>
+          </b-field>
+        </b-field>
+        <b-field
+          label="시험 유의사항"
+          message="당신의 시험 유의사항을 255자 이내로 작성하세요."
+          horizontal
+        >
+          <b-input
+            type="textarea"
+            placeholder="해당 시험 유의사항 만들기"
+            v-model="form.testGuide"
+            maxlength="255"
+            required
+          />
+        </b-field>
+        <b-button @click="updateTestRec" v-on:click="testForm()"
+          >시험 만들기</b-button
+        >
+        <hr />
       </card-component>
-
-      <hr />
     </section>
   </div>
 </template>
@@ -105,11 +75,10 @@ import TitleBar from "@/components/TitleBar";
 import CardComponent from "@/components/CardComponent";
 import HeroBar from "@/components/HeroBar";
 import { localISOdt } from "local-iso-dt";
-// import AddTestTable from "@/components/AddTestTable";
 import axios from "axios";
 
 export default {
-  name: "AddTest",
+  name: "ModifyTest",
   components: {
     HeroBar,
     CardComponent,
@@ -172,7 +141,6 @@ export default {
           alert("시험 생성 성공!");
           console.log(response.data);
           this.testNum = response.data;
-          // this.$router.push({ name: "InstructorTest" });
           this.$router.push({
             name: "AddTestProblems",
             params: { testNum: this.testNum }

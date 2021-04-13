@@ -71,7 +71,17 @@
                 v-slot="props"
                 centered
               >
-                {{ props.row.testResult }}
+                <b-field>
+                  <span v-if="props.row.testResult == null" class="tag is-warn">
+                    채점중
+                  </span>
+                  <span
+                    v-else-if="(props.row.testStatus = !null)"
+                    class="tag is-success"
+                  >
+                    {{ props.row.testResult }}
+                  </span>
+                </b-field>
               </b-table-column>
             </b-table>
           </section>
@@ -125,7 +135,7 @@ export default {
   },
   data: function() {
     return {
-      stutest: ""
+      studenttest: ""
     };
   },
   computed: {
@@ -143,7 +153,7 @@ export default {
         })
         .then(response => {
           this.studenttest = response.data;
-          console.log("확인")
+          console.log("확인");
           console.log(this.studenttest);
           // alert(this.test);
         })

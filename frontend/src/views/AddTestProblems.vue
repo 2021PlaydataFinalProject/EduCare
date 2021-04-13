@@ -30,14 +30,18 @@
           <b-field label="1번" :label-position="labelPosition">
             <b-input
               placeholder="1번 보기를 입력하세요."
-              v-model="form.proSel.one"
+              name="form.proSel[]"
+              v-on:input="changed"
+              v-model="form.proSel[0]"
               maxlength="150"
             ></b-input>
           </b-field>
           <b-field label="2번" :label-position="labelPosition">
             <b-input
               placeholder="2번 보기를 입력하세요."
-              v-model="form.proSel.two"
+              v-on:input="changed"
+              name="form.proSel[]"
+              v-model="form.proSel[1]"
               maxlength="150"
             >
             </b-input>
@@ -45,14 +49,18 @@
           <b-field label="3번" :label-position="labelPosition">
             <b-input
               placeholder="3번 보기를 입력하세요."
-              v-model="form.proSel.three"
+              v-on:input="changed"
+              name="form.proSel[]"
+              v-model="form.proSel[2]"
               maxlength="150"
             ></b-input>
           </b-field>
           <b-field label="4번" :label-position="labelPosition">
             <b-input
               placeholder="4번 보기를 입력하세요."
-              v-model="form.proSel.four"
+              v-on:input="changed"
+              name="form.proSel[]"
+              v-model="form.proSel[3]"
               maxlength="150"
             ></b-input>
           </b-field>
@@ -155,17 +163,11 @@ export default {
       isLoading: false,
       testNum: this.$route.params.testNum,
       test: "",
-      test2: "",
       spliList: [],
       form: {
         proNum: 1,
         proDes: "",
-        proSel: {
-          one: "",
-          two: "",
-          three: "",
-          four: ""
-        },
+        proSel: [],
         proImage: "",
         proAnswer: ""
       }
@@ -178,17 +180,17 @@ export default {
   },
   methods: {
     testproblemForm() {
-      let proSelList = [];
-      proSelList.push(this.form.proSel.one);
-      proSelList.push(this.form.proSel.two);
-      proSelList.push(this.form.proSel.three);
-      proSelList.push(this.form.proSel.four);
-      this.proSel = proSelList.join(",");
+    //   let proSelList = [];
+    //   proSelList.push(this.form.proSel.one);
+    //   proSelList.push(this.form.proSel.two);
+    //   proSelList.push(this.form.proSel.three);
+    //   proSelList.push(this.form.proSel.four);
+    //   this.proSel = proSelList.join(",");
 
       let formData = new FormData();
       formData.append("proNum", this.form.proNum);
       formData.append("proDes", this.form.proDes);
-      formData.append("proSel", this.proSel);
+      formData.append("proSel", this.form.proSel);
       formData.append("proImage", this.form.proImage);
       formData.append("proAnswer", this.form.proAnswer);
       axios
@@ -213,9 +215,9 @@ export default {
         });
     },
     initForm() {
-      this.testnum = "";
+      this.proNum = "";
+      this.testNum = "";
       this.proId = "";
-      this.pronum = "";
       this.proDes = "";
       this.proSel = "";
       this.proImage = "";

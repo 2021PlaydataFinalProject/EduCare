@@ -71,9 +71,9 @@ public class UserController {
 		return new ResponseEntity<UserDto>(userService.getMyUser(username), HttpStatus.OK);
 	}
 
-	@GetMapping("/{username}") // 강사가 학생들 조회 @PathVariable 방식
+	@GetMapping("/stuinfo") // 강사가 학생들 조회 @PathVariable 방식
 	@PreAuthorize("hasAnyRole('INSTRUCTOR')")
-	public ResponseEntity<UserDto> getStudent(@PathVariable("username") String username) {
+	public ResponseEntity<UserDto> getStudent(@RequestParam String username) {
 		return new ResponseEntity<UserDto>(userService.getStudent(username), HttpStatus.OK);
 	}
 
@@ -81,6 +81,13 @@ public class UserController {
 	@PreAuthorize("hasAnyRole('INSTRUCTOR')")
 	public ResponseEntity<List<UserDto>> getStudentList() {
 		List<UserDto> uDtoList = userService.getStudentList();
+		return new ResponseEntity<List<UserDto>>(uDtoList, HttpStatus.OK);
+	}
+	
+	@GetMapping("/notest/{testnum}") 
+	@PreAuthorize("hasAnyRole('INSTRUCTOR')")
+	public ResponseEntity<List<UserDto>> getStudentListNotInTest(@PathVariable long testnum) {
+		List<UserDto> uDtoList = userService.getStudentListNotInTest(testnum);
 		return new ResponseEntity<List<UserDto>>(uDtoList, HttpStatus.OK);
 	}
 

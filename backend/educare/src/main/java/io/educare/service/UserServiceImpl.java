@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -35,53 +34,56 @@ import io.educare.repository.UserRepository;
 
 @Service
 public class UserServiceImpl implements UserService {
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	private ModelMapper mapper;
 
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	private final UserRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
 	private final TokenProvider tokenProvider;
 	private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
 	public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, TokenProvider tokenProvider,
-			AuthenticationManagerBuilder authenticationManagerBuilder, ModelMapper mapper) {
+			AuthenticationManagerBuilder authenticationManagerBuilder) {
 		this.userRepository = userRepository;
 		this.passwordEncoder = passwordEncoder;
 		this.tokenProvider = tokenProvider;
 		this.authenticationManagerBuilder = authenticationManagerBuilder;
-		this.mapper = mapper;
 	}
 
 	public ResponseEntity<UserDto> login(LoginDto loginDto, HttpServletResponse res) {
 		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
 				loginDto.getUsername(), loginDto.getPassword());
 
-		// authenticate(authenticationToken)하면 customeruserdetailsservice의
+		// authenticate(authenticationToken)하면 CustomerUserDetailsService의
 		// loaduserbyusername 실행됨
 		Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
-		// 인증 정보를 JwtFilter 클래스의 doFilter 메소드와 유사하게 현재 실행중인 스레드 ( Security Context ) 에
-		// 저장
+		// 인증 정보를 JwtFilter 클래스의 doFilter 메소드와 유사하게 현재 실행중인 스레드 (Security Context) 에 저장
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		// 해당 인증 정보를 기반으로 jwt 토큰을 생성
 		String jwt = tokenProvider.createToken(authentication);
-		
+
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
-		
+
 		Optional<User> userOpt = userRepository.findById(authentication.getName());
 
 		if (userOpt.isPresent()) {
-			UserDto userDto = mapper.map(userOpt.get(), UserDto.class);
+			User user = userOpt.get();
+			UserDto userDto = UserDto.builder().username(user.getUsername()).userRealname(user.getUserRealName())
+					.phoneNumber(user.getPhoneNumber()).userImage(user.getUserImage()).role(user.getRole()).build();
+
+			logger.info("로그인 유저 정보 요청 성공");
 			return new ResponseEntity<>(userDto, httpHeaders, HttpStatus.OK);
 		} else {
-			logger.error("로그인 유저 정보 요청 실패");
+			logger.info("로그인 유저 정보 요청 실패");
 			return null;
 		}
 	}
-	
+
 	public Boolean logout(HttpServletRequest req) {
-		try { return true;
+		try {
+			logger.info("로그아웃 성공");
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("로그아웃 실패");
@@ -89,8 +91,7 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
-	// 이미 같은 username으로 가입된 유저가 있는 지 확인하고, UserDto 객체의 정보들을 기반으로 권한 객체와 유저 객체를 생성하여
-	// Database에 저장
+	// 이미 같은 username으로 가입된 유저가 있는 지 확인, UserDto 객체의 정보들을 기반 권한 객체와 유저 객체를 생성해 db 저장
 	@Transactional
 	public Boolean insertUser(UserDto userDto, MultipartFile mfile) {
 		Optional<User> findMyUser = userRepository.findById(userDto.getUsername());
@@ -109,30 +110,34 @@ public class UserServiceImpl implements UserService {
 				}
 
 				if (userDto.getRole().equals("student")) {
-					Student student = new Student();
-					student.setUsername(userDto.getUsername());
-					student.setPassword(passwordEncoder.encode(userDto.getPassword()));
-					student.setUserRealName(userDto.getUserRealname());
-					student.setPhoneNumber(userDto.getPhoneNumber());
-					student.setUserImage(imgname);
+					Student student = Student.builder().username(userDto.getUsername())
+							.password(passwordEncoder.encode(userDto.getPassword()))
+							.userRealName(userDto.getUserRealname()).phoneNumber(userDto.getPhoneNumber())
+							.userImage(imgname).build();
+
 					userRepository.save(student);
+					logger.info("{} 학생 회원가입 성공", userDto.getUsername());
+					return true;
+				} else if (userDto.getRole().equals("instructor")) {
+					Instructor instructor = Instructor.builder().username(userDto.getUsername())
+							.password(passwordEncoder.encode(userDto.getPassword()))
+							.userRealName(userDto.getUserRealname()).phoneNumber(userDto.getPhoneNumber())
+							.userImage(imgname).build();
+
+					userRepository.save(instructor);
+					logger.info("{} 강사 회원가입 성공", userDto.getUsername());
 					return true;
 				} else {
-					Instructor instructor = new Instructor();
-					instructor.setUsername(userDto.getUsername());
-					instructor.setPassword(passwordEncoder.encode(userDto.getPassword()));
-					instructor.setUserRealName(userDto.getUserRealname());
-					instructor.setPhoneNumber(userDto.getPhoneNumber());
-					instructor.setUserImage(imgname);
-					userRepository.save(instructor);
-					return true;
+					logger.info("{} 학생, 강사가 아닙니다. 회원가입 실패", userDto.getUsername());
+					return false;
 				}
 			} else {
-				logger.error("{} 기존가입 회원가입 실패", userDto.getUsername());
+				logger.info("{} 기존가입 회원가입 실패", userDto.getUsername());
 				return false;
 			}
 		} catch (Exception e) {
-			logger.error("{} 기존가입 회원가입 실패", userDto.getUsername());
+			e.printStackTrace();
+			logger.error("{} 회원가입 실패", userDto.getUsername());
 			return false;
 		}
 	}
@@ -140,80 +145,87 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public Boolean insertUserNoimg(UserDto userDto) {
 		Optional<User> findUser = userRepository.findById(userDto.getUsername());
+
 		try {
 			if (!findUser.isPresent()) {
 				if (userDto.getRole().equals("student")) {
-					Student student = new Student();
-					student.setUsername(userDto.getUsername());
-					student.setPassword(passwordEncoder.encode(userDto.getPassword()));
-					student.setUserRealName(userDto.getUserRealname());
-					student.setPhoneNumber(userDto.getPhoneNumber());
-					student.setUserImage("default.png");
+					Student student = Student.builder().username(userDto.getUsername())
+							.password(passwordEncoder.encode(userDto.getPassword()))
+							.userRealName(userDto.getUserRealname()).phoneNumber(userDto.getPhoneNumber())
+							.userImage("default.png").build();
+
+					logger.info("{} 학생 회원가입 성공", userDto.getUsername());
 					userRepository.save(student);
 					return true;
-				} else {
-					Instructor instructor = new Instructor();
-					instructor.setUsername(userDto.getUsername());
-					instructor.setPassword(passwordEncoder.encode(userDto.getPassword()));
-					instructor.setUserRealName(userDto.getUserRealname());
-					instructor.setPhoneNumber(userDto.getPhoneNumber());
-					instructor.setUserImage("default.png");
+				} else if (userDto.getRole().equals("instructor")) {
+					Instructor instructor = Instructor.builder().username(userDto.getUsername())
+							.password(passwordEncoder.encode(userDto.getPassword()))
+							.userRealName(userDto.getUserRealname()).phoneNumber(userDto.getPhoneNumber())
+							.userImage("default.png").build();
+
+					logger.info("{} 강사 회원가입 성공", userDto.getUsername());
 					userRepository.save(instructor);
 					return true;
+				} else {
+					logger.info("{} 학생, 강사가 아닙니다. 회원가입 실패", userDto.getUsername());
+					return false;
 				}
 			} else {
-				logger.error("{} 기존가입 회원가입 실패", userDto.getUsername());
+				logger.info("{} 기존가입 회원가입 실패", userDto.getUsername());
 				return false;
 			}
 		} catch (Exception e) {
-			logger.error("{} 기존가입 회원가입 실패", userDto.getUsername());
+			e.printStackTrace();
+			logger.error("{} 회원가입 실패", userDto.getUsername());
 			return false;
 		}
 	}
 
 	public UserDto getMyUser(String username) {
-
 		Optional<User> findMyUser = userRepository.findById(username);
 
 		if (findMyUser.isPresent()) {
-			User user = userRepository.findById(username).get();
-			UserDto userDto = mapper.map(user, UserDto.class);
+			User user = findMyUser.get();
+			UserDto userDto = UserDto.builder().username(user.getUsername()).userRealname(user.getUserRealName())
+					.phoneNumber(user.getPhoneNumber()).userImage(user.getUserImage()).role(user.getRole()).build();
+
 			logger.info("{} 회원 조회 요청 성공", username);
 			return userDto;
 		} else {
-			logger.error("미존재 회원 {} 조회 요청 실패", username);
+			logger.info("미존재 회원 {} 조회 요청 실패", username);
 			return null;
 		}
 	}
 
 	public UserDto getStudent(String username) {
-
 		Optional<User> findMyUser = userRepository.findById(username);
 
 		if (findMyUser.isPresent()) {
-			User user = userRepository.findById(username).get();
-			UserDto userDto = mapper.map(user, UserDto.class);
+			User user = findMyUser.get();
+			UserDto userDto = UserDto.builder().username(user.getUsername()).userRealname(user.getUserRealName())
+					.phoneNumber(user.getPhoneNumber()).userImage(user.getUserImage()).role(user.getRole()).build();
+
 			logger.info("{} 회원 조회 요청 성공", username);
 			return userDto;
 		} else {
-			logger.error("미존재 회원 {} 조회 요청 실패", username);
+			logger.info("미존재 회원 {} 조회 요청 실패", username);
 			return null;
 		}
 	}
 
 	public List<UserDto> getStudentList() {
-
 		List<User> userList = userRepository.findAllUserByRole("ROLE_STUDENT");
 		List<UserDto> uDtoList = userList.stream().map(u -> new UserDto(u.getUsername(), null, u.getUserRealName(),
 				u.getPhoneNumber(), u.getUserImage(), u.getRole())).collect(Collectors.toList());
-		logger.info("전체 학생 회원 조회 요청");
+
+		logger.info("전체 학생 회원 조회");
 		return uDtoList;
 	}
 
 	@Transactional
 	public Boolean updateUser(UserDto userDto, MultipartFile mfile) {
-
 		Optional<User> findUser = userRepository.findById(userDto.getUsername());
+
 		try {
 			if (findUser.isPresent()) {
 				String imgname = null;
@@ -230,7 +242,7 @@ public class UserServiceImpl implements UserService {
 						if (file.delete()) {
 							logger.info("{} 회원 기존 이미지 삭제 완료", userDto.getUsername());
 						} else {
-							logger.debug("{} 회원 기존 이미지 삭제 실패", userDto.getUsername());
+							logger.info("{} 회원 기존 이미지 삭제 실패", userDto.getUsername());
 						}
 					}
 				} catch (IllegalStateException | IOException e) {
@@ -244,15 +256,17 @@ public class UserServiceImpl implements UserService {
 				finduser.setUserRealName(userDto.getUserRealname());
 				finduser.setPhoneNumber(userDto.getPhoneNumber());
 				finduser.setUserImage(imgname);
+
 				userRepository.save(finduser);
+				logger.info("{} 회원 정보 수정 성공", userDto.getUsername());
 				return true;
 			} else {
-				logger.error("미존재 회원 {} 갱신 요청 실패", userDto.getUsername());
+				logger.info("미존재 회원 {} 정보 수정 실패", userDto.getUsername());
 				return false;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("미존재 회원 {} 갱신 요청 실패", userDto.getUsername());
+			logger.error("미존재 회원 {} 정보 수정 실패", userDto.getUsername());
 			return false;
 		}
 	}
@@ -260,34 +274,35 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public Boolean updateUserNoimg(UserDto userDto) {
 		Optional<User> findUser = userRepository.findById(userDto.getUsername());
+
 		try {
 			if (findUser.isPresent()) {
-
 				User finduser = findUser.get();
 				finduser.setUsername(finduser.getUsername());
 				finduser.setPassword(passwordEncoder.encode(userDto.getPassword()));
 				finduser.setUserRealName(userDto.getUserRealname());
 				finduser.setPhoneNumber(userDto.getPhoneNumber());
+
 				userRepository.save(finduser);
+				logger.info("{} 회원 정보 수정 성공", userDto.getUsername());
 				return true;
 			} else {
-				logger.error("미존재 회원 {} 갱신 요청 실패", userDto.getUsername());
+				logger.info("미존재 회원 {} 정보 수정 실패", userDto.getUsername());
 				return false;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("미존재 회원 {} 갱신 요청 실패", userDto.getUsername());
+			logger.error("미존재 회원 {} 정보 수정 실패", userDto.getUsername());
 			return false;
 		}
 	}
 
 	@Transactional
 	public Boolean deleteUser(String username) {
-
 		Optional<User> findUser = userRepository.findById(username);
+
 		try {
 			if (findUser.isPresent()) {
-
 				String filename = findUser.get().getUserImage();
 				File file = new File(System.getProperty("user.dir") + "\\src\\main\\webapp\\userimg\\" + filename);
 
@@ -295,19 +310,19 @@ public class UserServiceImpl implements UserService {
 					if (file.delete()) {
 						logger.info("{} 회원 기존 이미지 삭제 완료", findUser.get().getUsername());
 					} else {
-						logger.error("{} 회원 기존 이미지 삭제 실패", findUser.get().getUsername());
+						logger.info("{} 회원 기존 이미지 삭제 실패", findUser.get().getUsername());
 					}
 				}
 				userRepository.delete(findUser.get());
-
 				logger.info("{} 회원 탈퇴 완료", username);
 				return true;
 			} else {
-				logger.error("미존재 회원 {} 탈퇴 요청 실패", username);
+				logger.info("미존재 회원 {} 탈퇴 실패", username);
 				return false;
 			}
 		} catch (Exception e) {
-			logger.error("회원 {} 탈퇴 요청 실패", username);
+			e.printStackTrace();
+			logger.error("회원 {} 탈퇴 실패", username);
 			return false;
 		}
 	}

@@ -1,5 +1,7 @@
 package io.educare.dto;
 
+import java.util.List;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -22,7 +24,7 @@ public class TestProblemDto {
 	
 	   @NotNull
 	   @Size(min = 8, max = 20)
-	   private Integer proNum;
+	   private int proNum;
 	   
 	   @NotNull
 	   @Size(min = 8)
@@ -30,7 +32,7 @@ public class TestProblemDto {
 
 	   @NotNull
 	   @Size(min = 2)
-	   private String proSel;
+	   private List<String> proSel;
 	   
 	   @NotNull
 	   @Size(min = 2, max = 100)

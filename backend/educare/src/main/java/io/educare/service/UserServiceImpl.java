@@ -227,6 +227,15 @@ public class UserServiceImpl implements UserService {
 		logger.info("전체 학생 회원 조회");
 		return uDtoList;
 	}
+	
+	public List<UserDto> getStudentListNotInTest(long testnum) {
+		List<User> userList = userRepository.findAllUserNotInTest(testnum);
+		List<UserDto> uDtoList = userList.stream().map(u -> new UserDto(u.getUsername(), null, u.getUserRealName(),
+				u.getPhoneNumber(), u.getUserImage(), u.getRole())).collect(Collectors.toList());
+
+		logger.info("전체 학생 회원 조회");
+		return uDtoList;
+	}
 
 	@Transactional
 	public Boolean updateUser(UserDto userDto, MultipartFile mfile) {

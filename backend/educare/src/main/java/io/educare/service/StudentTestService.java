@@ -14,7 +14,9 @@ public interface StudentTestService {
 	
 	public boolean updateMyTest(StudentTestDto sttDto, MultipartFile mfile);
 	
-	public boolean updateTestScore(String username, Long testnum, String testresult);
+	public boolean updateTestScore(String username, long testnum, String testresult);
+	
+	public boolean deleteStudentTestByUserName(String username, long testnum);
 }
 
 

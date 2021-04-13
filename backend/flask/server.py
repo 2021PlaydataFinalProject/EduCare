@@ -16,6 +16,7 @@ mysql = MySQL(app)
 video_camera = None
 global_frame = None
 status = 'true'
+time_list = None
 
 @app.route('/')
 def index():
@@ -50,6 +51,8 @@ def index():
 @app.route('/record_status', methods=['POST'])
 def record_status():
     global video_camera 
+    global time_list
+
     if video_camera == None:
         video_camera = VideoCamera()
     json = request.get_json()
@@ -61,12 +64,16 @@ def record_status():
         return jsonify(result="started")
     if status == "false":
         video_camera.stop_record()
+        # db에 모든 정보 저장(answerlist, time_list)
+        if time_list != None:
+            print("when video finished",time_list)
         return jsonify(result="stopped")
 
 def video_stream():
     global video_camera 
     global global_frame
     start_time = time.time()
+    global time_list
     time_list = list()
 
     if video_camera == None:
@@ -82,7 +89,7 @@ def video_stream():
         else:
             yield (b'--frame\r\n'
                             b'Content-Type: image/jpeg\r\n\r\n' + global_frame + b'\r\n\r\n')
-        print("in sever.py",time_list)
+        #print("in sever.py",time_list)
     
 
 @app.route('/video_viewer')

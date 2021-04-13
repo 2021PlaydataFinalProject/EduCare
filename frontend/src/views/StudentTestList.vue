@@ -136,13 +136,14 @@ export default {
   methods: {
     getStudentTest() {
       axios
-        .get("http://localhost:8000/studenttest/get/dkwjd/1", {
+        .get("http://localhost:8000/stutest/get/dkwjd", {
           headers: {
             Authorization: sessionStorage.getItem("Authorization")
           }
         })
         .then(response => {
           this.studenttest = response.data;
+          console.log("확인")
           console.log(this.studenttest);
           // alert(this.test);
         })

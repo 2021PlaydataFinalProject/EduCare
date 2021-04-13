@@ -12,7 +12,6 @@
         </b-field>
         <b-field
           label="문제"
-          name="proDes"
           message="당신의 문제를 255자 이내로 작성하세요."
           horizontal
         >
@@ -25,7 +24,6 @@
         </b-field>
         <b-field
           label="보기"
-          name="proSel"
           message="당신이 내고 싶은 문항을 작성하세요."
           horizontal
         >
@@ -74,11 +72,6 @@
           </b-field>
         </b-field>
         <b-button v-on:click="testproblemForm()">문제/보기 등록</b-button>
-        <!-- <div style="text-align: center;"> -->
-        <b-button native-type="submit" type="is-primary"
-          >문제/보기 등록</b-button
-        >
-        <!-- </div> -->
         <hr />
         <hr />
         <card-component
@@ -86,17 +79,17 @@
           title="문제/보기 확인"
           icon="account-multiple"
         >
-          <b-table :data="isEmpty ? [] : test" :hoverable="isHoverable">
-            <b-table-column
+          <b-table :data="test">
+            <!-- <b-table-column
               cell-class="has-no-head-mobile is-image-cell"
               v-slot="props"
             >
               <div class="image">
                 <img :src="props.row.avatar" class="is-rounded" />
               </div>
-            </b-table-column>
+            </b-table-column> -->
             <b-table-column label="문제" field="문제" sortable v-slot="props">
-              {{ props.row.문제 }}
+              {{ props.row.proDes }}
             </b-table-column>
             <b-table-column
               label="보기 1번"
@@ -104,7 +97,7 @@
               sortable
               v-slot="props"
             >
-              {{ props.row.보기1번 }}
+              {{ props.row.proSel[0] }}
             </b-table-column>
             <b-table-column
               label="보기 2번"
@@ -112,7 +105,7 @@
               sortable
               v-slot="props"
             >
-              {{ props.row.보기2번 }}
+              {{ props.row.proSel[1] }}
             </b-table-column>
             <b-table-column
               label="보기 3번"
@@ -120,25 +113,22 @@
               sortable
               v-slot="props"
             >
-              {{ props.row.보기3번 }}
+              {{ props.row.proSel[2] }}
             </b-table-column>
             <b-table-column label="보기 4번" field="보기 4번" v-slot="props">
-              {{ props.row.created }}
+              {{ props.row.proSel[3] }}
+            </b-table-column>
+            <b-table-column label="답" field="보기 4번" v-slot="props">
+              {{ props.row.proAnswer }}
             </b-table-column>
           </b-table>
         </card-component>
         <div style="text-align: center;">
-          <!-- <b-field horizontal> -->
           <b-field grouped>
             <div class="control">
-              <b-button native-type="submit" type="is-primary"
-                >시험 출제</b-button
-              >
-            </div>
-            <div class="control">
-              <b-button type="is-primary is-outlined" @click="reset"
-                >다시 만들기</b-button
-              >
+              <b-button tag="router-link" to="/instructor" type="is-link">
+                시험 출제
+              </b-button>
             </div>
           </b-field>
         </div>
@@ -164,6 +154,9 @@ export default {
       selectedOptions: [],
       isLoading: false,
       testNum: this.$route.params.testNum,
+      test: "",
+      test2: "",
+      spliList: [],
       form: {
         proNum: 1,
         proDes: "",
@@ -192,22 +185,16 @@ export default {
       proSelList.push(this.form.proSel.four);
       this.proSel = proSelList.join(",");
 
-      const addTestProblemData = {
-        // testnum: this.testnum,
-        // proId: this.proId,
-        proNum: this.form.proNum,
-        proDes: this.form.proDes,
-        proSel: this.proSel,
-        proImage: this.form.proImage,
-        proAnswer: this.form.proAnswer
-      };
-      let instance = axios.create();
-      instance.defaults.headers.common[
-        "Authorization"
-      ] = sessionStorage.getItem("Authorization");
+      let formData = new FormData();
+      formData.append("proNum", this.form.proNum);
+      formData.append("proDes", this.form.proDes);
+      formData.append("proSel", this.proSel);
+      formData.append("proImage", this.form.proImage);
+      formData.append("proAnswer", this.form.proAnswer);
       axios
-        .post("http://localhost:8000/testpro/create/1", addTestProblemData, {
+        .post("http://localhost:8000/testpro/create/1", formData, {
           headers: {
+            "Content-Type": "multipart/form-data",
             Authorization: sessionStorage.getItem("Authorization")
           }
         })
@@ -215,7 +202,7 @@ export default {
           alert("시험 문제 생성 성공!");
           console.log(Headers); //get("Authorization")
           // sessionStorage.setItem("user", JSON.stringify(response.data));
-          this.$router.push({ name: "InstructorTest" });
+          this.getTestProblems();
         })
         .catch(error => {
           alert("시험 문제 생성 실패");
@@ -233,7 +220,39 @@ export default {
       this.proSel = "";
       this.proImage = "";
       this.proAnswer = "";
+    },
+    getTestProblems() {
+      axios
+        .get("http://localhost:8000/testpro/get?testnum=1", {
+          headers: {
+            Authorization: sessionStorage.getItem("Authorization")
+          }
+        })
+        .then(response => {
+          this.test = response.data;
+          console.log(this.test);
+          console.log("확인");
+          //   console.log(this.test.proSel);
+          //   var test2 = "";
+          //   this.test.forEach(function(item) {
+          //     test2 = item;
+          //   });
+          //   console.log(test2.proSel.split(","));
+          //   //   splitList = test2.proSel.split(',')
+          //   test2.proSel.split(",");
+          //   this.proSelList.one = test2.proShel[0];
+          //   this.proSelList.two = test2.proSel[1];
+          //   this.proSelList.three = test2.proSel[2];
+          //   this.proSelList.four = test2.proSel[3];
+          //   //   alert(this.test);
+        })
+        .catch(e => {
+          console.log(e);
+        });
     }
+  },
+  mounted() {
+    this.getTestProblems();
   }
 };
 </script>

@@ -126,6 +126,15 @@ const routes = [
   },
   {
     meta: {
+      title: "AddTestProblems"
+    },
+    path: "/problems",
+    name: "AddTestProblems",
+    // beforeEnter: onlyAuthUser,
+    component: () => import("../views/AddTestProblems.vue")
+  },
+  {
+    meta: {
       title: "InstructorTest"
     },
     path: "/instructor",

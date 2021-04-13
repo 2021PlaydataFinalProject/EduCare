@@ -2,156 +2,101 @@
   <div>
     <title-bar :title-stack="titleStack" />
     <hero-bar>
-      시험 만들기
+      시험 수정하기
     </hero-bar>
     <section class="section is-main-section">
-      <card-component title="시험" icon="ballot">
-        <b-field label="시험명" horizontal>
-          {{ props.row.testName }}
-        </b-field>
-        <b-field label="시험 시간 지정" horizontal>
-          <b-field
-            :label-position="labelPosition"
-            message="시험 시작 시간 지정"
-          >
-            <b-datetimepicker
-              rounded
-              label="시험 시작 시간"
-              icon="calendar-today"
-              v-model="form.startTime"
-              :localISOdt="localISOdt"
-              :datepicker="{ showWeekNumber }"
-              :timepicker="{ enableSeconds, hourFormat }"
-              horizontal-time-picker
-            >
-            </b-datetimepicker>
-          </b-field>
-          <b-field
-            :label-position="labelPosition"
-            label="시험 종료 시간"
-            name="endTime"
-            message="시험 종료 시간 지정"
-          >
-            <b-datetimepicker
-              rounded
-              label="시험 종료 시간"
-              icon="calendar-today"
-              v-model="form.endTime"
-              :localISOdt="localISOdt"
-              :datepicker="{ showWeekNumber }"
-              :timepicker="{ enableSeconds, hourFormat }"
-              horizontal-time-picker
-            >
-            </b-datetimepicker>
-          </b-field>
-        </b-field>
-        <b-field
-          label="시험 유의사항"
-          message="당신의 시험 유의사항을 255자 이내로 작성하세요."
-          horizontal
-        >
-          <b-input
-            type="textarea"
-            placeholder="해당 시험 유의사항 만들기"
-            v-model="form.testGuide"
-            maxlength="255"
-            required
-          />
-        </b-field>
-        <b-button v-on:click="testForm()">시험 만들기</b-button>
-        <hr />
-        <b-field label="문항 번호" horizontal>
-          <b-field>
-            <b-input
-              icon="account"
-              v-model="form.proNum"
-              placeholder="문항 번호를 작성해 주세요."
-              name="proNum"
-            />
-          </b-field>
-        </b-field>
-        <b-field
-          label="문제"
-          name="proDes"
-          message="당신의 문제를 255자 이내로 작성하세요."
-          horizontal
-        >
-          <b-input
-            type="textarea"
-            placeholder="시험 문제 만들기"
-            v-model="form.question"
-            maxlength="255"
-          />
-        </b-field>
-        <b-field
-          label="보기"
-          name="proSel"
-          message="당신이 내고 싶은 문항을 작성하세요."
-          horizontal
-        >
-          <b-field label="1번" :label-position="labelPosition">
-            <b-input
-              placeholder="1번 보기를 입력하세요."
-              maxlength="150"
-            ></b-input>
-          </b-field>
-          <b-field label="2번" :label-position="labelPosition">
-            <b-input placeholder="2번 보기를 입력하세요." maxlength="150">
-            </b-input>
-          </b-field>
-          <b-field label="3번" :label-position="labelPosition">
-            <b-input
-              placeholder="3번 보기를 입력하세요."
-              maxlength="150"
-            ></b-input>
-          </b-field>
-          <b-field label="4번" :label-position="labelPosition">
-            <b-input
-              placeholder="4번 보기를 입력하세요."
-              maxlength="150"
-            ></b-input>
-          </b-field>
-        </b-field>
-        <b-field
-          label="정답"
-          name="proAnswer"
-          message="당신이 낸 문항의 정답을 작성하세요."
-          horizontal
-        >
-          <b-field label="정답" :label-position="labelPosition">
-            <b-input placeholder="정답을 입력하세요." maxlength="150"></b-input>
-          </b-field>
-        </b-field>
-        <!-- <div style="text-align: center;"> -->
-        <b-button native-type="submit" type="is-primary"
-          >문제/보기 등록</b-button
-        >
-        <!-- </div> -->
-        <hr />
-        <hr />
-        <card-component
-          class="has-table has-mobile-sort-spaced"
-          title="문제/보기 확인"
-          icon="account-multiple"
-        >
-          <!-- <add-test-table /> -->
-        </card-component>
-        <div style="text-align: center;">
-          <!-- <b-field horizontal> -->
-          <b-field grouped>
-            <div class="control">
-              <b-button native-type="submit" type="is-primary"
-                >시험 출제</b-button
+      <card-component
+        class="has-table has-mobile-sort-spaced"
+        title="시험 수정하기"
+        icon="account-multiple"
+      >
+        <div id="app" class="container">
+          <section>
+            <b-table :data="isEmpty ? [] : test" :hoverable="isHoverable">
+              <b-table-column
+                field="testNum"
+                label="시험번호"
+                numeric
+                centered
+                v-slot="props"
               >
-            </div>
-            <div class="control">
-              <b-button type="is-primary is-outlined" @click="reset"
-                >다시 만들기</b-button
+                {{ props.row.testNum }}
+              </b-table-column>
+
+              <b-table-column
+                field="endTime"
+                label="종료 시간"
+                v-slot="props"
+                centered
               >
-            </div>
-          </b-field>
+                {{ props.row.endTime }}
+              </b-table-column>
+
+              <b-table-column
+                field="startTime"
+                label="시작 시간"
+                v-slot="props"
+                centered
+              >
+                {{ props.row.startTime }}
+              </b-table-column>
+              <b-table-column
+                field="testGuide"
+                label="시험 유의사항"
+                v-slot="props"
+                centered
+              >
+                {{ props.row.testGuide }}
+              </b-table-column>
+              <b-table-column
+                field="instructorId"
+                label="담당교수명"
+                v-slot="props"
+                centered
+              >
+                {{ props.row.instructorId }}
+              </b-table-column>
+              <b-table-column label="수정 및 삭제" v-slot="props" centered>
+                <b-button
+                  type="is-primary is-light"
+                  outlined
+                  v-on:click="updateInstructorTest(props.row.testNum)"
+                  position="is-centered"
+                  size="is-small"
+                  >수정</b-button
+                >
+                <b-button
+                  type="is-danger is-light"
+                  outlined
+                  v-on:click="deleteInstructorTest(props.row.testNum)"
+                  position="is-centered"
+                  size="is-small"
+                  >삭제</b-button
+                >
+              </b-table-column>
+              <b-table-column label="응시자 관리" v-slot="props" centered>
+                <b-button
+                  type="is-primary is-light"
+                  outlined
+                  v-on:click="manageStudentList(props.row.testNum)"
+                  position="is-centered"
+                  size="is-small"
+                  >관리</b-button
+                >
+              </b-table-column>
+            </b-table>
+          </section>
+          <b-button
+            tag="router-link"
+            to="/addtest"
+            type="is-link"
+            class="button is-primary is-pulled-right"
+            >시험생성</b-button
+          >
         </div>
       </card-component>
+
+      <hr />
     </section>
   </div>
 </template>

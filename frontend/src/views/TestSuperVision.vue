@@ -22,6 +22,7 @@
                   expanded
                   controls-position="compact"
                   placeholder="0"
+                  v-model="testResult"
                   step="5"
                   aria-minus-label="Decrement by 5"
                   aria-plus-label="Increment by 5"/>
@@ -29,15 +30,18 @@
                   <b-button label="시험 점수 입력" /></p
               ></b-field>
             </b-field>
-
-            <!-- <img id="video" src="{{ url_for('video_viewer') }}"> -->
+             <b-field grouped>
+            <div class="control">
+              <b-button tag="router-link" to="/instructor" type="is-link">
+                시험 출제
+              </b-button>
+            </div>
+          </b-field>
           </div>
         </div>
         <div class="tile is-parent">
           <div class="tile is-child box">
             <p class="title is-5">영상 확인</p>
-            <!-- <b-button>플레이</b-button> -->
-
             <video-player
               class="video-player-box"
               ref="videoPlayer"
@@ -69,6 +73,7 @@ import TitleBar from "@/components/TitleBar";
 import HeroBar from "@/components/HeroBar";
 import "video.js/dist/video-js.css";
 import { videoPlayer } from "vue-video-player";
+import axios from "axios";
 
 export default {
   components: {
@@ -78,6 +83,10 @@ export default {
   },
   data() {
     return {
+      testResult: "",
+      studentTest: "",
+      studentTest2: "",
+      videoName: "",
       playerOptions: {
         // videojs options
         height: "360",
@@ -89,7 +98,8 @@ export default {
           {
             type: "video/mp4",
             src:
-              "https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm"
+              // "https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm"
+              this.videoName
           }
         ],
         poster: "src/assets/videoposter.jpg"
@@ -127,6 +137,53 @@ export default {
       console.log("the player is readied", player);
       // you can use it to do something...
       //   player.[methods]
+    },
+
+    //video 정보 가져오기
+    getVideoName() {
+      axios
+        .get("http://localhost:8000/stutest/get/dkwjd/1", {
+          headers: {
+            Authorization: sessionStorage.getItem("Authorization")
+          }
+        })
+        .then(response => {
+          this.studentTest = response.data;
+          console.log("확인");
+          console.log(this.studentTest);
+          this.studentTest.forEach(function(item) {
+            this.studentTest2 = item;
+          });
+          this.videoName = this.studentTest2.videoName;
+          console.log("videoName확인");
+          console.log(this.videoName);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+    updateStudentScore() {
+      let instance = axios.create();
+      instance.defaults.headers.common[
+        "Authorization"
+      ] = sessionStorage.getItem("Authorization");
+      instance
+        .put(
+          "http://localhost:8000/stutest/update-score/" +
+            this.userName +
+            "/" +
+            this.testNum +
+            "/" +
+            this.testResult
+        )
+        .then(response => {
+          // this.applicants = response.data;
+          console.log(response);
+          // alert(this.test);
+        })
+        .catch(e => {
+          console.log(e);
+        });
     }
   }
 };

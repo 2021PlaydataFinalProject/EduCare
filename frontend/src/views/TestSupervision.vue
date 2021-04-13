@@ -30,13 +30,13 @@
                   <b-button label="시험 점수 입력" /></p
               ></b-field>
             </b-field>
-             <b-field grouped>
-            <div class="control">
-              <b-button tag="router-link" to="/instructor" type="is-link">
-                시험 출제
-              </b-button>
-            </div>
-          </b-field>
+            <b-field grouped>
+              <div class="control">
+                <b-button tag="router-link" to="/instructor" type="is-link">
+                  시험 출제
+                </b-button>
+              </div>
+            </b-field>
           </div>
         </div>
         <div class="tile is-parent">

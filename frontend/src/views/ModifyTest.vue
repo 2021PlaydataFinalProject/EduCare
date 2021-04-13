@@ -2,10 +2,15 @@
   <div>
     <title-bar :title-stack="titleStack" />
     <hero-bar>
-      시험 만들기
+      시험 수정하기
     </hero-bar>
     <section class="section is-main-section">
-      <card-component title="시험" icon="ballot">
+      <card-component
+        class="form"
+        @submit.prevent="testForm"
+        title="시험"
+        icon="ballot"
+      >
         <b-field label="시험명" message="과목명을 적어주세요." horizontal>
           <b-input
             placeholder="시험명 : 소제목"
@@ -62,8 +67,8 @@
             required
           />
         </b-field>
-        <b-button @click="updateTestRec" v-on:click="testForm()"
-          >시험 만들기</b-button
+        <b-button @click="ModifyTest" v-on:click="testForm()"
+          >시험 수정하기</b-button
         >
         <hr />
       </card-component>
@@ -86,49 +91,49 @@ export default {
   },
   data() {
     return {
+      labelPosition: "on-border",
+      selectedOptions: [],
+      isLoading: false,
+      testNum: this.$route.params.testNum,
+      test: "",
+      spliList: [],
+      testproblemform: {
+        proNum: 1,
+        proDes: "",
+        proSel: [],
+        proImage: "",
+        proAnswer: ""
+      },
       showWeekNumber: false,
       enableSeconds: true,
       hourFormat: undefined, // Browser locale
       locale: undefined, // Browser locale
       localISOdt,
       testService: "",
-      labelPosition: "on-border",
-      selectedOptions: [],
-      isLoading: false,
-      form: {
-        // username: null,
-        // testNum: "",
+      testform: {
         testName: "",
         endTime: "",
         startTime: "",
         testGuide: ""
-      },
-      testNum: "",
-      departments: ["JAVA", "SPRINGBOOT", "VUE", "SQL"]
+      }
     };
   },
   computed: {
     titleStack() {
-      return ["Instructor", "Add Test"];
+      return ["Instructor", "Modify Test"];
     }
   },
   methods: {
     testForm() {
       const addTestData = {
-        // userName: this.userName,
-        // testNum: null,
         testName: this.form.testName,
         endTime: this.form.endTime,
         startTime: this.form.startTime,
         testGuide: this.form.testGuide
       };
-      // let instance = axios.create();
-      // instance.defaults.headers.common[
-      //   "Authorization"
-      // ] = sessionStorage.getItem("Authorization");
       axios
         .post(
-          "http://localhost:8000/test/create?username=teacher@educare.com",
+          "http://localhost:8000/test/create?username=teacher",
           addTestData,
           {
             headers: {
@@ -138,11 +143,11 @@ export default {
           }
         )
         .then(response => {
-          alert("시험 생성 성공!");
+          alert("시험 수정 성공!");
           console.log(response.data);
           this.testNum = response.data;
           this.$router.push({
-            name: "AddTestProblems",
+            name: "InstructorTest",
             params: { testNum: this.testNum }
           });
         })

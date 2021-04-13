@@ -180,12 +180,12 @@ export default {
   },
   methods: {
     testproblemForm() {
-    //   let proSelList = [];
-    //   proSelList.push(this.form.proSel.one);
-    //   proSelList.push(this.form.proSel.two);
-    //   proSelList.push(this.form.proSel.three);
-    //   proSelList.push(this.form.proSel.four);
-    //   this.proSel = proSelList.join(",");
+      //   let proSelList = [];
+      //   proSelList.push(this.form.proSel.one);
+      //   proSelList.push(this.form.proSel.two);
+      //   proSelList.push(this.form.proSel.three);
+      //   proSelList.push(this.form.proSel.four);
+      //   this.proSel = proSelList.join(",");
 
       let formData = new FormData();
       formData.append("proNum", this.form.proNum);
@@ -194,12 +194,16 @@ export default {
       formData.append("proImage", this.form.proImage);
       formData.append("proAnswer", this.form.proAnswer);
       axios
-        .post("http://localhost:8000/testpro/create/1", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: sessionStorage.getItem("Authorization")
+        .post(
+          "http://localhost:8000/testpro/create/" + this.testNum,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: sessionStorage.getItem("Authorization")
+            }
           }
-        })
+        )
         .then(Headers => {
           alert("시험 문제 생성 성공!");
           console.log(Headers); //get("Authorization")
@@ -225,7 +229,7 @@ export default {
     },
     getTestProblems() {
       axios
-        .get("http://localhost:8000/testpro/get?testnum=1", {
+        .get("http://localhost:8000/testpro/get?testnum=" + this.testNum, {
           headers: {
             Authorization: sessionStorage.getItem("Authorization")
           }

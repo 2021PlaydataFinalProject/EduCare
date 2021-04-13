@@ -51,14 +51,14 @@
               >
                 <b-field>
                   <span
-                    v-if="props.row.testStatus == T"
+                    v-if="props.row.testStatus == null"
                     class="tag is-warn"
                     v-on:click="takeStudentTest(props.row.testNum)"
                   >
                     시험 응시 하기
                   </span>
                   <span
-                    v-else-if="props.row.testStatus == C"
+                    v-else-if="props.row.testStatus =! null"
                     class="tag is-success"
                   >
                     시험 응시 완료

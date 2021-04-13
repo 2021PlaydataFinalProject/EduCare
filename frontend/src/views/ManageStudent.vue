@@ -22,12 +22,12 @@
                 {{ props.row.username }}
               </b-table-column>
               <b-table-column
-                field="userRealname"
+                field="userRealName"
                 label="응시자"
                 v-slot="props"
                 centered
               >
-                {{ props.row.userRealname }}
+                {{ props.row.userRealName }}
               </b-table-column>
               <b-table-column
                 field="testResult"
@@ -147,7 +147,7 @@ export default {
     //특정 시험에 할당된 응시자 검색 로직으로 변경 필요
     getAllApplicants() {
       axios
-        .get("http://localhost:8000/stutest/get/teacher/1", {
+        .get("http://localhost:8000/stutest/getstu/1", {
           headers: {
             Authorization: sessionStorage.getItem("Authorization")
           }

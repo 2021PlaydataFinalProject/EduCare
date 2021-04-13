@@ -12,7 +12,7 @@ jwt:
   #HS512 알고리즘을 사용할 것이기 때문에 512bit, 즉 64byte 이상의 secret key를 사용해야 한다.
   #echo 'secretkey string'|base64
   secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK
-  token-validity-in-seconds: 21600 #21600
+  token-validity-in-seconds: 21600 #6시간 21600
 
 spring.main.allow-bean-definition-overriding: true
 spring:
@@ -34,18 +34,3 @@ spring:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true
-
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            client-id: 1014494943001-ism1d8ml2ehc4g4i33qpn97na88nm4cr.apps.googleusercontent.com
-            client-secret: Egaycbq2lYbbGqnxxAqp08H8
-            scope:
-            - email
-            - profile
-
-logging:
-  level:
-    io.educare: INFO

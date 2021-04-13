@@ -2,11 +2,11 @@ package io.educare.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -21,23 +21,20 @@ import io.educare.repository.TestRepository;
 
 @Service
 public class TestProblemServiceImpl implements TestProblemService {
+	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	private ModelMapper mapper;
-
 	private final TestProblemRepository tProblemRepository;
 	private final TestRepository testRepository;
 
-	public TestProblemServiceImpl(TestProblemRepository tProblemRepository, TestRepository testRepository,
-			ModelMapper mapper) {
+	public TestProblemServiceImpl(TestProblemRepository tProblemRepository, TestRepository testRepository) {
 		this.tProblemRepository = tProblemRepository;
 		this.testRepository = testRepository;
-		this.mapper = mapper;
 	}
 
 	@Transactional
 	public Boolean insertTProblem(long testnum, TestProblemDto tProblemDto, MultipartFile mfile) {
-
 		String imgname = null;
+		
 		try {
 			try {
 				imgname = String.valueOf(System.currentTimeMillis()) + mfile.getOriginalFilename();
@@ -49,17 +46,13 @@ public class TestProblemServiceImpl implements TestProblemService {
 				logger.error("{}번 문제 이미지 등록 실패", tProblemDto.getProId());
 			}
 			Optional<Test> testOpt = testRepository.findById(testnum);
-			TestProblem newtProblem = new TestProblem();
-
+			
 			if (testOpt.isPresent()) {
 				
-				newtProblem.setProNum(tProblemDto.getProNum());
-				newtProblem.setProDes(tProblemDto.getProDes());
-				newtProblem.setProSel(tProblemDto.getProSel());
-				newtProblem.setProImage(imgname);
-				newtProblem.setProAnswer(tProblemDto.getProAnswer());
-				newtProblem.setTestNum(testOpt.get());
-
+				String proSel = String.join("/", tProblemDto.getProSel());
+				TestProblem newtProblem = TestProblem.builder().proNum(tProblemDto.getProNum()).proDes(tProblemDto.getProDes())
+						.proSel(proSel).proImage(imgname).proAnswer(tProblemDto.getProAnswer()).testNum(testOpt.get()).build();
+				
 				TestProblem testProblem = tProblemRepository.save(newtProblem);
 				testOpt.get().getProblemList().add(testProblem);
 
@@ -79,17 +72,12 @@ public class TestProblemServiceImpl implements TestProblemService {
 	@Transactional
 	public Boolean insertTProblemNoimg(long testnum, TestProblemDto tProblemDto) {
 		Optional<Test> testOpt = testRepository.findById(testnum);
-		TestProblem newtProblem = new TestProblem();
-		
+
 		try {
 			if (testOpt.isPresent()) {
-				
-				newtProblem.setProNum(tProblemDto.getProNum());
-				newtProblem.setProDes(tProblemDto.getProDes());
-				newtProblem.setProSel(tProblemDto.getProSel());
-				newtProblem.setProImage("default.png");
-				newtProblem.setProAnswer(tProblemDto.getProAnswer());
-				newtProblem.setTestNum(testOpt.get());
+				String proSel = String.join("/", tProblemDto.getProSel());
+				TestProblem newtProblem = TestProblem.builder().proNum(tProblemDto.getProNum()).proDes(tProblemDto.getProDes())
+						.proSel(proSel).proImage("default.png").proAnswer(tProblemDto.getProAnswer()).testNum(testOpt.get()).build();
 				
 				TestProblem testProblem = tProblemRepository.save(newtProblem);
 				testOpt.get().getProblemList().add(testProblem);
@@ -102,32 +90,40 @@ public class TestProblemServiceImpl implements TestProblemService {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.info("{} 시험 문제 등록 실패", testnum);
+			logger.error("{} 시험 문제 등록 실패", testnum);
 			return false;
 		}
 	}
 
 	public List<TestProblemDto> getTProblemsByTNum(long testnum) {
-
 		List<TestProblem> tProblemlist = tProblemRepository.findAllTProblemByTNum(testnum);
 		List<TestProblemDto> tProblemDto = tProblemlist.stream().map(t -> new TestProblemDto(t.getProId(),
-				t.getProNum(), t.getProDes(), t.getProSel(), t.getProImage(), t.getProAnswer()))
+				t.getProNum(), t.getProDes(), Arrays.asList(t.getProSel().split("/")) , t.getProImage(), t.getProAnswer()))
 				.collect(Collectors.toList());
+		
 		logger.info("{}번 시험 전체 문제 조회 요청", testnum);
 		return tProblemDto;
 	}
 
-	public TestProblemDto getTProblem(long proid) {
-
+	public TestProblemDto getTProblem(long proid) { 
 		Optional<TestProblem> tProblemOpt = tProblemRepository.findById(proid);
-		TestProblemDto tProblemDto = mapper.map(tProblemOpt.get(), TestProblemDto.class);
-		logger.info("{}번 문제 조회 요청", proid);
-		return tProblemDto;
+		
+		if(tProblemOpt.isPresent()) {
+			TestProblem tProblem = tProblemOpt.get();
+			List<String> proSelList = Arrays.asList(tProblem.getProSel().split("/"));
+			TestProblemDto tProblemDto = TestProblemDto.builder().proId(tProblem.getProId()).proNum(tProblem.getProNum())
+					.proDes(tProblem.getProDes()).proSel(proSelList).proImage(tProblem.getProImage()).proAnswer(tProblem.getProAnswer()).build();
+						
+			logger.info("{}번 문제 조회 성공", proid);
+			return tProblemDto;
+		} else {
+			logger.info("{}번 문제 미존재 조회 실패", proid);
+			return null;
+		}
 	}
 
 	@Transactional
 	public Boolean updateTProblem(TestProblemDto tProblemDto, MultipartFile mfile) {
-
 		Optional<TestProblem> findtProblem = tProblemRepository.findById(tProblemDto.getProId());
 		String imgname = null;
 		
@@ -145,7 +141,7 @@ public class TestProblemServiceImpl implements TestProblemService {
 						if (file.delete()) {
 							logger.info("{}번 문제 기존 이미지 삭제 완료", tProblemDto.getProId());
 						} else {
-							logger.debug("{}번 문제 기존 이미지 삭제 실패", tProblemDto.getProId());
+							logger.info("{}번 문제 기존 이미지 삭제 실패", tProblemDto.getProId());
 						}
 					}
 				} catch (IllegalStateException | IOException e) {
@@ -153,17 +149,18 @@ public class TestProblemServiceImpl implements TestProblemService {
 					logger.error("{}번 문제 이미지 수정 실패", tProblemDto.getProId());
 				}
 				TestProblem testProblem = findtProblem.get();
+				String proSel = String.join("/", tProblemDto.getProSel());
 				
 				testProblem.setProNum(tProblemDto.getProNum());
 				testProblem.setProDes(tProblemDto.getProDes());
-				testProblem.setProSel(tProblemDto.getProSel());
+				testProblem.setProSel(proSel);
 				testProblem.setProImage(imgname);
 				testProblem.setProAnswer(tProblemDto.getProAnswer());
 
 				tProblemRepository.save(testProblem);
 				return true;
 			} else {
-				logger.error("{}번 문제 미존재 수정실패", tProblemDto.getProId());
+				logger.info("{}번 문제 미존재 수정실패", tProblemDto.getProId());
 				return false;
 			}
 		} catch (Exception e) {
@@ -175,21 +172,22 @@ public class TestProblemServiceImpl implements TestProblemService {
 
 	@Transactional
 	public Boolean updateTProblemNoimg(TestProblemDto tProblemDto) {
-
 		Optional<TestProblem> findtProblem = tProblemRepository.findById(tProblemDto.getProId());
+	
 		try {
 			if (findtProblem.isPresent()) {
 				TestProblem testProblem = findtProblem.get();
+				String proSel = String.join("/", tProblemDto.getProSel());
 				
 				testProblem.setProNum(tProblemDto.getProNum());
 				testProblem.setProDes(tProblemDto.getProDes());
-				testProblem.setProSel(tProblemDto.getProSel());
+				testProblem.setProSel(proSel);
 				testProblem.setProAnswer(tProblemDto.getProAnswer());
 				
 				tProblemRepository.save(testProblem);
 				return true;
 			} else {
-				logger.error("{}번 문제 미존재 수정실패", tProblemDto.getProId());
+				logger.info("{}번 문제 미존재 수정실패", tProblemDto.getProId());
 				return false;
 			}
 		} catch (Exception e) {
@@ -201,9 +199,9 @@ public class TestProblemServiceImpl implements TestProblemService {
 
 	@Transactional
 	public Boolean deleteTProblem(long proid, long testnum) {
-
 		Optional<TestProblem> TProblemOpt = tProblemRepository.findById(proid);
 		Optional<Test> testOpt = testRepository.findById(testnum);
+	
 		try {
 			if (TProblemOpt.isPresent() && testOpt.isPresent()) {
 				String filename = TProblemOpt.get().getProImage();
@@ -213,7 +211,7 @@ public class TestProblemServiceImpl implements TestProblemService {
 					if (file.delete()) {
 						logger.info("{} 시험문제 이미지 삭제 완료", proid);
 					} else {
-						logger.error("{} 시험문제 이미지 삭제 실패", proid);
+						logger.info("{} 시험문제 이미지 삭제 실패", proid);
 					}
 				}
 				List<TestProblem> problemlist = testOpt.get().getProblemList();
@@ -224,12 +222,11 @@ public class TestProblemServiceImpl implements TestProblemService {
 						break;
 					}
 				}
-				
 				tProblemRepository.delete(TProblemOpt.get());
 				logger.info("{} 시험문제 삭제 완료", proid);
 				return true;
 			} else {
-				logger.error("{} 시험문제 삭제 실패", proid);
+				logger.info("{} 시험문제 삭제 실패", proid);
 				return false;
 			}
 		} catch (Exception e) {

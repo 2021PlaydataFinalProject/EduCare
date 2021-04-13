@@ -1,10 +1,13 @@
 package io.educare.service;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -47,6 +50,7 @@ public class StudentTestServiceImpl implements StudentTestService {
 				
 				studentTest.setStuId(st);
 				studentTest.setTestNum(test);
+				studentTest.setTestStatus("T");
 				
 				if(studentTestRepository.save(studentTest) == null) {
 					logger.info("{} 학생 시험 매칭 등록 실패");
@@ -68,15 +72,14 @@ public class StudentTestServiceImpl implements StudentTestService {
 	}
 	
 	public StudentTestDto getStudentTest(String username, long testNum) {
+		Optional<StudentTest> stTestOpt = studentTestRepository.findStudentTestByUserNameAndTestNum(username,testNum);		
 		
 		try {
-			Optional<StudentTest> stTestOpt = studentTestRepository.findStudentTestByUserNameAndTestNum(username,testNum);
-			
 			if(stTestOpt.isPresent()) {
 				StudentTest stTest = stTestOpt.get();
 			
-				List<String> cheatTimes = Arrays.asList(stTest.getCheatTime().split(","));
-				List<String> testAnswers = Arrays.asList(stTest.getTestAnswer().split(","));
+				List<String> cheatTimes = Arrays.asList(stTest.getCheatTime().split("/"));
+				List<String> testAnswers = Arrays.asList(stTest.getTestAnswer().split("/"));
 				
 				StudentTestDto stuTestDto = StudentTestDto.builder().userRealName(studentRepository.findById(username).get().getUserRealName())
 				.username(username).testName(testRepository.findById(testNum).get().getTestName()).testNum(testNum)
@@ -96,13 +99,26 @@ public class StudentTestServiceImpl implements StudentTestService {
 		}		
 	}
 	
+	// 학생이 자신이 참여할 시험 리스트 조회
 	public List<StudentTestDto> getStudentTestList(String username) {
 		Optional<List<StudentTest>> stuTestList = studentTestRepository.findAllStudentTestByUserName(username);
-		List<StudentTestDto> stuTestDtoList = stuTestList.get().stream().map(st -> new StudentTestDto( username, null, testRepository.findById(st.getTestNum().getTestNum()).get().getTestName(),
-				st.getTestResult(), st.getIsCheating(), Arrays.asList(st.getCheatTime().split(",")), st.getVideoName(),  Arrays.asList(st.getTestAnswer().split(",")), st.getTestStatus(), st.getTestNum().getTestNum() ))
+		
+		Stream<StudentTest> rawStuTestListBef = stuTestList.get().stream().filter(st -> st.getTestAnswer() == null);
+		Stream<StudentTest> rawStuTestListAft = stuTestList.get().stream().filter(st -> st.getTestAnswer() != null);
+		
+		List<StudentTestDto> stuTestDtoListBef = rawStuTestListBef.map(st -> new StudentTestDto( username, null, testRepository.findById(st.getTestNum().getTestNum()).get().getTestName(), 
+				null, null, null, null,  null, st.getTestStatus(), st.getTestNum().getTestNum() ))
 				.collect(Collectors.toList());
+		List<StudentTestDto> stuTestDtoListAft = rawStuTestListAft.map(st -> new StudentTestDto( username, null, testRepository.findById(st.getTestNum().getTestNum()).get().getTestName(), 
+				st.getTestResult(), st.getIsCheating(), Arrays.asList(st.getCheatTime().split("/")), st.getVideoName(),  Arrays.asList(st.getTestAnswer().split("/")), st.getTestStatus(), st.getTestNum().getTestNum() ))
+				.collect(Collectors.toList());
+		
+		List<StudentTestDto> joined = new ArrayList<StudentTestDto>();
+		joined.addAll(stuTestDtoListBef);
+		joined.addAll(stuTestDtoListAft);
+		
 		logger.info("{} 학생 모든 시험 정보 조회", username);
-		return stuTestDtoList;
+		return joined;
 	}
 	
 	@Transactional
@@ -117,8 +133,7 @@ public class StudentTestServiceImpl implements StudentTestService {
 				videoname = sttDto.getTestNum()+"video.avi";	
 				mfile.transferTo(new File(System.getProperty("user.dir") + "\\src\\main\\webapp\\tproblemvideo\\" + videoname));
 				logger.info("{}번 문제 녹화파일 등록 성공", sttDto.getTestNum());
-				stt.setVideoName(videoname);	//db에 video파일명 저장
-				
+				stt.setVideoName(videoname);	//db에 video파일명 저장			
 			} catch (IllegalStateException | IOException e) {
 				e.printStackTrace();
 				logger.error("{}번 문제 녹화파일 등록 실패", sttDto.getTestNum());
@@ -128,7 +143,7 @@ public class StudentTestServiceImpl implements StudentTestService {
 			
 			String cheattime = "";
 			for(String c : sttDto.getCheatTime()) {
-				cheattime+=c+"/";
+				cheattime += c + "/";
 			}
 			stt.setCheatTime(cheattime);	//컨닝 시간 저장(list to string)
 			
@@ -140,11 +155,11 @@ public class StudentTestServiceImpl implements StudentTestService {
 			
 			String answer = "";
 			for(String c : sttDto.getTestAnswer()) {
-				cheattime+=c+"/";
+				cheattime += c + "/";
 			}
 			stt.setTestAnswer(answer);	//작성 답안 목록 저장(list to string)
 			
-			if(studentTestRepository.save(stt)!=null) {
+			if(studentTestRepository.save(stt) != null) {
 				logger.info("{} 학생 시험 답안, 녹화파일 등록 성공");
 				return true;
 			} else {
@@ -158,7 +173,6 @@ public class StudentTestServiceImpl implements StudentTestService {
 	}
 	@Transactional
 	public boolean updateTestScore(StudentTestDto sttDto) {	//강사가 학생 점수 update
-		
 		Optional<StudentTest> sttOpt = studentTestRepository.findById(sttDto.getTestNum());
 		
 		if(sttOpt.isPresent()) {
@@ -166,7 +180,7 @@ public class StudentTestServiceImpl implements StudentTestService {
 				StudentTest stt = sttOpt.get();
 				stt.setTestResult(sttDto.getTestResult());			
 				
-				if(studentTestRepository.save(stt)!=null) {
+				if(studentTestRepository.save(stt) != null) {
 					logger.info("{} 학생 시험점수 update성공");
 					return true;
 				} else {

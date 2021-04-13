@@ -59,14 +59,8 @@
               </b-table-column>
             </b-table>
           </section>
-          <!-- <b-button
-            class="button is-primary is-pulled-right"
-            @click="isCardModalActive = true"
-            >응시자 추가</b-button
-          > -->
         </div>
       </card-component>
-      <!-- 응시자 추가를 누르면 동기로 아래에 응시자 추가 리스트 출력 -->
 
       <hr />
       <notification class="is-info">
@@ -147,7 +141,7 @@ export default {
     //특정 시험에 할당된 응시자 검색 로직으로 변경 필요
     getAllApplicants() {
       axios
-        .get("http://localhost:8000/stutest/getstu/1", {
+        .get("http://localhost:8000/stutest/getstu/" + this.testNum, {
           headers: {
             Authorization: sessionStorage.getItem("Authorization")
           }
@@ -164,7 +158,7 @@ export default {
     },
     getAllStudents() {
       axios
-        .get("http://localhost:8000/user/allusers", {
+        .get("http://localhost:8000/user/notest/" + this.testNum, {
           headers: {
             Authorization: sessionStorage.getItem("Authorization")
           }
@@ -194,17 +188,20 @@ export default {
         .then(response => {
           // this.applicants = response.data;
           console.log(response);
-          this.getAllApplicants;
+          this.getAllApplicants();
+          this.getAllStudents();
         })
         .catch(e => {
           console.log(e);
         });
     },
-    deleteApplicant(testNum) {
+    deleteApplicant(userName) {
       axios
         .delete(
-          "http://localhost:8000/test/delete?username=java@educare.com&testnum=" +
-            testNum,
+          "http://localhost:8000/stutest/delete/" +
+            userName +
+            "/" +
+            this.testNum,
           {
             headers: {
               Authorization: sessionStorage.getItem("Authorization")
@@ -213,6 +210,7 @@ export default {
         )
         .then(() => {
           this.getAllApplicants();
+          this.getAllStudents();
         })
         .catch(e => {
           console.log(e);

@@ -857,3 +857,7 @@ org.springframework.transaction.UnexpectedRollbackException: Transaction silentl
 2021:04:13 12:11:53.302 INFO  --- [http-nio-8000-exec-2] o.s.web.servlet.DispatcherServlet : Initializing Servlet 'dispatcherServlet' 
 2021:04:13 12:11:53.306 INFO  --- [http-nio-8000-exec-2] o.s.web.servlet.DispatcherServlet : Completed initialization in 3 ms 
 2021:04:13 12:11:53.504 INFO  --- [http-nio-8000-exec-2] io.educare.service.UserServiceImpl : oooo 강사 회원가입 성공 
+2021:04:13 12:21:18.957 INFO  --- [Thread-29] o.s.s.c.ThreadPoolTaskExecutor : Shutting down ExecutorService 'applicationTaskExecutor' 
+2021:04:13 12:21:18.959 INFO  --- [Thread-29] o.s.o.j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default' 
+2021:04:13 12:21:18.966 INFO  --- [Thread-29] com.zaxxer.hikari.HikariDataSource : HikariPool-6 - Shutdown initiated... 
+2021:04:13 12:21:18.980 INFO  --- [Thread-29] com.zaxxer.hikari.HikariDataSource : HikariPool-6 - Shutdown completed. 

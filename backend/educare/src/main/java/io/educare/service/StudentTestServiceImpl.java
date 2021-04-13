@@ -1,5 +1,4 @@
 package io.educare.service;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
 import io.educare.dto.StudentTestDto;
 import io.educare.entity.Student;
 import io.educare.entity.StudentTest;
@@ -22,7 +20,6 @@ import io.educare.entity.Test;
 import io.educare.repository.StudentRepository;
 import io.educare.repository.StudentTestRepository;
 import io.educare.repository.TestRepository;
-
 @Service
 public class StudentTestServiceImpl implements StudentTestService {
 	
@@ -39,15 +36,15 @@ public class StudentTestServiceImpl implements StudentTestService {
 	
 	@Transactional
 	public boolean insertStudentTest(String username, long testNum) {	//강사가 시험에 학생을 추가하면 studenttest table에 학생id, 시험id와 함께 insert
-		Optional<Student> stOpt; 
-		Optional<Test> testOpt; 
+		Optional<Student> stOpt;
+		Optional<Test> testOpt;
 		
 		try {
 			stOpt = studentRepository.findById(username);
 			testOpt = testRepository.findById(testNum);
 			
 			if(stOpt.isPresent() && testOpt.isPresent()) {
-				StudentTest studentTest = new StudentTest(); 
+				StudentTest studentTest = new StudentTest();
 				Student st = stOpt.get();
 				Test test = testOpt.get();
 				
@@ -174,7 +171,6 @@ public class StudentTestServiceImpl implements StudentTestService {
 			return false;
 		}
 	}
-
 	@Transactional
 	public boolean updateTestScore(StudentTestDto sttDto) {	//강사가 학생 점수 update
 		Optional<StudentTest> sttOpt = studentTestRepository.findById(sttDto.getTestNum());

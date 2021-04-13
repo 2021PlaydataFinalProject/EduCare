@@ -41,6 +41,7 @@ public class StudentTestController {
 	public ResponseEntity<List<StudentTestDto>> getStudentTestList(@PathVariable String username) {
 		return new ResponseEntity<List<StudentTestDto>>(stTestservice.getStudentTestList(username), HttpStatus.OK) ;
 	}
+	
 	@PutMapping("/update-mytest")
 	@PreAuthorize("hasAnyRole('STUDENT')")	//답안 등록은 학생들만 가능
 	public ResponseEntity<String> updateStudentTest(StudentTestDto sttDto,

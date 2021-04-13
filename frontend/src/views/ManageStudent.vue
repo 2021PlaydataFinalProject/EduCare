@@ -14,31 +14,20 @@
           <section>
             <b-table :data="applicants" :hoverable="isHoverable">
               <b-table-column
-                field="stuNum"
-                label="학생 번호"
-                numeric
-                centered
-                v-slot="props"
-              >
-                {{ props.row.stuNum }}
-              </b-table-column>
-
-              <b-table-column
-                field="userRealname"
-                label="응시자"
-                v-slot="props"
-                centered
-              >
-                {{ props.row.userRealname }}
-              </b-table-column>
-
-              <b-table-column
                 field="username"
                 label="학생ID"
                 v-slot="props"
                 centered
               >
                 {{ props.row.username }}
+              </b-table-column>
+              <b-table-column
+                field="userRealName"
+                label="응시자"
+                v-slot="props"
+                centered
+              >
+                {{ props.row.userRealName }}
               </b-table-column>
               <b-table-column
                 field="testResult"
@@ -93,15 +82,13 @@
       >
         <b-table :data="students" :hoverable="isHoverable">
           <b-table-column
-            field="stuNum"
-            label="학생 번호"
-            numeric
-            centered
+            field="username"
+            label="학생ID"
             v-slot="props"
+            centered
           >
-            {{ props.row.rowNum }}
+            {{ props.row.username }}
           </b-table-column>
-
           <b-table-column
             field="userRealname"
             label="응시자"
@@ -111,14 +98,6 @@
             {{ props.row.userRealname }}
           </b-table-column>
 
-          <b-table-column
-            field="username"
-            label="학생ID"
-            v-slot="props"
-            centered
-          >
-            {{ props.row.username }}
-          </b-table-column>
           <b-table-column label="추가" v-slot="props" centered>
             <b-button
               type="is-primary is-light"
@@ -168,13 +147,14 @@ export default {
     //특정 시험에 할당된 응시자 검색 로직으로 변경 필요
     getAllApplicants() {
       axios
-        .get("http://localhost:8000/studenttest/get/teacher/" + this.testNum, {
+        .get("http://localhost:8000/stutest/getstu/1", {
           headers: {
             Authorization: sessionStorage.getItem("Authorization")
           }
         })
         .then(response => {
           this.applicants = response.data;
+          console.log("응시자 확인")
           console.log(this.applicants);
           // alert(this.test);
         })
@@ -191,6 +171,7 @@ export default {
         })
         .then(response => {
           this.students = response.data;
+          console.log("총학생 확인")
           console.log(this.students);
           // alert(this.test);
         })
@@ -199,17 +180,16 @@ export default {
         });
     },
     addStudent(userName) {
-      axios
-        .put(
-          "http://localhost:8000/studenttest/insert/" +
+      let instance = axios.create();
+      instance.defaults.headers.common[
+        "Authorization"
+      ] = sessionStorage.getItem("Authorization");
+      instance
+        .post(
+          "http://localhost:8000/stutest/insert/" +
             userName +
             "/" +
-            this.testNum,
-          {
-            headers: {
-              Authorization: sessionStorage.getItem("Authorization")
-            }
-          }
+            this.testNum
         )
         .then(response => {
           // this.applicants = response.data;

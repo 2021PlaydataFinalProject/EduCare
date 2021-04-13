@@ -53,17 +53,16 @@ public class StudentTestController {
 		return new ResponseEntity<List<StudentTestDto>>(stTestservice.getStudentTestListByTNum(testnum), HttpStatus.OK) ;
 	}
 	
-
 	@PutMapping("/update-mytest")
 	@PreAuthorize("hasAnyRole('STUDENT')")	//답안 등록은 학생들만 가능
 	public ResponseEntity<String> updateStudentTest(StudentTestDto sttDto,
 			@RequestParam(value = "file", required = false) MultipartFile mfile) {	//학생이 시험답안, 영상 제출할때 request 처리메소드
 		if (mfile != null && stTestservice.updateMyTest(sttDto, mfile)) {
 			return new ResponseEntity<String>("답안 작성, 녹화파일 저장 성공", HttpStatus.OK);
-		}else {
+		} else {
 			return new ResponseEntity<String>("답안 작성, 녹화파일 저장 실패", HttpStatus.NOT_MODIFIED);
 		}
-  }
+	}
   
 	@PutMapping("/update-score/{username}/{testnum}/{testResult}")
 	@PreAuthorize("hasAnyRole('INSTRUCTOR')")

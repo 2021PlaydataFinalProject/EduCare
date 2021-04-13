@@ -52,9 +52,7 @@ public class UserServiceImpl implements UserService {
 	public ResponseEntity<UserDto> login(LoginDto loginDto, HttpServletResponse res) {
 		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
 				loginDto.getUsername(), loginDto.getPassword());
-
-		// authenticate(authenticationToken)하면 CustomerUserDetailsService의
-		// loaduserbyusername 실행됨
+		// authenticate(authenticationToken)하면 CustomerUserDetailsService의 loaduserbyusername 실행
 		Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
 		// 인증 정보를 JwtFilter 클래스의 doFilter 메소드와 유사하게 현재 실행중인 스레드 (Security Context) 에 저장
@@ -109,20 +107,24 @@ public class UserServiceImpl implements UserService {
 					logger.error("{} 가입회원 이미지 등록 실패", userDto.getUsername());
 				}
 
-				if (userDto.getRole().equals("student")) {
-					Student student = Student.builder().username(userDto.getUsername())
-							.password(passwordEncoder.encode(userDto.getPassword()))
-							.userRealName(userDto.getUserRealname()).phoneNumber(userDto.getPhoneNumber())
-							.userImage(imgname).build();
+				if (userDto.getRole().equals("student")) {					
+					Student student = new Student();
+					student.setUsername(userDto.getUsername());
+					student.setPassword(passwordEncoder.encode(userDto.getPassword()));
+					student.setUserRealName(userDto.getUserRealname());
+					student.setPhoneNumber(userDto.getPhoneNumber());
+					student.setUserImage(imgname);
 
 					userRepository.save(student);
 					logger.info("{} 학생 회원가입 성공", userDto.getUsername());
 					return true;
 				} else if (userDto.getRole().equals("instructor")) {
-					Instructor instructor = Instructor.builder().username(userDto.getUsername())
-							.password(passwordEncoder.encode(userDto.getPassword()))
-							.userRealName(userDto.getUserRealname()).phoneNumber(userDto.getPhoneNumber())
-							.userImage(imgname).build();
+					Instructor instructor = new Instructor();
+					instructor.setUsername(userDto.getUsername());
+					instructor.setPassword(passwordEncoder.encode(userDto.getPassword()));
+					instructor.setUserRealName(userDto.getUserRealname());
+					instructor.setPhoneNumber(userDto.getPhoneNumber());
+					instructor.setUserImage(imgname);
 
 					userRepository.save(instructor);
 					logger.info("{} 강사 회원가입 성공", userDto.getUsername());
@@ -149,22 +151,26 @@ public class UserServiceImpl implements UserService {
 		try {
 			if (!findUser.isPresent()) {
 				if (userDto.getRole().equals("student")) {
-					Student student = Student.builder().username(userDto.getUsername())
-							.password(passwordEncoder.encode(userDto.getPassword()))
-							.userRealName(userDto.getUserRealname()).phoneNumber(userDto.getPhoneNumber())
-							.userImage("default.png").build();
+					Student student = new Student();
+					student.setUsername(userDto.getUsername());
+					student.setPassword(passwordEncoder.encode(userDto.getPassword()));
+					student.setUserRealName(userDto.getUserRealname());
+					student.setPhoneNumber(userDto.getPhoneNumber());
+					student.setUserImage("default.png");
 
-					logger.info("{} 학생 회원가입 성공", userDto.getUsername());
 					userRepository.save(student);
+					logger.info("{} 학생 회원가입 성공", userDto.getUsername());
 					return true;
 				} else if (userDto.getRole().equals("instructor")) {
-					Instructor instructor = Instructor.builder().username(userDto.getUsername())
-							.password(passwordEncoder.encode(userDto.getPassword()))
-							.userRealName(userDto.getUserRealname()).phoneNumber(userDto.getPhoneNumber())
-							.userImage("default.png").build();
+					Instructor instructor = new Instructor();
+					instructor.setUsername(userDto.getUsername());
+					instructor.setPassword(passwordEncoder.encode(userDto.getPassword()));
+					instructor.setUserRealName(userDto.getUserRealname());
+					instructor.setPhoneNumber(userDto.getPhoneNumber());
+					instructor.setUserImage("default.png");
 
-					logger.info("{} 강사 회원가입 성공", userDto.getUsername());
 					userRepository.save(instructor);
+					logger.info("{} 강사 회원가입 성공", userDto.getUsername());
 					return true;
 				} else {
 					logger.info("{} 학생, 강사가 아닙니다. 회원가입 실패", userDto.getUsername());

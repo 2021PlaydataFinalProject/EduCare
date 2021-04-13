@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,7 +47,7 @@ public class StudentTestController {
 		return new ResponseEntity<List<StudentTestDto>>(stTestservice.getStudentTestListByUname(username), HttpStatus.OK) ;
 	}
 	
-	// 강사가 studentTest에서 자기 출제한 testpk 주고 시험에 등록한 학생 응시자들 조회
+	// 강사가 studentTest에서 자기 출제한 test pk 주고 시험에 등록한 학생 응시자들 조회
 	@GetMapping("/getstu/{testnum}")
 	@PreAuthorize("hasAnyRole('INSTRUCTOR')")
 	public ResponseEntity<List<StudentTestDto>> getStudentTestListByTNum(@PathVariable long testnum) {
@@ -72,6 +73,17 @@ public class StudentTestController {
 			return  new ResponseEntity<String>("채점 결과 저장 성공",  HttpStatus.OK);
 		} else {
 			return new ResponseEntity<String>("채점 결과 저장 실패",  HttpStatus.NOT_MODIFIED);		
+		}
+	}
+	
+	@DeleteMapping("/delete/{username}/{testnum}")
+	@PreAuthorize("hasAnyRole('INSTRUCTOR')")
+	public ResponseEntity<String> deleteStudentTestByUserName(@PathVariable String username, @PathVariable long testnum) {
+		
+		if (stTestservice.deleteStudentTestByUserName(username, testnum)) {
+			return  new ResponseEntity<String>("유저 시험정보 삭제 성공",  HttpStatus.NO_CONTENT);
+		} else {
+			return new ResponseEntity<String>("유저 시험정보 삭제 실패",  HttpStatus.INTERNAL_SERVER_ERROR);		
 		}
 	}
 

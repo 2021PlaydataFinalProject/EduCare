@@ -26,6 +26,8 @@ public interface UserService {
 	
 	public List<UserDto> getStudentList();
 	
+	public List<UserDto> getStudentListNotInTest(long testnum);
+	
 	public Boolean updateUser(UserDto userDto, MultipartFile mfile);
 	
 	public Boolean updateUserNoimg(UserDto userDto);

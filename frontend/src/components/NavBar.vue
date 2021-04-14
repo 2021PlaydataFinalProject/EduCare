@@ -58,7 +58,7 @@
           <div class="is-user-name">
             <!-- 여기에 user role을 데이터 싱크 맞추어서 적으면 됨 
             {{userRole}} 이런식으로 -->
-            <span>{{ userName }} 강사</span>
+            <span>{{ userName }}</span>
           </div>
           <div slot="dropdown" class="navbar-dropdown">
             <router-link
@@ -67,7 +67,7 @@
               exact-active-class="is-active"
             >
               <b-icon icon="account" custom-size="default"></b-icon>
-              <template v-if="user != null">
+              <template v-if="authorization != null">
                 <span>마이 페이지</span>
               </template>
               <template v-else>
@@ -85,10 +85,10 @@
             <hr class="navbar-divider" />
             <a class="navbar-item">
               <b-icon icon="logout" custom-size="default"></b-icon>
-              <template>
+              <template v-if="authorization != null">
                 <span @click="logout()">로그아웃</span>
               </template>
-              <template>
+              <template v-else>
                 <router-link to="/signup">회원가입</router-link>
               </template>
             </a>
@@ -135,7 +135,7 @@ export default {
   data() {
     return {
       isMenuNavBarActive: false,
-      user: sessionStorage.getItem("user")
+      authorization: sessionStorage.getItem("Authorization")
     };
   },
   computed: {
@@ -181,6 +181,7 @@ export default {
           alert("로그아웃 성공");
           sessionStorage.removeItem("Authorization");
           this.$router.push({ name: "Home" });
+          location.reload();
         })
         .catch(error => {
           alert("로그아웃 실패");

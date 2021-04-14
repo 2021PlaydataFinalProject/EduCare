@@ -41,7 +41,7 @@
                 <b-button
                   type="is-primary is-light"
                   outlined
-                  v-on:click="updateInstructorTest(props.row.pfSeq)"
+                  v-on:click="manageStudentVideo(props.row.username)"
                   position="is-centered"
                   size="is-small"
                   >감독하기</b-button
@@ -51,7 +51,7 @@
                 <b-button
                   type="is-primary is-light"
                   outlined
-                  v-on:click="manageInstructorTest(props.row.pfSeq)"
+                  v-on:click="deleteApplicant(props.row.username)"
                   position="is-centered"
                   size="is-small"
                   >삭제</b-button
@@ -59,14 +59,8 @@
               </b-table-column>
             </b-table>
           </section>
-          <!-- <b-button
-            class="button is-primary is-pulled-right"
-            @click="isCardModalActive = true"
-            >응시자 추가</b-button
-          > -->
         </div>
       </card-component>
-      <!-- 응시자 추가를 누르면 동기로 아래에 응시자 추가 리스트 출력 -->
 
       <hr />
       <notification class="is-info">
@@ -147,14 +141,14 @@ export default {
     //특정 시험에 할당된 응시자 검색 로직으로 변경 필요
     getAllApplicants() {
       axios
-        .get("http://localhost:8000/stutest/getstu/1", {
+        .get("http://localhost:8000/stutest/getstu/" + this.testNum, {
           headers: {
             Authorization: sessionStorage.getItem("Authorization")
           }
         })
         .then(response => {
           this.applicants = response.data;
-          console.log("응시자 확인")
+          console.log("응시자 확인");
           console.log(this.applicants);
           // alert(this.test);
         })
@@ -164,14 +158,14 @@ export default {
     },
     getAllStudents() {
       axios
-        .get("http://localhost:8000/user/allusers", {
+        .get("http://localhost:8000/user/notest/" + this.testNum, {
           headers: {
             Authorization: sessionStorage.getItem("Authorization")
           }
         })
         .then(response => {
           this.students = response.data;
-          console.log("총학생 확인")
+          console.log("총학생 확인");
           console.log(this.students);
           // alert(this.test);
         })
@@ -194,17 +188,20 @@ export default {
         .then(response => {
           // this.applicants = response.data;
           console.log(response);
-          // alert(this.test);
+          this.getAllApplicants();
+          this.getAllStudents();
         })
         .catch(e => {
           console.log(e);
         });
     },
-    deleteInstructorTest(testNum) {
+    deleteApplicant(userName) {
       axios
         .delete(
-          "http://localhost:8000/test/delete?username=java@educare.com&testnum=" +
-            testNum,
+          "http://localhost:8000/stutest/delete/" +
+            userName +
+            "/" +
+            this.testNum,
           {
             headers: {
               Authorization: sessionStorage.getItem("Authorization")
@@ -213,11 +210,18 @@ export default {
         )
         .then(() => {
           this.getAllApplicants();
+          this.getAllStudents();
         })
         .catch(e => {
           console.log(e);
         });
       this.getAllApplicants();
+    },
+    manageStudentVideo(userName) {
+      return this.$router.push({
+        name: "TestSupervision",
+        params: { testNum: this.testNum, userName: userName }
+      });
     }
   },
   mounted() {

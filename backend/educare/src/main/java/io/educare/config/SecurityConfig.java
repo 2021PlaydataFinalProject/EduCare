@@ -59,6 +59,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()  // Token이 없어도 호출할 수 있도록 허용
                 .antMatchers("/user/signin").permitAll()
                 .antMatchers("/user/signup").permitAll()
+                .antMatchers("/userimg/**").permitAll()
+                .antMatchers("/tproblemvideo/**").permitAll()
                 .anyRequest().authenticated() // 나머지는 권한 검증
                 .and()
                 .apply(new JwtSecurityConfig(tokenProvider)); // 사용자 정의 설정

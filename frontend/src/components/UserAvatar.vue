@@ -25,13 +25,18 @@ export default {
         return this.userAvatar;
       }
 
-      let name = "somename";
-
+      // let name = "somename";
       if (this.userName) {
-        name = this.userName.replace(/[^a-z0-9]+/i, "");
+        // 로그인 했을 경우
+        return `https://avatars.dicebear.com/api/jdenticon/example.svg`;
+      } else {
+        // 로그인 안했을 경우
+        return `https://avatars.dicebear.com/api/jdenticon/example.svg`;
       }
-
-      return `https://avatars.dicebear.com/v2/human/${name}.svg?options[mood][]=happy`;
+      // if (this.userName) {
+      //   name = this.userName.replace(/[^a-z0-9]+/i, "");
+      // }
+      // https://avatars.dicebear.com/v2/human/${name}.svg?options[mood][]=happy
     },
     ...mapState(["userAvatar", "userName"])
   }

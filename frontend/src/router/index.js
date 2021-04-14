@@ -79,15 +79,7 @@ const routes = [
   //   // beforeEnter: onlyAuthUser,
   //   component: () => import("../views/StudentTest.vue")
   // },
-  {
-    meta: {
-      title: "ManageTest"
-    },
-    path: "/managetest",
-    name: "ManageTest",
-    // beforeEnter: onlyAuthUser,
-    component: () => import("../views/ManageTest.vue")
-  },
+  // {
   {
     meta: {
       title: "ModifyTest"

@@ -16,6 +16,43 @@
             <p>
               영상 분석 데이터 확인 (부정행위 감지 시간)
             </p>
+            <p>학생 답 띄우기</p>
+
+            <div v-for="value in studentTest.data" :key="value.index">
+              {{ value.testAnswer }}
+            </div>
+
+            <!-- <b-table :data="studentTest">
+            <b-table-column
+              label="보기 1번"
+              field="보기 1번"
+              sortable
+              v-slot="props"
+            >
+              {{ props.row.testAnswer[0] }}
+            </b-table-column>
+            <b-table-column
+              label="보기 2번"
+              field="보기 2번"
+              sortable
+              v-slot="props"
+            >
+              {{ props.row.testAnswer[1] }}
+            </b-table-column>
+            <b-table-column
+              label="보기 3번"
+              field="보기 3번"
+              sortable
+              v-slot="props"
+            >
+              {{ props.row.testAnswer[2] }}
+            </b-table-column>
+            <b-table-column label="보기 4번" field="보기 4번" v-slot="props">
+              {{ props.row.testAnswer[3] }}
+            </b-table-column>
+  
+          </b-table> -->
+
             <b-field label="시험 점수를 입력하세요. 부정행위시 0점">
               <b-field>
                 <b-numberinput
@@ -27,16 +64,19 @@
                   aria-minus-label="Decrement by 5"
                   aria-plus-label="Increment by 5"/>
                 <p class="control">
-                  <b-button label="시험 점수 입력" /></p
+                  <b-button
+                    @click="updateStudentScore"
+                    label="시험 점수 입력"
+                  /></p
               ></b-field>
             </b-field>
-             <b-field grouped>
-            <div class="control">
-              <b-button tag="router-link" to="/instructor" type="is-link">
-                시험 출제
-              </b-button>
-            </div>
-          </b-field>
+            <b-field grouped>
+              <div class="control">
+                <b-button tag="router-link" to="/instructor" type="is-link">
+                  시험 감독 완료
+                </b-button>
+              </div>
+            </b-field>
           </div>
         </div>
         <div class="tile is-parent">
@@ -83,13 +123,15 @@ export default {
   },
   data() {
     return {
+      testNum: this.$route.params.testNum,
+      userName: this.$route.params.userName,
       testResult: "",
       studentTest: "",
-      studentTest2: "",
-      videoName: "",
+      studentTest2: [],
+      // videoName: "",
       playerOptions: {
         // videojs options
-        height: "360",
+        height: "480",
         responsive: true,
         muted: true,
         language: "ko",
@@ -99,15 +141,14 @@ export default {
             type: "video/mp4",
             src:
               // "https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm"
-              this.videoName
+              //testNum+username+video.avi
+              //\\src\\main\\webapp\\tproblemvideo\\ + testnum + username + video.avi
+              "http://localhost:8000/video.mp4"
           }
         ],
         poster: "src/assets/videoposter.jpg"
       }
     };
-  },
-  mounted() {
-    console.log("this is current player instance object", this.player);
   },
   computed: {
     titleStack() {
@@ -140,23 +181,61 @@ export default {
     },
 
     //video 정보 가져오기
-    getVideoName() {
+    getStudentTest() {
       axios
-        .get("http://localhost:8000/stutest/get/dkwjd/1", {
-          headers: {
-            Authorization: sessionStorage.getItem("Authorization")
+        .get(
+          "http://localhost:8000/stutest/get/" +
+            this.userName +
+            "/" +
+            this.testNum,
+          {
+            headers: {
+              Authorization: sessionStorage.getItem("Authorization")
+            }
           }
-        })
+        )
         .then(response => {
           this.studentTest = response.data;
           console.log("확인");
           console.log(this.studentTest);
-          this.studentTest.forEach(function(item) {
-            this.studentTest2 = item;
+          // this.studentTest.forEach(function(item) {
+          //   this.studentTest2 = item;
+          // });
+          // console.log(this.studentTest2);
+          // this.videoName = this.studentTest2.videoName;
+          // console.log("videoName확인");
+          // console.log(this.videoName);
+          // let arr = [];
+
+          // for (let i = 0; i < Object.keys(this.studentTest).length; i++) {
+          //   // Get the name and value of the old object
+          //   let name = Object.keys(this.studentTest)[i];
+          //   let value = this.studentTest[name];
+
+          //   // Create the new object
+          //   let newObj = {
+          //     fieldName: name,
+          //     message: value
+          //   };
+
+          //   // Push the new object into the array of objects
+          //   arr.push(newObj);
+          //   this.studentTest2 = newObj;
+          //   console.log(newObj);
+          // }
+          var array = [];
+          this.studentTest.forEach(function(element) {
+            var studentTest2;
+            studentTest2 = [element[0], element[1]].reduce(function(r, o) {
+              Object.keys(o).forEach(function(k) {
+                r[k] = o[k];
+              });
+              return r;
+            }, {});
+            array.push(studentTest2);
           });
-          this.videoName = this.studentTest2.videoName;
-          console.log("videoName확인");
-          console.log(this.videoName);
+          this.studentTest2 = array;
+          console.log(this.studentTest2)
         })
         .catch(e => {
           console.log(e);
@@ -185,6 +264,10 @@ export default {
           console.log(e);
         });
     }
+  },
+  mounted() {
+    console.log("this is current player instance object", this.player);
+    this.getStudentTest();
   }
 };
 </script>

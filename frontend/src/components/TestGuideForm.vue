@@ -2,7 +2,14 @@
   <div id="app" class="container is-max-desktop pt-5">
     <section>
       <div class="container is-max-desktop">
-        {{ this.test.testGuide }}
+        <b-message
+          title="시험 주의사항"
+          type="is-info"
+          has-icon
+          aria-close-label="Close message"
+        >
+          {{ this.test.testGuide }}
+        </b-message>
         <b-notification
           type="is-info is-light"
           aria-close-label="Close notification"

@@ -83,7 +83,7 @@ const routes = [
     meta: {
       title: "ManageTest"
     },
-    path: "/managetest",
+    path: "/post/:username",
     name: "ManageTest",
     // beforeEnter: onlyAuthUser,
     component: () => import("../views/ManageTest.vue")

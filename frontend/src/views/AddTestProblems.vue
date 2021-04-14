@@ -129,6 +129,16 @@
             <b-table-column label="답" field="보기 4번" v-slot="props">
               {{ props.row.proAnswer }}
             </b-table-column>
+            <b-table-column label="삭제" v-slot="props" centered>
+              <b-button
+                type="is-danger is-light"
+                outlined
+                v-on:click="deleteInstructorTest(props.row.testNum)"
+                position="is-centered"
+                size="is-small"
+                >삭제</b-button
+              >
+            </b-table-column>
           </b-table>
         </card-component>
         <div style="text-align: center;">
@@ -256,6 +266,21 @@ export default {
           console.log(e);
         });
     }
+  },
+  deleteTestProblems() {
+    axios
+      .delete("http://localhost:8000/testpro/delete?testnum=" + this.testNum, {
+        headers: {
+          Authorization: sessionStorage.getItem("Authorization")
+        }
+      })
+      .then(() => {
+        this.getTestProblems();
+      })
+      .catch(e => {
+        console.log(e);
+      });
+    this.getTestProblems();
   },
   mounted() {
     this.getTestProblems();

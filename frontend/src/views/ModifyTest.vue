@@ -5,12 +5,7 @@
       시험 수정하기
     </hero-bar>
     <section class="section is-main-section">
-      <card-component
-        class="form"
-        @submit.prevent="testForm"
-        title="시험"
-        icon="ballot"
-      >
+      <card-component title="시험" icon="ballot" @submit.prevent="submitForm">
         <b-field label="시험명" message="과목명을 적어주세요." horizontal>
           <b-input
             placeholder="시험명 : 소제목"
@@ -67,9 +62,7 @@
             required
           />
         </b-field>
-        <b-button @click="ModifyTest" v-on:click="testForm()"
-          >시험 수정하기</b-button
-        >
+        <b-button v-on:click="testForm()">시험 수정하기</b-button>
         <hr />
       </card-component>
     </section>
@@ -80,10 +73,10 @@ import TitleBar from "@/components/TitleBar";
 import CardComponent from "@/components/CardComponent";
 import HeroBar from "@/components/HeroBar";
 import { localISOdt } from "local-iso-dt";
-import axios from "axios";
+import { fetchTest } from "@/api/test";
+// import axios from "axios";
 
 export default {
-  name: "ModifyTest",
   components: {
     HeroBar,
     CardComponent,
@@ -91,31 +84,22 @@ export default {
   },
   data() {
     return {
-      labelPosition: "on-border",
-      selectedOptions: [],
-      isLoading: false,
-      testNum: this.$route.params.testNum,
-      test: "",
-      spliList: [],
-      testproblemform: {
-        proNum: 1,
-        proDes: "",
-        proSel: [],
-        proImage: "",
-        proAnswer: ""
-      },
       showWeekNumber: false,
       enableSeconds: true,
       hourFormat: undefined, // Browser locale
       locale: undefined, // Browser locale
       localISOdt,
       testService: "",
-      testform: {
+      labelPosition: "on-border",
+      selectedOptions: [],
+      isLoading: false,
+      form: {
         testName: "",
         endTime: "",
         startTime: "",
         testGuide: ""
-      }
+      },
+      testNum: ""
     };
   },
   computed: {
@@ -124,88 +108,15 @@ export default {
     }
   },
   methods: {
-    testForm() {
-      const addTestData = {
-        testName: this.form.testName,
-        endTime: this.form.endTime,
-        startTime: this.form.startTime,
-        testGuide: this.form.testGuide
-      };
-      axios
-        .post(
-          "http://localhost:8000/test/create?username=teacher",
-          addTestData,
-          {
-            headers: {
-              contentType: false,
-              Authorization: sessionStorage.getItem("Authorization")
-            }
-          }
-        )
-        .then(response => {
-          alert("시험 수정 성공!");
-          console.log(response.data);
-          this.testNum = response.data;
-          this.$router.push({
-            name: "InstructorTest",
-            params: { testNum: this.testNum }
-          });
-        })
-        .catch(error => {
-          alert("시험 생성 실패");
-          console.log(error);
-        })
-        .finally(() => {
-          this.initForm();
-        });
-    },
-    testproblemForm() {
-      const addtestproblemData = {
-        // testnum: this.testnum,
-        proId: this.proId,
-        proNum: this.proNum,
-        proDes: this.proDes,
-        proSel: this.proSel,
-        proImage: this.proImage,
-        proAnswer: this.proAnswer
-      };
-      let instance = axios.create();
-      instance.defaults.headers.common[
-        "Authorization"
-      ] = sessionStorage.getItem("Authorization");
-      axios
-        .post(
-          "http://localhost:8000/testpro/create/" + this.testService,
-          addtestproblemData,
-          {
-            // headers: {
-            //   "Content-Type": "application/json"
-            // }
-          }
-        )
-        .then(Headers => {
-          alert("시험 문제 생성 성공!");
-          console.log(Headers); //get("Authorization")
-          // sessionStorage.setItem("user", JSON.stringify(response.data));
-          this.$router.push({ name: "InstructorTest" });
-        })
-        .catch(error => {
-          alert("시험 문제 생성 실패");
-          console.log(error);
-        })
-        .finally(() => {
-          this.initForm();
-        });
-    },
-    initForm() {
-      this.testnum = "";
-      this.proId = "";
-      this.pronum = "";
-      this.proDes = "";
-      this.proSel = "";
-      this.proImage = "";
-      this.proAnswer = "";
-    }
+    submitForm() {}
+  },
+  async created() {
+    const testNum = this.$route.params.testNum;
+    const { data } = await fetchTest(testNum);
+    this.testName = data.testname;
+    this.endTime = data.endtime;
+
+    console.log(data);
   }
 };
 </script>

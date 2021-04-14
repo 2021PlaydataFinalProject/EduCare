@@ -58,7 +58,12 @@
           <div class="is-user-name">
             <!-- 여기에 user role을 데이터 싱크 맞추어서 적으면 됨 
             {{userRole}} 이런식으로 -->
-            <span>{{ userName }}</span>
+            <template v-if="authorization != null">
+              <span>{{ userName }}</span>
+            </template>
+            <template v-else>
+              <span>로그인</span>
+            </template>
           </div>
           <div slot="dropdown" class="navbar-dropdown">
             <router-link

@@ -88,14 +88,14 @@
           icon="account-multiple"
         >
           <b-table :data="test">
-            <!-- <b-table-column
-              cell-class="has-no-head-mobile is-image-cell"
+            <b-table-column
+              label="문제 번호"
+              field="문제 번호"
+              sortable
               v-slot="props"
             >
-              <div class="image">
-                <img :src="props.row.avatar" class="is-rounded" />
-              </div>
-            </b-table-column> -->
+              {{ props.row.proNum }}
+            </b-table-column>
             <b-table-column label="문제" field="문제" sortable v-slot="props">
               {{ props.row.proDes }}
             </b-table-column>
@@ -128,6 +128,16 @@
             </b-table-column>
             <b-table-column label="답" field="보기 4번" v-slot="props">
               {{ props.row.proAnswer }}
+            </b-table-column>
+            <b-table-column label="삭제" v-slot="props" centered>
+              <b-button
+                type="is-danger is-light"
+                outlined
+                v-on:click="deleteTestProblems(props.row.proId)"
+                position="is-centered"
+                size="is-small"
+                >삭제</b-button
+              >
             </b-table-column>
           </b-table>
         </card-component>
@@ -220,7 +230,6 @@ export default {
     },
     initForm() {
       this.proNum = "";
-      this.testNum = "";
       this.proId = "";
       this.proDes = "";
       this.proSel = "";
@@ -251,6 +260,23 @@ export default {
           //   this.proSelList.three = test2.proSel[2];
           //   this.proSelList.four = test2.proSel[3];
           //   //   alert(this.test);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+    deleteTestProblems(proid) {
+      axios
+        .delete(
+          `http://localhost:8000/testpro/delete?proid=${proid}&testnum=${this.testNum}`,
+          {
+            headers: {
+              Authorization: sessionStorage.getItem("Authorization")
+            }
+          }
+        )
+        .then(() => {
+          this.getTestProblems();
         })
         .catch(e => {
           console.log(e);

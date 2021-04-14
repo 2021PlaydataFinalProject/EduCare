@@ -17,9 +17,10 @@ class RecordingThread (threading.Thread):
         threading.Thread.__init__(self)
         self.name = name
         self.isRunning = True
-        self.cap = camera #<VideoCapture 000001C4247745B0>
+        self.cap = camera #<VideoCapture 000001C4'./static/video.mp4'247745B0>
         #print('camera', camera)
-        fourcc = cv2.VideoWriter_fourcc(*'MP4V') #'XVID'
+        #fourcc = cv2.VideoWriter_fourcc(*'H264') #'XVID'
+        fourcc = cv2.VideoWriter_fourcc('H','2','6','4') #'XVID'
         self.out = cv2.VideoWriter('./static/video.mp4',fourcc, 20.0, (640,480))
 
     def run(self):

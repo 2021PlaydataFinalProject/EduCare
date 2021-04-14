@@ -237,9 +237,9 @@ export default {
       this.proImage = "";
       this.proAnswer = "";
     },
-    getTestProblems() {
+    getTestProblems(testNum) {
       axios
-        .get("http://localhost:8000/testpro/get?testnum=" + this.testNum, {
+        .get("http://localhost:8000/testpro/get?testnum=" + testNum, {
           headers: {
             Authorization: sessionStorage.getItem("Authorization")
           }
@@ -267,13 +267,17 @@ export default {
         });
     }
   },
-  deleteTestProblems() {
+  deleteTestProblems(testNum) {
     axios
-      .delete("http://localhost:8000/testpro/delete?testnum=" + this.testNum, {
-        headers: {
-          Authorization: sessionStorage.getItem("Authorization")
+      .delete(
+        "http://localhost:8000/testpro/delete?username=java@educare.com&testnum=" +
+          testNum,
+        {
+          headers: {
+            Authorization: sessionStorage.getItem("Authorization")
+          }
         }
-      })
+      )
       .then(() => {
         this.getTestProblems();
       })

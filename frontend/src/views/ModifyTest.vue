@@ -115,6 +115,8 @@ export default {
     const { data } = await fetchTest(testNum);
     this.testName = data.testname;
     this.endTime = data.endtime;
+    this.startTime = data.startTime;
+    this.testGuide = data.testGuide;
 
     console.log(data);
   }

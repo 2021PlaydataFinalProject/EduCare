@@ -1,7 +1,7 @@
 import { tests } from "./index";
 
-function fetchTest() {
-  return tests.get("testNum");
+function fetchTest(testNum) {
+  return tests.get(testNum);
 }
 
 function deleteTest(testNum) {

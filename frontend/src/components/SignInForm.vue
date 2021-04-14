@@ -94,6 +94,7 @@ export default {
           );
           // sessionStorage.setItem("user", JSON.stringify(response.data));
           this.$router.push({ name: "Home" });
+          location.reload();
         })
         .catch(error => {
           alert("로그인 실패");

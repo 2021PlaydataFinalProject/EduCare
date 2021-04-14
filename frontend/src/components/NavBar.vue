@@ -181,6 +181,7 @@ export default {
           alert("로그아웃 성공");
           sessionStorage.removeItem("Authorization");
           this.$router.push({ name: "Home" });
+          location.reload();
         })
         .catch(error => {
           alert("로그아웃 실패");

@@ -70,15 +70,15 @@ const routes = [
     // beforeEnter: onlyAuthUser,
     component: () => import("../views/StudentTestList.vue")
   },
-  {
-    meta: {
-      title: "StudentTest"
-    },
-    path: "/studenttest",
-    name: "StudentTest",
-    // beforeEnter: onlyAuthUser,
-    component: () => import("../views/StudentTest.vue")
-  },
+  // {
+  //   meta: {
+  //     title: "StudentTest"
+  //   },
+  //   path: "/studenttest",
+  //   name: "StudentTest",
+  //   // beforeEnter: onlyAuthUser,
+  //   component: () => import("../views/StudentTest.vue")
+  // },
   {
     meta: {
       title: "ManageTest"

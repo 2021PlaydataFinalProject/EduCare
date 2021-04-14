@@ -14,45 +14,16 @@
               클릭하면 감독관에게 전송됩니다.
             </p>
             <p>
-              영상 분석 데이터 확인 (부정행위 감지 시간)
+              영상 분석 데이터 확인 (부정행위 감지 시간) CheatTime:{{
+                cheatTime
+              }}
             </p>
             <p>학생 답 띄우기</p>
-
-            <div v-for="value in studentTest.data" :key="value.index">
-              {{ value.testAnswer }}
+            <div v-for="(value, index) in testAnswer" :key="value.key">
+              {{ index + 1 }}번: {{ value }}
             </div>
-
-            <!-- <b-table :data="studentTest">
-            <b-table-column
-              label="보기 1번"
-              field="보기 1번"
-              sortable
-              v-slot="props"
-            >
-              {{ props.row.testAnswer[0] }}
-            </b-table-column>
-            <b-table-column
-              label="보기 2번"
-              field="보기 2번"
-              sortable
-              v-slot="props"
-            >
-              {{ props.row.testAnswer[1] }}
-            </b-table-column>
-            <b-table-column
-              label="보기 3번"
-              field="보기 3번"
-              sortable
-              v-slot="props"
-            >
-              {{ props.row.testAnswer[2] }}
-            </b-table-column>
-            <b-table-column label="보기 4번" field="보기 4번" v-slot="props">
-              {{ props.row.testAnswer[3] }}
-            </b-table-column>
-  
-          </b-table> -->
-
+            isCheating: {{ isCheating }} 응시자: {{ userRealName }} videoname:
+            {{ videoName }}
             <b-field label="시험 점수를 입력하세요. 부정행위시 0점">
               <b-field>
                 <b-numberinput
@@ -107,7 +78,6 @@
     </section>
   </div>
 </template>
-
 <script>
 import TitleBar from "@/components/TitleBar";
 import HeroBar from "@/components/HeroBar";
@@ -127,8 +97,11 @@ export default {
       userName: this.$route.params.userName,
       testResult: "",
       studentTest: "",
-      studentTest2: [],
-      // videoName: "",
+      cheatTime: "",
+      isCheating: "",
+      testAnswer: [],
+      userRealName: "",
+      videoName: "",
       playerOptions: {
         // videojs options
         height: "480",
@@ -143,7 +116,7 @@ export default {
               // "https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm"
               //testNum+username+video.avi
               //\\src\\main\\webapp\\tproblemvideo\\ + testnum + username + video.avi
-              "http://localhost:8000/video.mp4"
+              "http://localhost:8000/video/video.mp4"
           }
         ],
         poster: "src/assets/videoposter.jpg"
@@ -198,44 +171,11 @@ export default {
           this.studentTest = response.data;
           console.log("확인");
           console.log(this.studentTest);
-          // this.studentTest.forEach(function(item) {
-          //   this.studentTest2 = item;
-          // });
-          // console.log(this.studentTest2);
-          // this.videoName = this.studentTest2.videoName;
-          // console.log("videoName확인");
-          // console.log(this.videoName);
-          // let arr = [];
-
-          // for (let i = 0; i < Object.keys(this.studentTest).length; i++) {
-          //   // Get the name and value of the old object
-          //   let name = Object.keys(this.studentTest)[i];
-          //   let value = this.studentTest[name];
-
-          //   // Create the new object
-          //   let newObj = {
-          //     fieldName: name,
-          //     message: value
-          //   };
-
-          //   // Push the new object into the array of objects
-          //   arr.push(newObj);
-          //   this.studentTest2 = newObj;
-          //   console.log(newObj);
-          // }
-          var array = [];
-          this.studentTest.forEach(function(element) {
-            var studentTest2;
-            studentTest2 = [element[0], element[1]].reduce(function(r, o) {
-              Object.keys(o).forEach(function(k) {
-                r[k] = o[k];
-              });
-              return r;
-            }, {});
-            array.push(studentTest2);
-          });
-          this.studentTest2 = array;
-          console.log(this.studentTest2)
+          this.cheatTime = this.studentTest.cheatTime;
+          this.isCheating = this.studentTest.isCheating;
+          this.testAnswer = this.studentTest.testAnswer;
+          this.userRealName = this.studentTest.userRealName;
+          this.videoName = this.studentTest.videoName;
         })
         .catch(e => {
           console.log(e);

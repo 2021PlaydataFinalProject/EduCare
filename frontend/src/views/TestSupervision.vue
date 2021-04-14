@@ -50,6 +50,15 @@
             </b-field>
           </div>
         </div>
+        <!-- <video controls width="250">
+          <source
+            src="http://localhost:8000/tproblemvideo/video.mp4"
+            type="video/mp4"
+          />
+
+          Sorry, your browser doesn't support embedded videos.
+        </video> -->
+
         <div class="tile is-parent">
           <div class="tile is-child box">
             <p class="title is-5">영상 확인</p>
@@ -116,7 +125,7 @@ export default {
               // "https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm"
               //testNum+username+video.avi
               //\\src\\main\\webapp\\tproblemvideo\\ + testnum + username + video.avi
-              "http://localhost:8000/video/video.mp4"
+              "http://localhost:8000/tproblemvideo/video.mp4"
           }
         ],
         poster: "src/assets/videoposter.jpg"

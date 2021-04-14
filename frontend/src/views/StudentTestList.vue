@@ -164,7 +164,7 @@ export default {
     takeStudentTest(testNum) {
       //  수정버튼 클릭시 ModifyTest로 이동
       return this.$router.push({
-        name: "Test Guide",
+        name: "TestGuide",
         params: { testNum: testNum }
       });
     }

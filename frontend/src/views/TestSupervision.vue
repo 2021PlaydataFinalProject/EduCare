@@ -121,11 +121,7 @@ export default {
         sources: [
           {
             type: "video/mp4",
-            src:
-              // "https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm"
-              //testNum+username+video.avi
-              //\\src\\main\\webapp\\tproblemvideo\\ + testnum + username + video.avi
-              "http://localhost:8000/tproblemvideo/video.mp4"
+            src: "http://localhost:8000/tproblemvideo/video.mp4"
           }
         ],
         poster: "src/assets/videoposter.jpg"

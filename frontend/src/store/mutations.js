@@ -1,4 +1,8 @@
 export default {
+  fetchImage: (state, payload) => {
+    state.userImage = payload;
+  },
+
   /* A fit-them-all commit */
   basic(state, payload) {
     state[payload.key] = payload.value;

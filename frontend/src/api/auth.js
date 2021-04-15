@@ -1,5 +1,21 @@
 // 로그인, 회원 가입, 회원 탈퇴
 import { instance } from "./index";
+import { getUserIdFromSession } from "../utils/session";
+import axios from "axios";
+
+const config = {
+  baseUrl: "http://localhost:8000/"
+};
+
+//회원 이미지 파일 가져오기
+function fetchUserImage() {
+  const username = getUserIdFromSession();
+  return axios.get(`${config.baseUrl}user/myinfo?username=${username}`, {
+    headers: {
+      Authorization: sessionStorage.getItem("Authorization")
+    }
+  });
+}
 
 // 회원가입 API
 function signupUser(data) {
@@ -27,4 +43,11 @@ function LogoutUser(userData) {
   return instance.post("/logout", userData);
 }
 
-export { signupUser, signinUser, memberAgreeUser, allClient, LogoutUser };
+export {
+  signupUser,
+  signinUser,
+  memberAgreeUser,
+  allClient,
+  LogoutUser,
+  fetchUserImage
+};

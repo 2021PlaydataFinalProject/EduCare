@@ -330,9 +330,12 @@ export default {
         .then(response => {
           // this.test = response.data;
           console.log(response);
+          this.success();
+
           this.getTestForm();
         })
         .catch(e => {
+          this.danger();
           console.log(e);
           this.errors.push(e);
         });
@@ -348,6 +351,7 @@ export default {
           }
         )
         .then(() => {
+          this.success();
           this.getTestProblems();
         })
         .catch(e => {
@@ -370,6 +374,7 @@ export default {
           }
         })
         .then(response => {
+          this.success();
           // this.test = response.data;
           console.log(response);
           this.getTestProblems();
@@ -400,49 +405,21 @@ export default {
         .catch(e => {
           console.log(e);
         });
+    },
+    success() {
+      this.$buefy.notification.open({
+        message: "수정이 완료되었습니다.",
+        type: "is-success",
+        position: "is-bottom-right"
+      });
+    },
+    danger() {
+      this.$buefy.notification.open({
+        message: `수정 내용을 정확히 입력해주세요.`,
+        type: "is-danger",
+        position: "is-bottom-right"
+      });
     }
-    // let instance = axios.create();
-    // instance.defaults.headers.common[
-    //   "Authorization"
-    // ] = sessionStorage.getItem("Authorization");
-    //     axios
-    //       .get(
-    //         "http://localhost:8000/testpro/create/" + this.testService,
-    //         addtestproblemData,
-    //         {
-    //           headers: {
-    //             "Content-Type": "application/json"
-    //           }
-    //         }
-    //       )
-    //       .then(Headers => {
-    //         alert("시험 문제 생성 성공!");
-    //         console.log(Headers); //get("Authorization")
-    //         // sessionStorage.setItem("user", JSON.stringify(response.data));
-    //         this.getModifyTest();
-    //         this.$router.push({ name: "InstructorTest" });
-    //       })
-    //       .catch(error => {
-    //         alert("시험 문제 생성 실패");
-    //         console.log(error);
-    //       })
-    //       .finally(() => {
-    //         this.initForm();
-    //       });
-    //   },
-    //   initForm(testNum) {
-    //     this.testName = this.data[testNum].testName;
-    //     this.endTime = this.data[testNum].endTime;
-    //     this.startTime = this.data[testNum].startTime;
-    //     this.testGuide = this.data[testNum].testGuide;
-    //     this.testnum = this.data[testNum].testNum;
-    //     this.proId = this.data[testNum].proId;
-    //     this.pronum = this.data[testNum].proNum;
-    //     this.proDes = this.data[testNum].proDes;
-    //     this.proSel = this.data[testNum].proSel;
-    //     this.proImage = this.data[testNum].proImage;
-    //     this.proAnswer = this.data[testNum].proAnswer;
-    //   }
   },
   mounted() {
     this.getTestForm();

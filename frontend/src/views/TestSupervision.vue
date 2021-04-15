@@ -10,20 +10,26 @@
           <div class="tile is-child box">
             <p class="title is-5">시험감독</p>
             <p>
-              시험이 시작될때 녹화시작 먼저 클릭한 후 시험을 완료 후 시험완료를
-              클릭하면 감독관에게 전송됩니다.
+              응시자의 녹화 영상을 확인하세요.
             </p>
-            <p>
-              영상 분석 데이터 확인 (부정행위 감지 시간) CheatTime:{{
-                cheatTime
-              }}
-            </p>
-            <p>학생 답 띄우기</p>
-            <div v-for="(value, index) in testAnswer" :key="value.key">
+            <h6 class="title is-6">부정행위 감지 시간</h6>
+            <h6 class="subtitle is-6 pb-2">CheatTime:{{ cheatTime }}</h6>
+            <h6 class="title is-6">응시자 답변</h6>
+
+            <div
+              class="pb-2"
+              v-for="(value, index) in testAnswer"
+              :key="value.key"
+            >
               {{ index + 1 }}번: {{ value }}
             </div>
-            isCheating: {{ isCheating }} 응시자: {{ userRealName }} videoname:
-            {{ videoName }}
+            <h6 class="title is-6">부정행위 유무</h6>
+            <h6 class="subtitle is-6 pb-2">isCheating: {{ isCheating }}</h6>
+            <h6 class="title is-6">응시자</h6>
+            <h6 class="subtitle is-6 pb-2">{{ userRealName }}</h6>
+
+            <!-- <br />
+            videoname: {{ videoName }} -->
             <b-field label="시험 점수를 입력하세요. 부정행위시 0점">
               <b-field>
                 <b-numberinput
@@ -50,14 +56,6 @@
             </b-field>
           </div>
         </div>
-        <!-- <video controls width="250">
-          <source
-            src="http://localhost:8000/tproblemvideo/video.mp4"
-            type="video/mp4"
-          />
-
-          Sorry, your browser doesn't support embedded videos.
-        </video> -->
 
         <div class="tile is-parent">
           <div class="tile is-child box">
@@ -121,7 +119,7 @@ export default {
         sources: [
           {
             type: "video/mp4",
-            src: "http://localhost:8000/tproblemvideo/video.mp4"
+            src: "http://localhost:8000/tproblemvideo/" + this.videoName
           }
         ],
         poster: "src/assets/videoposter.jpg"

@@ -1,6 +1,5 @@
 <script>
 import chunk from "lodash/chunk";
-
 export default {
   name: "Tiles",
   props: {

@@ -1,9 +1,10 @@
-var buttonRecord = document.getElementById("record");
+// var buttonRecord = document.getElementById("record");
 var buttonStop = document.getElementById("stop");
 
-buttonRecord.disabled = false;
-buttonStop.disabled = true;
+//buttonRecord.disabled = false;
+buttonStop.disabled = false;
 
+/*
 buttonRecord.onclick = function() {
     // var url = window.location.href + "record_status";
     buttonRecord.disabled = true;
@@ -25,10 +26,10 @@ buttonRecord.onclick = function() {
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhr.send(JSON.stringify({ status: "true" }));
 };
-
+*/
 buttonStop.onclick = function() {
-    buttonRecord.disabled = false;
-    buttonStop.disabled = false;    
+    //buttonRecord.disabled = false;
+    buttonStop.disabled = true;    
 
     // XMLHttpRequest
     var xhr = new XMLHttpRequest();

@@ -1,10 +1,15 @@
 <template>
   <div id="app" class="container is-max-desktop pt-5">
-    <!-- <section>
-      <div class="hero-body"></div>
-    </section> -->
     <section>
       <div class="container is-max-desktop">
+        <b-message
+          title="시험 주의사항"
+          type="is-info"
+          has-icon
+          aria-close-label="Close message"
+        >
+          {{ this.test.testGuide }}
+        </b-message>
         <b-notification
           type="is-info is-light"
           aria-close-label="Close notification"
@@ -54,11 +59,39 @@
   </div>
 </template>
 <script>
-export default {};
-</script>
+import axios from "axios";
 
-<style>
-.btn {
-  color: white;
-}
-</style>
+export default {
+  data: function() {
+    return {
+      testNum: this.$route.params.testNum,
+      test: ""
+    };
+  },
+  computed: {
+    titleStack() {
+      return ["Student", "TestGuide"];
+    }
+  },
+  methods: {
+    getTest() {
+      let instance = axios.create();
+      instance.defaults.headers.common[
+        "Authorization"
+      ] = sessionStorage.getItem("Authorization");
+      instance
+        .get("http://localhost:8000/test/get/" + this.testNum)
+        .then(response => {
+          this.test = response.data;
+          console.log(response.data);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    }
+  },
+  mounted() {
+    this.getTest();
+  }
+};
+</script>

@@ -42,7 +42,7 @@ private final TestService testService;
 	}
 	
 	@GetMapping("/get/{testnum}")
-	@PreAuthorize("hasAnyRole('INSTRUCTOR')")
+	@PreAuthorize("hasAnyRole('STUDENT','INSTRUCTOR')")
 	public ResponseEntity<TestDto> getTest(@PathVariable Long testnum) {
 		return new ResponseEntity<TestDto>(testService.getTest(testnum), HttpStatus.OK);
 	}

@@ -121,6 +121,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import CardComponent from "@/components/CardComponent";
 import TitleBar from "@/components/TitleBar";
 import HeroBar from "@/components/HeroBar";
@@ -135,18 +136,22 @@ export default {
   },
   data: function() {
     return {
+      userName: this.$store.state.userName,
+      userRole: this.$store.state.userRole,
+
       studenttest: ""
     };
   },
   computed: {
     titleStack() {
       return ["Student", "StudentTestList"];
-    }
+    },
+    ...mapState(["userName", "userRole"])
   },
   methods: {
     getStudentTest() {
       axios
-        .get("http://localhost:8000/stutest/get/dkwjd", {
+        .get("http://localhost:8000/stutest/get/"+ this.userName, {
           headers: {
             Authorization: sessionStorage.getItem("Authorization")
           }
@@ -164,7 +169,7 @@ export default {
     takeStudentTest(testNum) {
       //  수정버튼 클릭시 ModifyTest로 이동
       return this.$router.push({
-        name: "Test Guide",
+        name: "TestGuide",
         params: { testNum: testNum }
       });
     }

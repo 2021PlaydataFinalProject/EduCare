@@ -69,10 +69,10 @@
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
 import TitleBar from "@/components/TitleBar";
 import CardComponent from "@/components/CardComponent";
 import HeroBar from "@/components/HeroBar";
-import { localISOdt } from "local-iso-dt";
 import axios from "axios";
 
 export default {
@@ -84,18 +84,17 @@ export default {
   },
   data() {
     return {
+      userName: this.$store.state.userName,
+      userRole: this.$store.state.userRole,
       showWeekNumber: false,
       enableSeconds: true,
       hourFormat: undefined, // Browser locale
       locale: undefined, // Browser locale
-      localISOdt,
       testService: "",
       labelPosition: "on-border",
       selectedOptions: [],
       isLoading: false,
       form: {
-        // username: null,
-        // testNum: "",
         testName: "",
         endTime: "",
         startTime: "",
@@ -108,25 +107,20 @@ export default {
   computed: {
     titleStack() {
       return ["Instructor", "Add Test"];
-    }
+    },
+    ...mapState(["userName", "userRole"])
   },
   methods: {
     testForm() {
       const addTestData = {
-        // userName: this.userName,
-        // testNum: null,
         testName: this.form.testName,
         endTime: this.form.endTime,
         startTime: this.form.startTime,
         testGuide: this.form.testGuide
       };
-      // let instance = axios.create();
-      // instance.defaults.headers.common[
-      //   "Authorization"
-      // ] = sessionStorage.getItem("Authorization");
       axios
         .post(
-          "http://localhost:8000/test/create?username=teacher",
+          "http://localhost:8000/test/create?username=" + this.userName,
           addTestData,
           {
             headers: {
@@ -169,17 +163,11 @@ export default {
       axios
         .post(
           "http://localhost:8000/testpro/create/" + this.testService,
-          addtestproblemData,
-          {
-            // headers: {
-            //   "Content-Type": "application/json"
-            // }
-          }
+          addtestproblemData
         )
         .then(Headers => {
           alert("시험 문제 생성 성공!");
-          console.log(Headers); //get("Authorization")
-          // sessionStorage.setItem("user", JSON.stringify(response.data));
+          console.log(Headers);
           this.$router.push({ name: "InstructorTest" });
         })
         .catch(error => {
@@ -191,7 +179,7 @@ export default {
         });
     },
     initForm() {
-      this.testnum = "";
+      // this.testnum = "";
       this.proId = "";
       this.pronum = "";
       this.proDes = "";

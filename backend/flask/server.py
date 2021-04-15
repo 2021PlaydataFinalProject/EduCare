@@ -1,5 +1,5 @@
 from flask import Flask, render_template, Response, jsonify, request
-from camera import VideoCamera
+from camera import VideoCamera,RecordingThread
 from flask_mysqldb import MySQL
 # 설치! : pip install Flask-MySQLdb
 import time
@@ -10,64 +10,48 @@ app.config['MYSQL_HOST'] = '127.0.0.1'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = '0000'
 app.config['MYSQL_DB']='educare'
-#app.config['MYSQL_DATABASE']='security'
-#app.config['MYSQL_PORT']=3306
+
 mysql = MySQL(app)
 video_camera = None
 global_frame = None
 status = 'true'
 time_list = None
 
-@app.route('/')
-def index():
-    #data2 = video_camera.gettimelist()
-    # database를 사용하기 위한 cursor를 세팅합니다.
-    cur = mysql.connection.cursor()
+# @app.route('/')
+@app.route('/<name>/<testnum>')
+def index(name, testnum):    
     # 쿼리문 실행
-    cur.execute("SELECT * FROM testproblem")
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM testproblem where test_num = %s", testnum)
+
     fetchdata = cur.fetchall()
-    # print(fetchdata[0][4])
     prosel_list = []
-    # 시험 문제1
-    prosel_list.append(fetchdata[0][2])
-    # 시험 선지1
-    prosel_list.append(fetchdata[0][5].split(','))
-    # [string(시험문제), [1.assdaf, 2.fasdfasd, 3.asdfasdf 4.asdfasd]]
-    # print('prosel_list size : ',len(prosel_list))
-    # 시험 문제2
-    prosel_list.append(fetchdata[1][2])
-    # 시험 선지2
-    prosel_list.append(fetchdata[1][5].split(','))
-    #cur.close()
-    #aaa = VideoCamera().get_frame().total
-    #total
-    #return render_template('index.html', data = aaa)
-    # print('testproblem_list : ',testproblem_list)
+    for problem in fetchdata:
+        prosel_list.append(problem[2])
+        prosel_list.append(problem[5].split(','))
+
     return render_template('index.html', data_list = prosel_list)
-    #print("server.py!!!!!!!!!!!!!!!!!!!!!!!!",data2)
-    # timelist = ["Hey", "How", "Are", "You"]
-    # return render_template('index.html',recordtime=timelist)
 
 @app.route('/record_status', methods=['POST'])
 def record_status():
     global video_camera 
     global time_list
 
-    if video_camera == None:
-        video_camera = VideoCamera()
-    json = request.get_json()
-    global status 
-    status = json['status']
-    print("record_status==============",status)
-    if status == "true":
-        video_camera.start_record()
-        return jsonify(result="started")
-    if status == "false":
-        video_camera.stop_record()
-        # db에 모든 정보 저장(answerlist, time_list)
-        if time_list != None:
-            print("when video finished",time_list)
-        return jsonify(result="stopped")
+    if video_camera != None:
+        json = request.get_json()
+        global status 
+        status = json['status']
+        print("record_status==============",status) # 녹화정지 버튼 클릭시 false return, 이외 상황은 고려X    
+        # if status == "true":
+        #     video_camera.start_record()
+        #     return jsonify(result="started")
+        if status == "false":
+            video_camera.stop_record()
+            # db에 모든 정보 저장(answerlist, time_list)
+            if time_list != None:
+                print("when video finished",time_list)
+                
+            return jsonify(result="stopped")
 
 def video_stream():
     global video_camera 
@@ -79,7 +63,8 @@ def video_stream():
     if video_camera == None:
         video_camera = VideoCamera(start_time,time_list)
     
-  
+    video_camera.start_record()
+
     while True:
         frame = video_camera.get_frame()
         if frame != None:

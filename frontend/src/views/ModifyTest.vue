@@ -49,6 +49,7 @@
             </b-datetimepicker>
           </b-field>
         </b-field>
+        <!-- {{ form.startTime }} - {{ form.endTime }} -->
         <b-field
           label="시험 유의사항"
           message="당신의 시험 유의사항을 255자 이내로 작성하세요."
@@ -62,6 +63,76 @@
             required
           />
         </b-field>
+        <b-button @click="updateTestForm()">click</b-button>
+        <hr />
+        <hr />
+        <card-component
+          class="has-table has-mobile-sort-spaced"
+          title="문제/보기 확인"
+          icon="account-multiple"
+        >
+          <b-table :data="problems">
+            <b-table-column
+              label="문제 번호"
+              field="문제 번호"
+              sortable
+              v-slot="props"
+            >
+              {{ props.row.proNum }}
+            </b-table-column>
+            <b-table-column label="문제" field="문제" sortable v-slot="props">
+              {{ props.row.proDes }}
+            </b-table-column>
+            <b-table-column
+              label="보기 1번"
+              field="보기 1번"
+              sortable
+              v-slot="props"
+            >
+              {{ props.row.proSel[0] }}
+            </b-table-column>
+            <b-table-column
+              label="보기 2번"
+              field="보기 2번"
+              sortable
+              v-slot="props"
+            >
+              {{ props.row.proSel[1] }}
+            </b-table-column>
+            <b-table-column
+              label="보기 3번"
+              field="보기 3번"
+              sortable
+              v-slot="props"
+            >
+              {{ props.row.proSel[2] }}
+            </b-table-column>
+            <b-table-column label="보기 4번" field="보기 4번" v-slot="props">
+              {{ props.row.proSel[3] }}
+            </b-table-column>
+            <b-table-column label="답" field="보기 4번" v-slot="props">
+              {{ props.row.proAnswer }}
+            </b-table-column>
+            <b-table-column label="삭제 및 수정" v-slot="props" centered>
+              <b-button
+                type="is-danger is-light"
+                outlined
+                v-on:click="deleteTestProblems(props.row.proId)"
+                position="is-centered"
+                size="is-small"
+                >삭제</b-button
+              >
+              <b-button
+                type="is-danger is-light"
+                outlined
+                v-on:click="updateTestProblems(props.row.proId)"
+                position="is-centered"
+                size="is-small"
+                >수정</b-button
+              >
+            </b-table-column>
+          </b-table>
+        </card-component>
         <hr />
         <hr />
         <b-field label="문항 번호" horizontal>
@@ -139,14 +210,15 @@
         <div style="text-align: center;">
           <b-field grouped>
             <div class="control">
-              <b-button
+              <b-button @click="updateTestProblem2()">문제 수정</b-button>
+              <!-- <b-button
                 tag="router-link"
                 @click="updatetestForm"
                 to="/instructor"
                 type="is-link"
               >
                 시험 수정 완료
-              </b-button>
+              </b-button> -->
             </div>
           </b-field>
         </div>
@@ -155,6 +227,7 @@
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
 import TitleBar from "@/components/TitleBar";
 import CardComponent from "@/components/CardComponent";
 import HeroBar from "@/components/HeroBar";
@@ -169,6 +242,11 @@ export default {
   data() {
     const testNum = this.$route.params.testNum;
     return {
+      test: "",
+      problems: "",
+      problems2: "",
+      testNum: this.$route.params.testNum,
+      userName: this.$store.state.userName,
       showWeekNumber: false,
       enableSeconds: true,
       hourFormat: undefined, // Browser locale
@@ -178,96 +256,176 @@ export default {
       selectedOptions: [],
       isLoading: false,
       form: {
-        testName: testNum !== undefined ? this.data[testNum].testName : "",
-        endTime: testNum !== undefined ? this.data[testNum].endTime : "",
-        startTime: testNum !== undefined ? this.data[testNum].startTime : "",
-        testGuide: testNum !== undefined ? this.data[testNum].testNum : "",
-        proNum: 1,
-        proDes: testNum !== undefined ? this.data[testNum].proDes : "",
-        proSel: testNum !== undefined ? this.data[testNum].proSel : "",
-        proImage: testNum !== undefined ? this.data[testNum].proImage : "",
-        proAnswer: testNum !== undefined ? this.data[testNum].proAnswer : ""
+        testName: "",
+        endTime: "",
+        startTime: "",
+        testGuide: "",
+        proId: "",
+        proNum: "",
+        proDes: "",
+        proSel: "",
+        proImage: "",
+        proAnswer: ""
       }
     };
   },
   computed: {
     titleStack() {
-      return ["Instructor", "Modify Test"];
-    }
+      return ["Instructor", "ModifyTest"];
+    },
+    ...mapState(["userName", "userRole"])
   },
   methods: {
-    updatetestForm() {
+    getTestForm() {
+      axios
+        .get("http://localhost:8000/test/get/" + this.testNum, {
+          headers: {
+            Authorization: sessionStorage.getItem("Authorization")
+          }
+        })
+        .then(response => {
+          this.test = response.data;
+          console.log("확인");
+          console.log(this.test);
+
+          //데이터 바인딩
+          this.form.endTime = this.test.endTime;
+          this.form.startTime = this.test.startTime;
+          this.form.testName = this.test.testName;
+          this.form.testGuide = this.test.testGuide;
+        })
+        .catch(e => {
+          console.log(e);
+          this.errors.push(e);
+        });
+    },
+    getTestProblems() {
+      axios
+        .get("http://localhost:8000/testpro/get?testnum=" + this.testNum, {
+          headers: {
+            Authorization: sessionStorage.getItem("Authorization")
+          }
+        })
+        .then(response => {
+          this.problems = response.data;
+          console.log(this.test);
+          console.log("확인");
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+    updateTestForm() {
       const addTestData = {
-        testNum: this.form.testNum,
+        testNum: this.testNum,
+        testName: this.form.testName,
         endTime: this.form.endTime,
         startTime: this.form.startTime,
         testGuide: this.form.testGuide
       };
       axios
-        .get(
-          "http://localhost:8000/test/create?username=teacher",
-          addTestData,
+        .put("http://localhost:8000/test/update", addTestData, {
+          headers: {
+            Authorization: sessionStorage.getItem("Authorization")
+          }
+        })
+        .then(response => {
+          // this.test = response.data;
+          console.log(response);
+          this.success();
+
+          this.getTestForm();
+        })
+        .catch(e => {
+          this.danger();
+          console.log(e);
+          this.errors.push(e);
+        });
+    },
+    deleteTestProblems(proid) {
+      axios
+        .delete(
+          `http://localhost:8000/testpro/delete?proid=${proid}&testnum=${this.testNum}`,
           {
             headers: {
-              contentType: false,
               Authorization: sessionStorage.getItem("Authorization")
             }
           }
         )
-        .then(response => {
-          this.test = response.data;
-          console.log(this.test);
-        });
-      const addtestproblemData = {
-        proId: this.proId,
-        proNum: this.proNum,
-        proDes: this.proDes,
-        proSel: this.proSel,
-        proImage: this.proImage,
-        proAnswer: this.proAnswer
-      };
-      // let instance = axios.create();
-      // instance.defaults.headers.common[
-      //   "Authorization"
-      // ] = sessionStorage.getItem("Authorization");
-      axios
-        .get(
-          "http://localhost:8000/testpro/create/" + this.testService,
-          addtestproblemData,
-          {
-            headers: {
-              "Content-Type": "application/json"
-            }
-          }
-        )
-        .then(Headers => {
-          alert("시험 문제 생성 성공!");
-          console.log(Headers); //get("Authorization")
-          // sessionStorage.setItem("user", JSON.stringify(response.data));
-          this.getModifyTest();
-          this.$router.push({ name: "InstructorTest" });
+        .then(() => {
+          this.success();
+          this.getTestProblems();
         })
-        .catch(error => {
-          alert("시험 문제 생성 실패");
-          console.log(error);
-        })
-        .finally(() => {
-          this.initForm();
+        .catch(e => {
+          console.log(e);
         });
     },
-    initForm(testNum) {
-      this.testName = this.data[testNum].testName;
-      this.endTime = this.data[testNum].endTime;
-      this.startTime = this.data[testNum].startTime;
-      this.testGuide = this.data[testNum].testGuide;
-      this.testnum = this.data[testNum].testNum;
-      this.proId = this.data[testNum].proId;
-      this.pronum = this.data[testNum].proNum;
-      this.proDes = this.data[testNum].proDes;
-      this.proSel = this.data[testNum].proSel;
-      this.proImage = this.data[testNum].proImage;
-      this.proAnswer = this.data[testNum].proAnswer;
+    updateTestProblem2() {
+      let formData = new FormData();
+      formData.append("proId", this.form.proId);
+      formData.append("proNum", this.form.proNum);
+      formData.append("proDes", this.form.proDes);
+      formData.append("proSel", this.form.proSel);
+      formData.append("proImage", this.form.proImage);
+      formData.append("proAnswer", this.form.proAnswer);
+      axios
+        .put("http://localhost:8000/testpro/update", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: sessionStorage.getItem("Authorization")
+          }
+        })
+        .then(response => {
+          this.success();
+          // this.test = response.data;
+          console.log(response);
+          this.getTestProblems();
+        })
+        .catch(e => {
+          console.log(e);
+          this.errors.push(e);
+        });
+    },
+    updateTestProblems(proId) {
+      axios
+        .get("http://localhost:8000/testpro/get/" + proId, {
+          headers: {
+            Authorization: sessionStorage.getItem("Authorization")
+          }
+        })
+        .then(response => {
+          this.problems2 = response.data;
+          console.log(this.problems2);
+          console.log("확인");
+          //데이터 바인딩
+          this.form.proId = this.problems2.proId;
+          this.form.proDes = this.problems2.proDes;
+          this.form.proNum = this.problems2.proNum;
+          this.form.proSel = this.problems2.proSel;
+          this.form.proAnswer = this.problems2.proAnswer;
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+    success() {
+      this.$buefy.notification.open({
+        message: "수정이 완료되었습니다.",
+        type: "is-success",
+        position: "is-bottom-right"
+      });
+    },
+    danger() {
+      this.$buefy.notification.open({
+        message: `수정 내용을 정확히 입력해주세요.`,
+        type: "is-danger",
+        position: "is-bottom-right"
+      });
     }
+  },
+  mounted() {
+    this.getTestForm();
+    this.getTestProblems();
   }
 };
 </script>

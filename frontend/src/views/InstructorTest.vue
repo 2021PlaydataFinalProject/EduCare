@@ -112,6 +112,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import CardComponent from "@/components/CardComponent";
 import TitleBar from "@/components/TitleBar";
 import HeroBar from "@/components/HeroBar";
@@ -126,18 +127,21 @@ export default {
   },
   data: function() {
     return {
+      userName: this.$store.state.userName,
+      userRole: this.$store.state.userRole,
       test: ""
     };
   },
   computed: {
     titleStack() {
       return ["Instructor", "InstructorTest"];
-    }
+    },
+    ...mapState(["userName", "userRole"])
   },
   methods: {
     getInstructorTest() {
       axios
-        .get("http://localhost:8000/test/get?username=teacher", {
+        .get("http://localhost:8000/test/get?username=" + this.userName, {
           headers: {
             Authorization: sessionStorage.getItem("Authorization")
           }
@@ -168,7 +172,9 @@ export default {
     deleteInstructorTest(testNum) {
       axios
         .delete(
-          "http://localhost:8000/test/delete?username=java@educare.com&testnum=" +
+          "http://localhost:8000/test/delete?username=" +
+            this.userName +
+            "&testnum=" +
             testNum,
           {
             headers: {

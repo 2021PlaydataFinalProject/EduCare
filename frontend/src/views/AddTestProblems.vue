@@ -255,19 +255,6 @@ export default {
           this.test = response.data;
           console.log(this.test);
           console.log("확인");
-          //   console.log(this.test.proSel);
-          //   var test2 = "";
-          //   this.test.forEach(function(item) {
-          //     test2 = item;
-          //   });
-          //   console.log(test2.proSel.split(","));
-          //   //   splitList = test2.proSel.split(',')
-          //   test2.proSel.split(",");
-          //   this.proSelList.one = test2.proShel[0];
-          //   this.proSelList.two = test2.proSel[1];
-          //   this.proSelList.three = test2.proSel[2];
-          //   this.proSelList.four = test2.proSel[3];
-          //   //   alert(this.test);
         })
         .catch(e => {
           console.log(e);

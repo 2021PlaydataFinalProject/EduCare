@@ -1241,3 +1241,13 @@ Caused by: org.apache.maven.model.building.ModelBuildingException: 1 problem was
 2021-04-14 12:50:33,432 [Worker-2365: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
 2021-04-14 12:50:33,436 [Worker-2365: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
 2021-04-14 12:50:33,436 [Worker-2365: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\ITStudy\02.git\2021PlaydataFinalProject_EduCare\backend\educare\src\test\resources
+2021-04-15 10:55:15,631 [Worker-3269: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2021-04-15 10:55:15,643 [Worker-3269: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2021-04-15 10:55:15,683 [Worker-3269: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2021-04-15 10:55:15,691 [Worker-3269: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2021-04-15 10:55:15,692 [Worker-3269: Building workspace] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\ITStudy\02.git\2021PlaydataFinalProject_EduCare\backend\educare\src\test\resources
+2021-04-15 22:25:31,455 [Worker-3617: Launching educare - EducareApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2021-04-15 22:25:31,458 [Worker-3617: Launching educare - EducareApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2021-04-15 22:25:31,458 [Worker-3617: Launching educare - EducareApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2021-04-15 22:25:31,462 [Worker-3617: Launching educare - EducareApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2021-04-15 22:25:31,462 [Worker-3617: Launching educare - EducareApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\ITStudy\02.git\2021PlaydataFinalProject_EduCare\backend\educare\src\test\resources

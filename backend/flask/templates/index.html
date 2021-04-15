@@ -14,7 +14,7 @@
     <!-- 헤더 네비게이션 -->
     <nav class="navbar" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
-        <a class="navbar-item" href="http://localhost:8081/">
+        <a class="navbar-item" href="/">
           <p class="title is-5">EDUCARE</p>
           <!-- <img src="../assets/flasklogo.png" width="112" height="28"> -->
         </a>
@@ -89,7 +89,6 @@
           <p>시험이 시작될때 녹화시작 먼저 클릭한 후 시험을 완료 후 시험완료를 클릭하면 감독관에게 전송됩니다. </p>
       </br>
           <div id="recorder">
-            <!-- <b-button id="record">녹화시작</b-button> -->
             <b-button id="stop">시험완료</b-button>
             <a id="download"></a>
             <script type="application/javascript" src="{{ url_for('static', filename='recorder.js') }}"></script>      
@@ -112,73 +111,7 @@
           <p class="title is-5">시험 문제</p>
           <br>
           <br>
-          {{ data_list[0] }} 
-          <br>
-          <br>
-
-          <b-field>
-            <b-radio v-model="form.radio1"
-                native-value="①">
-                {{ data_list[1][0] }}
-            </b-radio>
-        </b-field>
-        <b-field>
-            <b-radio v-model="form.radio1"
-                native-value="②"
-                type="is-info">
-                {{ data_list[1][1] }}
-            </b-radio>
-        </b-field>
-        <b-field>
-            <b-radio v-model="form.radio1"
-                native-value="③"
-                type="is-success">
-                {{ data_list[1][2] }}
-            </b-radio>
-        </b-field>
-        <b-field>
-            <b-radio v-model="form.radio1"
-                native-value="④"
-                type="is-warning">
-                {{ data_list[1][3] }}
-            </b-radio>
-        </b-field>
-        
-        <br>
-        <br>
-          {{ data_list[2] }}
-        <br>
-        <br>
-        
-        <b-field>
-          <b-radio v-model="form.radio2"
-              native-value="①">
-              {{ data_list[3][0] }}
-          </b-radio>
-      </b-field>
-      <b-field>
-          <b-radio v-model="form.radio2"
-              native-value="②"
-              type="is-info">
-              {{ data_list[3][1] }}
-          </b-radio>
-      </b-field>
-      <b-field>
-          <b-radio v-model="form.radio2"
-              native-value="③"
-              type="is-success">
-              {{ data_list[3][2] }}
-          </b-radio>
-      </b-field>
-      <b-field>
-          <b-radio v-model="form.radio2"
-              native-value="④"
-              type="is-warning">
-              {{ data_list[3][3] }}
-          </b-radio>
-      </b-field>
-
-        
+          {{ data_list}}
         </br>
           <b-button @click="submit()">답안제출</b-button>
         </div>
@@ -199,9 +132,10 @@
     },
     methods: {
       submit() {
+        alert(1)
         alert(JSON.stringify(this.form))
         // alert(JSON.stringify(this.file))
-        axios.post("http://localhost:8000/stutest/update-mytest",  this.form, {
+        axios.post("http://localhost:8000/user/logout",  this.form, {
           headers: {
             "Content-Type": `application/json`,
             "Content-Type": `multipart/form-data`,

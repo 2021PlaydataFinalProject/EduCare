@@ -10,11 +10,11 @@ const config = {
 //회원 이미지 파일 가져오기
 function fetchUserImage() {
   const username = getUserIdFromSession();
-  return axios.get(`${config.baseUrl}user/myinfo?username=${username}`, {
-    headers: {
-      Authorization: sessionStorage.getItem("Authorization")
-    }
-  });
+  let instance = axios.create();
+  instance.defaults.headers.common["Authorization"] = sessionStorage.getItem(
+    "Authorization"
+  );
+  return instance.get(`${config.baseUrl}user/myinfo?username=${username}`);
 }
 
 // 회원가입 API

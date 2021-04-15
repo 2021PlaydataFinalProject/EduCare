@@ -50,7 +50,11 @@
         </b-notification>
         <center>
           <!-- 이 시험시작 버튼은 flask 화면 단으로 이동해야 함 -->
-          <b-button class="btn btn-primary btn-sm" size="is-large">
+          <b-button
+            class="btn btn-primary btn-sm"
+            size="is-large"
+            @click="sendInfo()"
+          >
             시험 시작
           </b-button>
         </center>
@@ -65,6 +69,7 @@ export default {
   data: function() {
     return {
       testNum: this.$route.params.testNum,
+      userName: this.$store.state.userName,
       test: ""
     };
   },
@@ -88,6 +93,10 @@ export default {
         .catch(e => {
           console.log(e);
         });
+    },
+    // flask로 username과 testnum 정보를 전송
+    sendInfo() {
+      location.href = `http://127.0.0.1:5000/${this.userName}/${this.testNum}`;
     }
   },
   mounted() {

@@ -22,7 +22,7 @@ export default new Vuex.Store({
     imgURL: "http://localhost:8000/userimg/",
 
     //store를 이용해서 image 가져오기
-    userImage: {},
+    userImage: "",
 
     userEmail: null,
     userAvatar: null,

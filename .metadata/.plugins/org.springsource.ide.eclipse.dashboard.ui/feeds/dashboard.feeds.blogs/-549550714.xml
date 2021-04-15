@@ -5,7 +5,103 @@
   <link rel="self" href="https://spring.io/blog.atom" />
   <id>http://spring.io/blog.atom</id>
   <icon>https://spring.io/favicon.ico</icon>
-  <updated>2021-04-14T17:00:00Z</updated>
+  <updated>2021-04-15T12:45:00Z</updated>
+  <entry>
+    <title>Spring Boot 2.4.5 available now</title>
+    <link rel="alternate" href="https://spring.io/blog/2021/04/15/spring-boot-2-4-5-available-now" />
+    <category term="releases" label="Releases" />
+    <author>
+      <name>St?phane Nicoll</name>
+    </author>
+    <id>tag:spring.io,2021-04-15:4417</id>
+    <updated>2021-04-15T12:45:00Z</updated>
+    <content type="html">&lt;p&gt;On behalf of the team and everyone who has contributed, I&amp;rsquo;m happy to announce that Spring Boot &lt;code&gt;2.4.5&lt;/code&gt; has been released and is now available from Maven Central.&lt;/p&gt;
+&lt;p&gt;This release includes &lt;a href="https://github.com/spring-projects/spring-boot/releases/tag/v2.4.5"&gt;57 bug fixes, documentation improvements, and dependency upgrades&lt;/a&gt;. Thanks to all those who have contributed with issue reports and pull requests.&lt;/p&gt;&lt;h3&gt;&lt;a href="#how-can-you-help" class="anchor" name="how-can-you-help"&gt;&lt;/a&gt;How can you help?&lt;/h3&gt;
+&lt;p&gt;If you&amp;rsquo;re interested in helping out, check out the &lt;a href="https://github.com/spring-projects/spring-boot/labels/status%3A%20ideal-for-contribution"&gt;&amp;ldquo;ideal for contribution&amp;rdquo; tag&lt;/a&gt; in the issue repository. If you have general questions, please ask on &lt;a href="http://stackoverflow.com"&gt;stackoverflow.com&lt;/a&gt; using the &lt;a href="http://stackoverflow.com/tags/spring-boot"&gt;&lt;code&gt;spring-boot&lt;/code&gt; tag&lt;/a&gt; or chat with the community on &lt;a href="https://gitter.im/spring-projects/spring-boot"&gt;Gitter&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://spring.io/projects/spring-boot/"&gt;Project Page&lt;/a&gt; | &lt;a href="https://github.com/spring-projects/spring-boot"&gt;GitHub&lt;/a&gt; | &lt;a href="https://github.com/spring-projects/spring-boot/issues"&gt;Issues&lt;/a&gt; | &lt;a href="http://docs.spring.io/spring-boot/docs/2.4.5/reference/html"&gt;Documentation&lt;/a&gt; | &lt;a href="http://stackoverflow.com/questions/tagged/spring-boot"&gt;Stack Overflow&lt;/a&gt; | &lt;a href="https://gitter.im/spring-projects/spring-boot"&gt;Gitter&lt;/a&gt;&lt;/p&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
+  <entry>
+    <title>Spring Boot 2.3.10 is now available</title>
+    <link rel="alternate" href="https://spring.io/blog/2021/04/15/spring-boot-2-3-10-is-now-available" />
+    <category term="releases" label="Releases" />
+    <author>
+      <name>Andy Wilkinson</name>
+    </author>
+    <id>tag:spring.io,2021-04-15:4416</id>
+    <updated>2021-04-15T07:37:00Z</updated>
+    <content type="html">&lt;p&gt;On behalf of the team and everyone who has contributed, I&amp;rsquo;m happy to announce that Spring Boot 2.3.10 has been released and is now available from Maven Central.&lt;/p&gt;
+&lt;p&gt;This release includes &lt;a href="https://github.com/spring-projects/spring-boot/releases/tag/v2.3.10.RELEASE"&gt;78 bug fixes, documentation improvements, and dependency upgrades&lt;/a&gt;. Thanks to all those who have contributed with issue reports and pull requests.&lt;/p&gt;&lt;h3&gt;&lt;a href="#how-can-you-help" class="anchor" name="how-can-you-help"&gt;&lt;/a&gt;How can you help?&lt;/h3&gt;
+&lt;p&gt;If you&amp;rsquo;re interested in helping out, check out the &lt;a href="https://github.com/spring-projects/spring-boot/labels/status%3A%20ideal-for-contribution"&gt;&amp;ldquo;ideal for contribution&amp;rdquo; tag&lt;/a&gt; in the issue repository. If you have general questions, please ask on &lt;a href="http://stackoverflow.com"&gt;stackoverflow.com&lt;/a&gt; using the &lt;a href="http://stackoverflow.com/tags/spring-boot"&gt;&lt;code&gt;spring-boot&lt;/code&gt; tag&lt;/a&gt; or chat with the community on &lt;a href="https://gitter.im/spring-projects/spring-boot"&gt;Gitter&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://spring.io/projects/spring-boot/"&gt;Project Page&lt;/a&gt; | &lt;a href="https://github.com/spring-projects/spring-boot"&gt;GitHub&lt;/a&gt; | &lt;a href="https://github.com/spring-projects/spring-boot/issues"&gt;Issues&lt;/a&gt; | &lt;a href="http://docs.spring.io/spring-boot/docs/2.3.10.RELEASE/reference/html"&gt;Documentation&lt;/a&gt; | &lt;a href="http://stackoverflow.com/questions/tagged/spring-boot"&gt;Stack Overflow&lt;/a&gt; | &lt;a href="https://gitter.im/spring-projects/spring-boot"&gt;Gitter&lt;/a&gt;&lt;/p&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
+  <entry>
+    <title>Spring Integration 5.5 RC1, 5.4.6 &amp; 5.3.7 Available</title>
+    <link rel="alternate" href="https://spring.io/blog/2021/04/14/spring-integration-5-5-rc1-5-4-6-5-3-7-available" />
+    <category term="releases" label="Releases" />
+    <author>
+      <name>Artem Bilan</name>
+    </author>
+    <id>tag:spring.io,2021-04-15:4415</id>
+    <updated>2021-04-15T01:52:00Z</updated>
+    <content type="html">&lt;div class="paragraph"&gt;
+&lt;p&gt;Dear Spring community,&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;On behalf of the team and all the contributors, it&amp;#8217;s my pleasure to announce a &lt;code&gt;Release Candidate 1&lt;/code&gt; for Spring Integration &lt;code&gt;5.5&lt;/code&gt;, plus Spring Integration &lt;code&gt;5.4.6&lt;/code&gt; &amp;amp; &lt;code&gt;5.3.7&lt;/code&gt; patch versions.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;The latest two can be downloaded from Maven Central and it is recommended to upgrade your projects or just pull them transitively from respective latest Spring Boot patch versions!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;The Release Candidate is available from the &lt;a href="https://repo.spring.io/milestone/" class="bare"&gt;https://repo.spring.io/milestone/&lt;/a&gt; repository:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="listingblock"&gt;
+&lt;div class="content"&gt;
+&lt;pre class="prettyprint highlight"&gt;&lt;code data-lang="groovy"&gt;compile 'org.springframework.integration:spring-integration-core:5.5.0-RC1'&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Here is a highlight of changes made to Spring Integration &lt;code&gt;5.5 RC1&lt;/code&gt; since previously announced &lt;a href="https://spring.io/blog/2021/03/18/spring-integration-5-5-m3-5-4-5-available"&gt;Milestone 3&lt;/a&gt;:&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="ulist"&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;A basic support for &lt;a href="https://github.com/spring-projects-experimental/spring-native"&gt;Spring Native&lt;/a&gt; compatibility - a lot of bean definition reflection has been reworked to the functional style, which improves a start up time even for regular JVM application!&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;WebSocket server endpoint-based channel adapters can now be registered (and removed) at runtime;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The &lt;code&gt;MessageGroup&lt;/code&gt; abstraction has now a &lt;code&gt;condition&lt;/code&gt; property which can be consulted later on instead of the whole group iteration.
+The &lt;code&gt;AbstractCorrelatingMessageHandler&lt;/code&gt;, in turn, exposes a &lt;code&gt;BiFunction&amp;lt;Message&amp;lt;?&amp;gt;, String, String&amp;gt; conditionSupplier&lt;/code&gt; to extract possible group condition from the currently processed message;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The &lt;code&gt;DelayHandler&lt;/code&gt; now registers a &lt;code&gt;TransactionSynchronization&lt;/code&gt; to schedule a delay task only when current transaction is committed;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Some other bug fixes and minor improvements, including IMAP idle channel adapter race condition, the exception swallowing in the &lt;code&gt;IntegrationReactiveUtils&lt;/code&gt;, the &lt;code&gt;ByteBuffer&lt;/code&gt; cast to &lt;code&gt;Buffer&lt;/code&gt; for Java 8 compatibility.
+Many of them have been back-ported to the mentioned above &lt;code&gt;5.3.7&lt;/code&gt; &amp;amp; &lt;code&gt;5.4.6&lt;/code&gt; patch versions.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;See &lt;a href="https://docs.spring.io/spring-integration/docs/5.5.0-RC1/reference/html/whats-new.html"&gt;What&amp;#8217;s New&lt;/a&gt; in documentation for more information.
+Be sure to consult the &lt;a href="https://github.com/spring-projects/spring-integration/wiki/Spring-Integration-5.4-to-5.5-Migration-Guide"&gt;Migration Guide&lt;/a&gt; since the upgrade may cause some breaking changes!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Any feedback and contributions are welcome while we are heading to &lt;code&gt;GA&lt;/code&gt; in May!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;Cheers,&amp;#160;&lt;br&gt;
+Artem&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="paragraph"&gt;
+&lt;p&gt;&lt;a href="http://projects.spring.io/spring-integration/"&gt;Project Page&lt;/a&gt; | &lt;a href="https://github.com/spring-projects/spring-integration/issues"&gt;GitHub Issues&lt;/a&gt; | &lt;a href="https://github.com/spring-projects/spring-integration/blob/master/CONTRIBUTING.adoc"&gt;Contributing&lt;/a&gt; | &lt;a href="http://stackoverflow.com/questions/tagged/spring-integration"&gt;Help&lt;/a&gt; | &lt;a href="https://gitter.im/spring-projects/spring-integration"&gt;Chat&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
+  </entry>
   <entry>
     <title>Spring for Apache Kafka 2.7.0 Available</title>
     <link rel="alternate" href="https://spring.io/blog/2021/04/14/spring-for-apache-kafka-2-7-0-available" />
@@ -684,87 +780,6 @@ public KeyResolver customKeyResolver {&#xD;
   &lt;li&gt;&lt;a href="https://spring.io/blog/2021/03/18/spring-integration-5-5-m3-5-4-5-available"&gt;Spring Integration 5.5 M3 &amp;amp; 5.4.5 Available&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;&lt;a href="https://laurspilca.com/spring-quickly-further-reading/"&gt;Check out this appendix to the book &lt;em&gt;Spring Quickly&lt;/em&gt;&lt;/a&gt;; there&amp;rsquo;s a lot of good stuff in there!&lt;/li&gt;
 &lt;/ul&gt;
-&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
-  </entry>
-  <entry>
-    <title>Spring Boot: Production-ready, Efficient, Fast: Pick Three</title>
-    <link rel="alternate" href="https://spring.io/blog/2021/03/22/spring-boot-production-ready-efficient-fast-pick-three" />
-    <category term="engineering" label="Engineering" />
-    <author>
-      <name>Josh Long</name>
-    </author>
-    <id>tag:spring.io,2021-03-23:4397</id>
-    <updated>2021-03-23T03:00:00Z</updated>
-    <content type="html">&lt;p&gt;Hi, Spring fans! I hope you&amp;rsquo;ll join the legendary Andy Clement (director of engineering on the Spring team, Spring/AspectJ/Spring Tool Suite/Eclipse contributor, and Spring Native cofounder) and me, well known ASCII art fan, for the upcoming &lt;a href="http://jrush.bell-sw.com/"&gt;JRUSH event&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;At some point, after you&amp;rsquo;ve gotten the business logic just right and the ASCII art resplendent, you&amp;rsquo;ll want to reduce data center spend and improve speed. And when this time comes, you&amp;rsquo;re going to wish you had watched this presentation where Andy and Josh introduce the Spring Native project. You don&amp;rsquo;t want regrets, do you, friend? Do the right thing. Be the change you want to see in the world: &lt;a href="https://jrush.bell-sw.com/"&gt;register now&lt;/a&gt; &lt;/p&gt;
-&lt;p&gt;This event is free, online, and will take place &lt;br /&gt;&lt;b&gt;this week, March 25th, 2021 at 11 am PDT&lt;/b&gt;. &lt;/p&gt;
-&lt;p&gt;Don&amp;rsquo;t miss it! &lt;/p&gt;
-&lt;table  border="0" padding ="0" margin="0"&gt;&#xD;
-&lt;tr&gt;&#xD;
-&lt;td width = "210"&gt;&#xD;
-&lt;img width ="200" src ="https://thumb.tildacdn.com/tild3066-3264-4966-a538-613031666562/-/resize/720x/-/format/webp/Frame_3.png" /&gt; &#xD;
- &lt;/td&gt;&#xD;
-&lt;td  width = "210"&gt;&#xD;
-&lt;img width ="200"  src ="https://thumb.tildacdn.com/tild3334-6261-4732-b330-346332653165/-/resize/720x/-/format/webp/Frame_2.png" /&gt;&lt;/td&gt;&#xD;
-&lt;td  width = "210"&gt;&lt;img  width ="200" src = "https://thumb.tildacdn.com/tild3262-3535-4736-a239-393566333835/-/resize/720x/-/format/webp/Frame_1.png" /&gt; &lt;/td&gt;&#xD;
-&lt;/tr&gt;&#xD;
-&lt;tr&gt;&#xD;
-&lt;td&gt;&#xD;
-&lt;b&gt;Andrew Clement  &lt;/b&gt;&#xD;
- Director on the Spring Engineering team and Spring Native cofounder   &lt;br/&gt;&#xD;
-&lt;a href="http://twitter.com/andy_clement"&gt;@andy_clement&lt;/a&gt;&#xD;
-&lt;/td&gt; &#xD;
-&lt;td&gt;&#xD;
-&lt;b&gt;Dmitry Chuyko &lt;/b&gt;   &lt;br/&gt; Performance engineer at BellSoft  &lt;br/&gt;&#xD;
-&lt;a href="http://twitter.com/dchuyko"&gt;@dchuyko &lt;/a&gt;&#xD;
-&lt;/td&gt;&#xD;
-&lt;td &gt;&#xD;
-&#xD;
-&lt;b&gt;Josh Long&lt;/b&gt; &lt;br /&gt; Spring Developer Advocate &lt;br/&gt; &lt;a href="http://twitter.com/starbuxman"&gt; @starbuxman &lt;/a&gt;&#xD;
-&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
-  </entry>
-  <entry>
-    <title>Bootiful Cassandra with DataStax's Patrick McFadin, Cedrick Lunven, and Spring's Josh Long</title>
-    <link rel="alternate" href="https://spring.io/blog/2021/03/22/bootiful-cassandra-with-datastax-s-patrick-mcfadin-cedrick-lunven-and-spring-s-josh-long" />
-    <category term="engineering" label="Engineering" />
-    <author>
-      <name>Josh Long</name>
-    </author>
-    <id>tag:spring.io,2021-03-22:4396</id>
-    <updated>2021-03-22T18:53:00Z</updated>
-    <content type="html">&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/fGTZUObja7M" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen&gt;&lt;/iframe&gt;
-&lt;p&gt;Hi, Spring fans! DataStax and Spring &lt;em&gt;are&lt;/em&gt; the classic Netflixian definition of a cloud-native, and for good reason: &lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;they scales&lt;/li&gt;
-  &lt;li&gt;they&amp;rsquo;re easy&lt;/li&gt;
-  &lt;li&gt;they&amp;rsquo;re easily operationalized&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;In this video, join DataStax&amp;rsquo;s &lt;a href="http://twitter.com/PatrickMcFadin"&gt;Patrick McFadin (@PatrickMcFadin)&lt;/a&gt;, &lt;a href="http://twitter.com/clunven"&gt;Cedrick Lunven (@clunven)&lt;/a&gt;, and the Spring team&amp;rsquo;s &lt;a href="http://twitter.com/starbuxman"&gt;Josh Long (@starbuxman)&lt;/a&gt; as they introduce Bootiful Cassandra and look at some of the technology that continues to power some of the largest websites on the planet. &lt;/p&gt;
-&lt;p&gt;Register for DataStax Astra now and try this code anytime. You don&amp;rsquo;t need a credit card, and you get $25.00 USD credit every month, which gives you roughly 30M reads, 5M writes, 40GB storage monthly. That¡¯s sufficient enough to run this demo and even a small production workload.&lt;/p&gt;
-&lt;p&gt;&lt;a href="http://dtsx.io/3qjjRdR"&gt;Register here&lt;/a&gt;&lt;/p&gt;
-&lt;!-- rendered by Sagan Renderer Service --&gt;</content>
-  </entry>
-  <entry>
-    <title>Spring Boot 2.5.0-M3 available now</title>
-    <link rel="alternate" href="https://spring.io/blog/2021/03/19/spring-boot-2-5-0-m3-available-now" />
-    <category term="releases" label="Releases" />
-    <author>
-      <name>Phil Webb</name>
-    </author>
-    <id>tag:spring.io,2021-03-19:4395</id>
-    <updated>2021-03-19T07:30:00Z</updated>
-    <content type="html">&lt;p&gt;I am pleased to announce that the third milestone of Spring Boot 2.5 has been released and is available from our &lt;a href="https://repo.spring.io/milestone/"&gt;milestone repository&lt;/a&gt;. This release &lt;a href="https://github.com/spring-projects/spring-boot/releases/tag/v2.5.0-M3"&gt;adds a number of new features and bug fixes&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;Highlights of this milestone include:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;OpenMetrics support for Prometheus&lt;/li&gt;
-  &lt;li&gt;Support for environment variable prefixes&lt;/li&gt;
-  &lt;li&gt;More Buildpack updates&lt;/li&gt;
-  &lt;li&gt;A fresh new look for the &lt;a href="https://docs.spring.io/spring-boot/docs/2.5.0-M3/reference/html/"&gt;docs&lt;/a&gt; (including a &amp;ldquo;dark theme&amp;rdquo;).&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;For a complete list of changes and upgrade instructions, please see the &lt;a href="https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.5.0-M3-Release-Notes"&gt;Spring Boot 2.5-M3 Release Notes&lt;/a&gt; on the wiki and the &lt;a href="https://docs.spring.io/spring-boot/docs/2.5.0-M3/reference/html/"&gt;updated reference documentation&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;If you want to get started with 2.5 and try out the new features, you can bootstrap a new project on &lt;a href="https://start.spring.io/#!type=maven-project&amp;language=java&amp;platformVersion=2.5.0.M3&amp;packaging=jar&amp;jvmVersion=11&amp;groupId=com.example&amp;artifactId=demo&amp;name=demo&amp;description=Demo%20project%20for%20Spring%20Boot&amp;packageName=com.example.demo"&gt;start.spring.io&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;a href="https://spring.io/projects/spring-boot/"&gt;Project Page&lt;/a&gt; | &lt;a href="https://github.com/spring-projects/spring-boot"&gt;GitHub&lt;/a&gt; | &lt;a href="https://github.com/spring-projects/spring-boot/issues"&gt;Issues&lt;/a&gt; | &lt;a href="https://docs.spring.io/spring-boot/docs/2.5.0-M2/reference/html/"&gt;Documentation&lt;/a&gt; | &lt;a href="http://stackoverflow.com/questions/tagged/spring-boot"&gt;Stack Overflow&lt;/a&gt; | &lt;a href="https://gitter.im/spring-projects/spring-boot"&gt;Gitter&lt;/a&gt;&lt;/p&gt;
 &lt;!-- rendered by Sagan Renderer Service --&gt;</content>
   </entry>
 </feed>

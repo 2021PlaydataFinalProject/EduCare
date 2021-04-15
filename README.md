@@ -98,11 +98,13 @@ config.addAllowedOrigin("http://localhost:8081");
 ## 2-2. 방법 및 활용 프로그램
 - MYSQL
 - YOLOv3
+- Spring Boot & JPA
 - Spring Security
 - JWT
 - OpenCV
 - Flask
-- Vue
+- Vue  
+
 
 
 ## 2-3. 단계별 수행 내용(기획, 제작, 테스트)

@@ -129,7 +129,7 @@
             <b-table-column label="답" field="보기 4번" v-slot="props">
               {{ props.row.proAnswer }}
             </b-table-column>
-            <b-table-column label="삭제" v-slot="props" centered>
+            <b-table-column label="삭제 및 수정" v-slot="props" centered>
               <b-button
                 type="is-danger is-light"
                 outlined
@@ -137,6 +137,14 @@
                 position="is-centered"
                 size="is-small"
                 >삭제</b-button
+              >
+              <b-button
+                type="is-danger is-light"
+                outlined
+                v-on:click="deleteTestProblems(props.row.proId)"
+                position="is-centered"
+                size="is-small"
+                >수정</b-button
               >
             </b-table-column>
           </b-table>

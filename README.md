@@ -57,15 +57,50 @@
 - 시험 관리 페이지에서 학생이 부정행위를 했다면 학생이 영상을 업로드하고 제출했었던 해당 영상을 볼 수 있으며, DB에 저장된 부정행위 시간 및 부정행위 여부에 관한 정보를 웹 페이지에서 확인이 가능하도록 합니다.
 
 
-
 **구현/코딩**
+- 백엔드
+- 
+- 프론트엔드
+- 
+- OPENCV & 딥러닝
+- 
+- 플라스크
 -
 
-**테스팅**
--
+**이슈 점검**
+- 이슈 1  : 
+내용 : 
+MYSQL DB driver , dataSource 문제
+
+해결 👍 
+pom.xml 에서 my-sql-connector 버전을 
+<version>8.0.18</version> 라인을 추가하여
+8.0.18로 수정하였습니다.
+
+- 이슈 2 :
+내용 : 
+When allowCredentials is true, allowedOrigins cannot contain the special value "*"since that cannot be set on the "Access-Control-Allow-Origin" response header. 
+To allow credentials to a set of origins, list them explicitly or consider using "allowedOriginPatterns" instead.
+
+Access to XMLHttpRequest at 'http://localhost:8000/user/signup' from origin 'http://localhost:8081' has been blocked by CORS policy:
+ Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+
+해결 👍 
+educare 폴더 > CorsConfig.java 파일 >corsFilter 메서드에서
+config.addAllowedOrigin("*");를 
+config.addAllowedOrigin("http://localhost:8081");
+
+위와 같이 수정해서 해결하였습니다.
 
 ## 2-2. 방법 및 활용 프로그램
-- 
+- MYSQL
+- YOLOv3
+- Spring Security
+- JWT
+- OpenCV
+- Flask
+- Vue
+
 
 ## 2-3. 단계별 수행 내용(기획, 제작, 테스트)
 **기획**

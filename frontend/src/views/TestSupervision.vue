@@ -173,7 +173,7 @@ export default {
           this.cheatTime = this.studentTest.cheatTime;
           this.isCheating = this.studentTest.isCheating;
           this.testAnswer = this.studentTest.testAnswer;
-          console.log(this.testAnswer)
+          console.log(this.testAnswer);
           this.userRealName = this.studentTest.userRealName;
           this.videoName = this.studentTest.videoName;
         })

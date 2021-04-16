@@ -339,11 +339,11 @@ export default {
         .then(response => {
           // this.test = response.data;
           console.log(response);
-          this.success();
+          this.update();
           this.getTestForm();
         })
         .catch(e => {
-          this.danger();
+          this.noupdate();
           console.log(e);
           this.errors.push(e);
         });
@@ -413,6 +413,20 @@ export default {
         .catch(e => {
           console.log(e);
         });
+    },
+    update() {
+      this.$buefy.notification.open({
+        message: "수정이 완료되었습니다.",
+        type: "is-success",
+        position: "is-bottom-right"
+      });
+    },
+    noupdate() {
+      this.$buefy.notification.open({
+        message: "수정 실패",
+        type: "is-success",
+        position: "is-bottom-right"
+      });
     },
     success() {
       this.$buefy.notification.open({

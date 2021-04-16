@@ -5,18 +5,23 @@ from flask_mysqldb import MySQL
 import time
 import pymysql 
 
+# No 'Access-Control-Allow-Origin' 해결하기 위함
+from flask_cors import CORS
+
 app = Flask(__name__)
 
 video_camera = None
 global_frame = None
 status = 'true'
 time_list = None
+
 userId = None
 testNum = None
 conn = pymysql.connect(host='localhost',user='root',password='0000',db='educare',charset='utf8')
         
 @app.route('/<inputusername>/<inputtestnum>')
 def index(inputusername, inputtestnum):    
+
     # 쿼리문 실행
     global conn
 
@@ -29,9 +34,11 @@ def index(inputusername, inputtestnum):
     testNum = inputtestnum;
 
     fetchdata = cur.fetchall()
+    print(len(fetchdata))
     prosel_list = []
     idx = 0
     for problem in fetchdata:
+      
         prosel_list.append([])
         prob_list = problem[5].split(',')
         prosel_list[idx].append(problem[4])

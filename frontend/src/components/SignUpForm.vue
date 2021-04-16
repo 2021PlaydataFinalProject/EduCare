@@ -2,7 +2,6 @@
   <div class="container">
     <div class="container pt-6 pb-6 pl-4 pr-4">
       <div class="box">
-        <h2 class="subtitle is-5">회원가입</h2>
         <form @submit.prevent="submitForm()" class="form">
           <br />
           <b-field label="ID" type="" message="" align="left">
@@ -68,16 +67,15 @@
             </div>
           </b-field>
           <br />
-          <button class="btn btn-primary btn-sm">
+          <b-button @click="submitForm()" class="btn btn-primary btn-sm">
             회원 가입
-          </button>
+          </b-button>
         </form>
       </div>
     </div>
   </div>
 </template>
 <script>
-// import { signupUser } from "@/api/auth";
 import { validateEmail } from "@/utils/validation";
 import { validatePhoneNumber } from "@/utils/validation";
 import axios from "axios";
@@ -85,7 +83,6 @@ export default {
   name: "SignUpForm",
   data() {
     return {
-      //form values
       username: "",
       password: "",
       userRealname: "",
@@ -120,59 +117,18 @@ export default {
           }
         })
         .then(response => {
-          alert("회원가입성공");
+          this.success();
           console.log(response.data);
           this.$router.push({ name: "Sign In" });
         })
         .catch(error => {
-          alert("회원가입실패");
+          this.danger();
           console.log(error);
         })
         .finally(() => {
           this.initForm();
         });
     },
-    // async submitForm() {
-    //   try {
-    //   let formData = new FormData();
-    // formData.append("userId", this.userid);
-    // formData.append("password", this.password);
-    // formData.append("name", this.name);
-    // formData.append("age", this.age);
-    // formData.append("email", this.email);
-    // formData.append("phoneNum", this.phonenum);
-    // formData.append("address", this.address);
-    // formData.append("position", this.position);
-    // formData.append("stacklist", this.stacklist);
-    // formData.append("file", this.file);
-    // {headers: {
-    //     "Content-Type": "multipart/form-data"
-    //   }}
-    // 비즈니스 로직
-    //     const userData = {
-    //       username: this.username,
-    //       password: this.password,
-    //       userRealName: this.userRealName,
-    //       phoneNumber: this.phoneNumber,
-    //       file: this.userImage,
-    //       role: this.role
-    //     };
-    //     const data = await signupUser(userData);
-    //     if (data.data == "Signin") {
-    //       this.logMessage = "회원가입성공";
-    //       alert("회원가입성공");
-    //     } else {
-    //       alert("회원가입실패");
-    //     }
-    //     this.$router.push("../" + data.data);
-    //   } catch (error) {
-    //     // 에러 핸들링할 코드
-    //     alert("회원가입 중 에러가 발생했습니다.");
-    //     console.log(error);
-    //   } finally {
-    //     this.initForm();
-    //   }
-    // },
     initForm() {
       this.username = "";
       this.password = "";
@@ -183,8 +139,21 @@ export default {
     },
     handleFileUpload() {
       this.file = this.$refs.file.files[0];
+    },
+    success() {
+      this.$buefy.notification.open({
+        message: "회원가입에 성공하셨습니다.",
+        type: "is-success",
+        position: "is-bottom-right"
+      });
+    },
+    danger() {
+      this.$buefy.notification.open({
+        message: `회원 가입을 다시 시도해 주세요.`,
+        type: "is-danger",
+        position: "is-bottom-right"
+      });
     }
   }
 };
 </script>
-<style></style>

@@ -1,7 +1,15 @@
 <template>
   <div id="app">
     <nav-bar />
-    <aside-menu :menu="menu" @menu-click="menuClick" />
+    <template v-if="userRole === 'ROLE_STUDENT'">
+      <aside-menu :menu="student_menu" @menu-click="menuClick" />
+    </template>
+    <template v-else-if="userRole === 'ROLE_INSTRUCTOR'">
+      <aside-menu :menu="instructor_menu" @menu-click="menuClick" />
+    </template>
+    <template v-else>
+      <aside-menu :menu="menu" @menu-click="menuClick" />
+    </template>
     <transition name="page">
       <router-view></router-view>
     </transition>
@@ -14,6 +22,9 @@
 import NavBar from "@/components/NavBar";
 import AsideMenu from "@/components/AsideMenu";
 import FooterBar from "@/components/FooterBar";
+import { mapState } from "vuex";
+import { getUserRoleFromSession } from "../src/utils/session";
+
 export default {
   name: "home",
   components: {
@@ -23,11 +34,48 @@ export default {
   },
   data() {
     return {
-      user: sessionStorage.getItem("user")
+      userRole: getUserRoleFromSession() || ""
     };
   },
   computed: {
+    ...mapState(["userName", "userRole"]),
     menu() {
+      return [
+        "프로필",
+        [
+          {
+            to: "/profile",
+            icon: "account-circle",
+            label: "마이 프로필"
+          }
+        ],
+        "메뉴",
+        [
+          {
+            label: "시험",
+            //submenu가 강사와 어드민 학생에 따라 다르게 나와야함
+            subLabel: "Submenus Example",
+            icon: "view-list",
+            menu: [
+              // {
+              //   href: "/community",
+              //   label: "커뮤니티"
+              //   // 시간 있으면 구현 예정
+              // }
+            ]
+          }
+        ],
+        "HOME",
+        [
+          {
+            href: "/",
+            label: "서비스 소개",
+            icon: "help-circle"
+          }
+        ]
+      ];
+    },
+    student_menu() {
       return [
         "프로필",
         [
@@ -47,11 +95,42 @@ export default {
             menu: [
               {
                 href: "/student",
-                label: "학생 시험"
-              },
+                label: "시험보기"
+              }
+            ]
+          }
+        ],
+        "HOME",
+        [
+          {
+            href: "/",
+            label: "서비스 소개",
+            icon: "help-circle"
+          }
+        ]
+      ];
+    },
+    instructor_menu() {
+      return [
+        "프로필",
+        [
+          {
+            to: "/profile",
+            icon: "account-circle",
+            label: "마이 프로필"
+          }
+        ],
+        "메뉴",
+        [
+          {
+            label: "시험",
+            //submenu가 강사와 어드민 학생에 따라 다르게 나와야함
+            subLabel: "Submenus Example",
+            icon: "view-list",
+            menu: [
               {
                 href: "/instructor",
-                label: "강사 시험"
+                label: "시험 감독"
               }
             ]
           }

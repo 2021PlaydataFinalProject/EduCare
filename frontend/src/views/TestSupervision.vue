@@ -10,35 +10,48 @@
           <div class="tile is-child box">
             <p class="title is-5">시험감독</p>
             <p>
-              시험이 시작될때 녹화시작 먼저 클릭한 후 시험을 완료 후 시험완료를
-              클릭하면 감독관에게 전송됩니다.
+              응시자의 녹화 영상을 확인하세요.
             </p>
-            <p>
-              영상 분석 데이터 확인 (부정행위 감지 시간)
-            </p>
+            <h6 class="title is-6">부정행위 감지 시간</h6>
+            <h6 class="subtitle is-6 pb-2">CheatTime:{{ cheatTime }}</h6>
+            <h6 class="title is-6">응시자 답변</h6>
+
+            <div
+              class="pb-2"
+              v-for="(value, index) in testAnswer"
+              :key="value.key"
+            >
+              {{ index + 1 }}번: {{ value }}
+            </div>
+            <h6 class="title is-6">부정행위 유무</h6>
+            <h6 class="subtitle is-6 pb-2">isCheating: {{ isCheating }}</h6>
+            <h6 class="title is-6">응시자</h6>
+            <h6 class="subtitle is-6 pb-2">{{ userRealName }}</h6>
+
+            <!-- <br />
+            videoname: {{ videoName }} -->
             <b-field label="시험 점수를 입력하세요. 부정행위시 0점">
               <b-field>
-                <b-numberinput
-                  expanded
-                  controls-position="compact"
-                  placeholder="0"
-                  v-model="testResult"
-                  step="5"
-                  aria-minus-label="Decrement by 5"
-                  aria-plus-label="Increment by 5"/>
+                <b-input v-model="testResult" placeholder="0"></b-input>
                 <p class="control">
-                  <b-button label="시험 점수 입력" /></p
-              ></b-field>
+                  <b-button
+                    @click="updateStudentScore"
+                    label="시험 점수 입력"
+                  />
+                </p>
+                <b-input></b-input>
+              </b-field>
             </b-field>
-             <b-field grouped>
-            <div class="control">
-              <b-button tag="router-link" to="/instructor" type="is-link">
-                시험 출제
-              </b-button>
-            </div>
-          </b-field>
+            <b-field grouped>
+              <div class="control">
+                <b-button tag="router-link" to="/instructor" type="is-link">
+                  시험 감독 완료
+                </b-button>
+              </div>
+            </b-field>
           </div>
         </div>
+
         <div class="tile is-parent">
           <div class="tile is-child box">
             <p class="title is-5">영상 확인</p>
@@ -67,7 +80,6 @@
     </section>
   </div>
 </template>
-
 <script>
 import TitleBar from "@/components/TitleBar";
 import HeroBar from "@/components/HeroBar";
@@ -83,13 +95,18 @@ export default {
   },
   data() {
     return {
+      testNum: this.$route.params.testNum,
+      userName: this.$route.params.userName,
       testResult: "",
       studentTest: "",
-      studentTest2: "",
+      cheatTime: "",
+      isCheating: "",
+      testAnswer: [],
+      userRealName: "",
       videoName: "",
       playerOptions: {
         // videojs options
-        height: "360",
+        height: "480",
         responsive: true,
         muted: true,
         language: "ko",
@@ -97,21 +114,16 @@ export default {
         sources: [
           {
             type: "video/mp4",
-            src:
-              // "https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm"
-              this.videoName
+            src: "http://localhost:8000/tproblemvideo/" + this.videoName
           }
         ],
         poster: "src/assets/videoposter.jpg"
       }
     };
   },
-  mounted() {
-    console.log("this is current player instance object", this.player);
-  },
   computed: {
     titleStack() {
-      return ["Instructor", "TestSupervision"];
+      return ["강사", "응시자 시험 감독"];
     },
     player() {
       return this.$refs.videoPlayer.player;
@@ -140,23 +152,28 @@ export default {
     },
 
     //video 정보 가져오기
-    getVideoName() {
+    getStudentTest() {
       axios
-        .get("http://localhost:8000/stutest/get/dkwjd/1", {
-          headers: {
-            Authorization: sessionStorage.getItem("Authorization")
+        .get(
+          "http://localhost:8000/stutest/get/" +
+            this.userName +
+            "/" +
+            this.testNum,
+          {
+            headers: {
+              Authorization: sessionStorage.getItem("Authorization")
+            }
           }
-        })
+        )
         .then(response => {
           this.studentTest = response.data;
           console.log("확인");
           console.log(this.studentTest);
-          this.studentTest.forEach(function(item) {
-            this.studentTest2 = item;
-          });
-          this.videoName = this.studentTest2.videoName;
-          console.log("videoName확인");
-          console.log(this.videoName);
+          this.cheatTime = this.studentTest.cheatTime;
+          this.isCheating = this.studentTest.isCheating;
+          this.testAnswer = this.studentTest.testAnswer;
+          this.userRealName = this.studentTest.userRealName;
+          this.videoName = this.studentTest.videoName;
         })
         .catch(e => {
           console.log(e);
@@ -177,14 +194,34 @@ export default {
             this.testResult
         )
         .then(response => {
+          this.success();
           // this.applicants = response.data;
           console.log(response);
           // alert(this.test);
         })
         .catch(e => {
+          this.danger();
           console.log(e);
         });
+    },
+    success() {
+      this.$buefy.notification.open({
+        message: "점수가 등록되었습니다.",
+        type: "is-success",
+        position: "is-bottom-right"
+      });
+    },
+    danger() {
+      this.$buefy.notification.open({
+        message: `점수 등록을 다시 시도해 주세요.`,
+        type: "is-danger",
+        position: "is-bottom-right"
+      });
     }
+  },
+  mounted() {
+    console.log("this is current player instance object", this.player);
+    this.getStudentTest();
   }
 };
 </script>

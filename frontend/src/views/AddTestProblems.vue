@@ -88,14 +88,14 @@
           icon="account-multiple"
         >
           <b-table :data="test">
-            <!-- <b-table-column
-              cell-class="has-no-head-mobile is-image-cell"
+            <b-table-column
+              label="문제 번호"
+              field="문제 번호"
+              sortable
               v-slot="props"
             >
-              <div class="image">
-                <img :src="props.row.avatar" class="is-rounded" />
-              </div>
-            </b-table-column> -->
+              {{ props.row.proNum }}
+            </b-table-column>
             <b-table-column label="문제" field="문제" sortable v-slot="props">
               {{ props.row.proDes }}
             </b-table-column>
@@ -128,6 +128,24 @@
             </b-table-column>
             <b-table-column label="답" field="보기 4번" v-slot="props">
               {{ props.row.proAnswer }}
+            </b-table-column>
+            <b-table-column label="삭제 및 수정" v-slot="props" centered>
+              <b-button
+                type="is-danger is-light"
+                outlined
+                v-on:click="deleteTestProblems(props.row.proId)"
+                position="is-centered"
+                size="is-small"
+                >삭제</b-button
+              >
+              <b-button
+                type="is-danger is-light"
+                outlined
+                v-on:click="deleteTestProblems(props.row.proId)"
+                position="is-centered"
+                size="is-small"
+                >수정</b-button
+              >
             </b-table-column>
           </b-table>
         </card-component>
@@ -175,7 +193,7 @@ export default {
   },
   computed: {
     titleStack() {
-      return ["Instructor", "Add Test Problems"];
+      return ["강사", "시험 문제 생성"];
     }
   },
   methods: {
@@ -205,13 +223,15 @@ export default {
           }
         )
         .then(Headers => {
-          alert("시험 문제 생성 성공!");
+          // alert("시험 문제 생성 성공!");
+          this.success();
           console.log(Headers); //get("Authorization")
           // sessionStorage.setItem("user", JSON.stringify(response.data));
           this.getTestProblems();
         })
         .catch(error => {
-          alert("시험 문제 생성 실패");
+          // alert("시험 문제 생성 실패");
+          this.danger();
           console.log(error);
         })
         .finally(() => {
@@ -220,16 +240,15 @@ export default {
     },
     initForm() {
       this.proNum = "";
-      this.testNum = "";
       this.proId = "";
       this.proDes = "";
       this.proSel = "";
       this.proImage = "";
       this.proAnswer = "";
     },
-    getTestProblems() {
+    getTestProblems(testNum) {
       axios
-        .get("http://localhost:8000/testpro/get?testnum=" + this.testNum, {
+        .get("http://localhost:8000/testpro/get?testnum=" + testNum, {
           headers: {
             Authorization: sessionStorage.getItem("Authorization")
           }
@@ -238,24 +257,79 @@ export default {
           this.test = response.data;
           console.log(this.test);
           console.log("확인");
-          //   console.log(this.test.proSel);
-          //   var test2 = "";
-          //   this.test.forEach(function(item) {
-          //     test2 = item;
-          //   });
-          //   console.log(test2.proSel.split(","));
-          //   //   splitList = test2.proSel.split(',')
-          //   test2.proSel.split(",");
-          //   this.proSelList.one = test2.proShel[0];
-          //   this.proSelList.two = test2.proSel[1];
-          //   this.proSelList.three = test2.proSel[2];
-          //   this.proSelList.four = test2.proSel[3];
-          //   //   alert(this.test);
         })
         .catch(e => {
           console.log(e);
         });
+    },
+    deleteTestProblems(proid) {
+      axios
+        .delete(
+          `http://localhost:8000/testpro/delete?proid=${proid}&testnum=${this.testNum}`,
+          {
+            headers: {
+              Authorization: sessionStorage.getItem("Authorization")
+            }
+          }
+        )
+        .then(() => {
+          this.delete();
+          this.getTestProblems();
+        })
+        .catch(e => {
+          this.nodelete();
+          console.log(e);
+        });
+    },
+    success() {
+      this.$buefy.notification.open({
+        message: "시험이 생성되었습니다.",
+        type: "is-success",
+        position: "is-bottom-right"
+      });
+    },
+    danger() {
+      this.$buefy.notification.open({
+        message: `시험 문제 만들기에 실패하였습니다.다시 시도해 주세요.`,
+        type: "is-danger",
+        position: "is-bottom-right"
+      });
+    },
+    delete() {
+      this.$buefy.notification.open({
+        message: `성공적으로 삭제되었습니다.`,
+        type: "is-danger",
+        position: "is-bottom-right"
+      });
+    },
+    nodelete() {
+      this.$buefy.notification.open({
+        message: `삭제가 되지 않았습니다. 다시 삭제해 주세요`,
+        type: "is-danger",
+        position: "is-bottom-right"
+      });
     }
+  },
+  deleteTestProblems(testNum) {
+    axios
+      .delete(
+        "http://localhost:8000/testpro/delete?username=java@educare.com&testnum=" +
+          testNum,
+        {
+          headers: {
+            Authorization: sessionStorage.getItem("Authorization")
+          }
+        }
+      )
+      .then(() => {
+        this.delete();
+        this.getTestProblems();
+      })
+      .catch(e => {
+        this.nodelete();
+        console.log(e);
+      });
+    this.getTestProblems();
   },
   mounted() {
     this.getTestProblems();

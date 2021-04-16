@@ -33,5 +33,5 @@ public class StudentTestDto {
 	
 	private String testStatus;
 	
-	private Long testNum;
+	private long testNum;
 }

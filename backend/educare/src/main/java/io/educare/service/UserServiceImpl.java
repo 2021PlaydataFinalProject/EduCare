@@ -229,7 +229,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	public List<UserDto> getStudentListNotInTest(long testnum) {
-		List<User> userList = userRepository.findAllUserNotInTest(testnum);
+		List<User> userList = userRepository.findAllUserNotInTest(testnum, "ROLE_STUDENT");
 		List<UserDto> uDtoList = userList.stream().map(u -> new UserDto(u.getUsername(), null, u.getUserRealName(),
 				u.getPhoneNumber(), u.getUserImage(), u.getRole())).collect(Collectors.toList());
 

@@ -47,7 +47,6 @@
     </form>
   </card-component>
 </template>
-
 <script>
 // import { mapState } from "vuex";
 // import FilePicker from "@/components/FilePicker";
@@ -56,7 +55,6 @@ import { fetchUserInfo } from "../api/auth.js";
 import axios from "axios";
 import { validateEmail } from "@/utils/validation";
 import { validatePhoneNumber } from "@/utils/validation";
-
 export default {
   name: "ProfileUpdateForm",
   components: {
@@ -130,12 +128,14 @@ export default {
           }
         })
         .then(response => {
-          alert("회원 정보 수정 성공");
+          // alert("회원 정보 수정 성공");
+          this.success();
           console.log(response.data);
           this.$router.push({ name: "Sign In" });
         })
         .catch(error => {
-          alert("회원 정보 수정실패");
+          // alert("회원 정보 수정실패");
+          this.danger();
           console.log(error);
         })
         .finally(() => {
@@ -163,7 +163,6 @@ export default {
     //     // this.test = response.data;
     //     console.log(response);
     //     this.success();
-
     //     this.getTestForm();
     //   })
     //   .catch(e => {
@@ -187,7 +186,7 @@ export default {
       fetchUserInfo()
         .then(response => (this.$store.state.userInfo = response.data))
         .catch();
-    }
+    },
     // fetch_Image() {
     //   const username = getUserIdFromSession();
     //   axios
@@ -201,7 +200,6 @@ export default {
     //       alert("이미지 조회 실패");
     //     });
     // }
-
     // submit() {
     //   this.isLoading = true;
     //   setTimeout(() => {
@@ -220,7 +218,21 @@ export default {
     //   userEmail(newValue) {
     //     this.form.email = newValue;
     //   }
-    // }
+    // },
+    success() {
+      this.$buefy.notification.open({
+        message: "회원 정보가 수정되었습니다.",
+        type: "is-success",
+        position: "is-bottom-right"
+      });
+    },
+    danger() {
+      this.$buefy.notification.open({
+        message: `회원 정보 수정 실패.`,
+        type: "is-danger",
+        position: "is-bottom-right"
+      });
+    }
   }
 };
 </script>

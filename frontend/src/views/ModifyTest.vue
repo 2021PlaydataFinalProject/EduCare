@@ -383,12 +383,13 @@ export default {
           }
         })
         .then(response => {
-          this.success();
+          this.update();
           // this.test = response.data;
           console.log(response);
           this.getTestProblems();
         })
         .catch(e => {
+          this.noupdate();
           console.log(e);
           this.errors.push(e);
         });

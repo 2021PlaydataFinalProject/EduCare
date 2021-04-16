@@ -126,7 +126,7 @@ config.addAllowedOrigin("http://localhost:8081");
 
 
 **제작**
-BACKEND 팀 :
+**BACKEND 팀**
 - 권한을 강사 또는 학생 할지 선택 -> 현재 구현 되어있음
 - 처음에는 학생 권한으로 가입하고 -> 나중에는 어드민이 강사로 권한을 바꿔주는 방법으로 하려고 했었음 -> 그러나, 시간상 불가능할 것으로 판단됨.
 - signin, signup 백엔드 & 프론트 연결 성공
@@ -136,7 +136,7 @@ BACKEND 팀 :
 - 세션 스토리지에 JWT를 HEADER : Authorization에 넣어주기
 
 
-FRONTEND 팀 :
+**FRONTEND 팀**
 - SignIn, SignUp Form 가져오기 / 추가구현하기
 - http://localhost:8082/#/signin에서 # 제거
 - TestProblem 쪽 페이지 구현 완료 
@@ -165,7 +165,7 @@ FRONTEND 팀 :
 - ModifyTest.vue 구현 
 - AddTestProblems.vue 의 delete problem button 더하기 
 
-ML 팀 : 
+**ML 팀**
 - mysql 과 flask 연동 성공
 - 사물, 사람 탐지된 String 데이터  mysql DB 에 전송 예정 
 - 동영상 전송 관련 사이트 조사 (php 없는걸 위주로 검색)

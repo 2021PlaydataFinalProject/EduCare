@@ -154,7 +154,7 @@ export default {
 };
 </script>
 <style scoped>
-a#custom{
-  color:#00B274 !important;
+a#custom {
+  color: #00b274 !important;
 }
 </style>

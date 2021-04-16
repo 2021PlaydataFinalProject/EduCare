@@ -91,6 +91,5 @@ export default {
   components: {
     HeroBar
   }
- 
 };
 </script>

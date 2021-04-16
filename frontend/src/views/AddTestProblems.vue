@@ -131,7 +131,7 @@
             </b-table-column>
             <b-table-column label="삭제" v-slot="props" centered>
               <b-button
-                type="is-danger is-light"
+                type="is-danger"
                 outlined
                 v-on:click="deleteTestProblems(props.row.proId)"
                 position="is-centered"
@@ -185,18 +185,11 @@ export default {
   },
   computed: {
     titleStack() {
-      return ["Instructor", "Add Test Problems"];
+      return ["강사", "시험 문제 생성"];
     }
   },
   methods: {
     testproblemForm() {
-      //   let proSelList = [];
-      //   proSelList.push(this.form.proSel.one);
-      //   proSelList.push(this.form.proSel.two);
-      //   proSelList.push(this.form.proSel.three);
-      //   proSelList.push(this.form.proSel.four);
-      //   this.proSel = proSelList.join(",");
-
       let formData = new FormData();
       formData.append("proNum", this.form.proNum);
       formData.append("proDes", this.form.proDes);
@@ -215,13 +208,15 @@ export default {
           }
         )
         .then(Headers => {
-          alert("시험 문제 생성 성공!");
+          // alert("시험 문제 생성 성공!");
+          this.success();
           console.log(Headers); //get("Authorization")
           // sessionStorage.setItem("user", JSON.stringify(response.data));
           this.getTestProblems();
         })
         .catch(error => {
-          alert("시험 문제 생성 실패");
+          // alert("시험 문제 생성 실패");
+          this.danger();
           console.log(error);
         })
         .finally(() => {
@@ -263,12 +258,63 @@ export default {
           }
         )
         .then(() => {
+          this.delete();
           this.getTestProblems();
         })
         .catch(e => {
+          this.nodelete();
           console.log(e);
         });
+    },
+    success() {
+      this.$buefy.notification.open({
+        message: "시험 문제가 생성되었습니다.",
+        type: "is-success",
+        position: "is-bottom-right"
+      });
+    },
+    danger() {
+      this.$buefy.notification.open({
+        message: `시험 문제 만들기에 실패하였습니다.다시 시도해 주세요.`,
+        type: "is-danger",
+        position: "is-bottom-right"
+      });
+    },
+    delete() {
+      this.$buefy.notification.open({
+        message: `성공적으로 삭제되었습니다.`,
+        type: "is-danger",
+        position: "is-bottom-right"
+      });
+    },
+    nodelete() {
+      this.$buefy.notification.open({
+        message: `삭제가 되지 않았습니다. 다시 삭제해 주세요`,
+        type: "is-danger",
+        position: "is-bottom-right"
+      });
     }
+  },
+  deleteTestProblems(testNum) {
+    axios
+      .delete(
+        "http://localhost:8000/testpro/delete?username=java@educare.com&testnum=" +
+          testNum,
+        {
+          headers: {
+            Authorization: sessionStorage.getItem("Authorization")
+          }
+        }
+      )
+      .then(() => {
+        this.delete();
+        this.getTestProblems();
+      })
+      .catch(e => {
+        this.nodelete();
+        console.log(e);
+      });
+    this.getTestProblems();
   },
   mounted() {
     this.getTestProblems();

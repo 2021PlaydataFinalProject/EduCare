@@ -15,7 +15,7 @@ Vue.use(VueRouter);
 //     next();
 //   }
 // };
-// 비 로그인 유저 거절
+// // 비 로그인 유저 거절
 // const onlyAuthUser = (to, from, next) => {
 //   if (sessionStorage.getItem("user") == null) {
 //     next("/signin");
@@ -70,16 +70,6 @@ const routes = [
     // beforeEnter: onlyAuthUser,
     component: () => import("../views/StudentTestList.vue")
   },
-  // {
-  //   meta: {
-  //     title: "StudentTest"
-  //   },
-  //   path: "/studenttest",
-  //   name: "StudentTest",
-  //   // beforeEnter: onlyAuthUser,
-  //   component: () => import("../views/StudentTest.vue")
-  // },
-  // {
   {
     meta: {
       title: "ModifyTest"
@@ -140,7 +130,6 @@ const routes = [
     },
     path: "/signin",
     name: "Sign In",
-    // beforeEnter: rejectAuthUser,
     component: () => import("../views/SignIn.vue"),
     props: true
   },

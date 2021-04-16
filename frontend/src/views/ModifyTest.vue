@@ -115,22 +115,22 @@
             <b-table-column label="답" field="보기 4번" v-slot="props">
               {{ props.row.proAnswer }}
             </b-table-column>
-            <b-table-column label="삭제 및 수정" v-slot="props" centered>
+            <b-table-column label="수정 및 삭제" v-slot="props" centered>
               <b-button
-                type="is-danger is-light"
-                outlined
-                v-on:click="deleteTestProblems(props.row.proId)"
-                position="is-centered"
-                size="is-small"
-                >삭제</b-button
-              >
-              <b-button
-                type="is-success is-light"
+                type="is-success"
                 outlined
                 v-on:click="updateTestProblems(props.row.proId)"
                 position="is-centered"
                 size="is-small"
                 >수정</b-button
+              >
+              <b-button
+                type="is-danger"
+                outlined
+                v-on:click="deleteTestProblems(props.row.proId)"
+                position="is-centered"
+                size="is-small"
+                >삭제</b-button
               >
             </b-table-column>
           </b-table>
@@ -242,6 +242,7 @@ import TitleBar from "@/components/TitleBar";
 import CardComponent from "@/components/CardComponent";
 import HeroBar from "@/components/HeroBar";
 import axios from "axios";
+
 export default {
   components: {
     HeroBar,
@@ -279,7 +280,7 @@ export default {
   },
   computed: {
     titleStack() {
-      return ["Instructor", "ModifyTest"];
+      return ["강사", "시험 변경"];
     },
     ...mapState(["userName", "userRole"])
   },
@@ -341,7 +342,6 @@ export default {
           // this.test = response.data;
           console.log(response);
           this.success();
-
           this.getTestForm();
         })
         .catch(e => {
@@ -425,7 +425,7 @@ export default {
     },
     danger() {
       this.$buefy.notification.open({
-        message: `수정 내용을 정확히 입력해주세요.`,
+        message: `수정하실 내용을 정확히 입력해주세요.`,
         type: "is-danger",
         position: "is-bottom-right"
       });

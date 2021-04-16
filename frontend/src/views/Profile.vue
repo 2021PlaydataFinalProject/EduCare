@@ -69,7 +69,7 @@ export default {
   },
   computed: {
     titleStack() {
-      return ["Admin", "Profile"];
+      return ["마이페이지"];
     },
     ...mapState(["userName", "userEmail", "userRealname"])
   }

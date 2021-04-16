@@ -3,9 +3,6 @@
     <title-bar :title-stack="titleStack" />
     <hero-bar>
       서비스 소개
-      <router-link slot="right" to="/" class="button">
-        Dashboard
-      </router-link>
     </hero-bar>
     <!-- <section class="section is-main-section">
       서비스 소개란
@@ -23,23 +20,23 @@
           is-5-fullhd is-offset-1-fullhd"
             >
               <h1 class="title titled is-1 mb-6">
-                당신의 시험 저희와 함께 하세요.
+                당신의 시험 <br />
+                에듀케어와 함께 하세요.
               </h1>
               <h2
                 class=" subtitled subtitle has-text-grey is-4 has-text-weight-normal is-family-sans-serif"
               >
-                당신만을 위한, 당신이 찾던 그 서비스<br />
-                당신이 볼 그 시험 <br />
-                지금 여기서 시작하세요<br />
+                오늘 시험 보시나요? <br />
+                지금 여기, 에듀케어에서 실현시켜 드립니다.<br />
               </h2>
               <div class="buttons">
                 <b-button
                   class="button is-black"
                   tag="router-link"
-                  to="/"
+                  to="/profile"
                   type="is-link"
                 >
-                  시험보기
+                  내 프로필
                 </b-button>
                 <b-button
                   class="button is-light"
@@ -78,10 +75,6 @@
               <h1 class="title titled 40by40">
                 학생들과 강사들을 위한 서비스, '에듀케어'
               </h1>
-
-              <h2 class="subtitle subtitled is-4">
-                서비스 소개
-              </h2>
             </div>
           </div>
         </div>
@@ -91,19 +84,13 @@
 </template>
 
 <script>
-import TitleBar from "@/components/TitleBar";
 import HeroBar from "@/components/HeroBar";
 
 export default {
   name: "Service",
   components: {
-    HeroBar,
-    TitleBar
-  },
-  computed: {
-    titleStack() {
-      return ["Admin", "Service"];
-    }
+    HeroBar
   }
+ 
 };
 </script>

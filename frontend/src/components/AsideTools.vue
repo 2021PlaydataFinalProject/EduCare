@@ -2,6 +2,7 @@
   <div class="aside-tools">
     <div class="aside-tools-label">
       <b-icon v-if="icon" :icon="icon" custom-size="default" />
+      <img src="../assets/logo2.jpg" width="30" height="28" />
       <slot name="label" />
     </div>
   </div>

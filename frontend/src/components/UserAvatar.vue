@@ -8,7 +8,7 @@
 import { mapState } from "vuex";
 import axios from "axios";
 import { getUserIdFromSession } from "../utils/session";
-import { fetchUserImage } from "../api/auth.js";
+import { fetchUserInfo } from "../api/auth.js";
 
 export default {
   name: "UserAvatar",
@@ -27,7 +27,7 @@ export default {
   }),
   // this.userImage =
   created() {
-    fetchUserImage()
+    fetchUserInfo()
       .then(response => (this.$store.state.userImage = response.data.userImage))
       .catch();
   },

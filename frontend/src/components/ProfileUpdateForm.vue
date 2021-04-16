@@ -130,12 +130,14 @@ export default {
           }
         })
         .then(response => {
-          alert("회원 정보 수정 성공");
+          // alert("회원 정보 수정 성공");
+          this.success();
           console.log(response.data);
           this.$router.push({ name: "Sign In" });
         })
         .catch(error => {
-          alert("회원 정보 수정실패");
+          // alert("회원 정보 수정실패");
+          this.danger();
           console.log(error);
         })
         .finally(() => {
@@ -187,7 +189,7 @@ export default {
       fetchUserInfo()
         .then(response => (this.$store.state.userInfo = response.data))
         .catch();
-    }
+    },
     // fetch_Image() {
     //   const username = getUserIdFromSession();
     //   axios
@@ -220,7 +222,21 @@ export default {
     //   userEmail(newValue) {
     //     this.form.email = newValue;
     //   }
-    // }
+    // },
+    success() {
+      this.$buefy.notification.open({
+        message: "회원 정보가 수정되었습니다.",
+        type: "is-success",
+        position: "is-bottom-right"
+      });
+    },
+    danger() {
+      this.$buefy.notification.open({
+        message: `회원 정보 수정 실패.`,
+        type: "is-danger",
+        position: "is-bottom-right"
+      });
+    }
   }
 };
 </script>

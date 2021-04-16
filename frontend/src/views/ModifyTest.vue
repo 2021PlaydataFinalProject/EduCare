@@ -418,14 +418,14 @@ export default {
     },
     success() {
       this.$buefy.notification.open({
-        message: "수정이 완료되었습니다.",
+        message: "삭제가 완료되었습니다.",
         type: "is-success",
         position: "is-bottom-right"
       });
     },
     danger() {
       this.$buefy.notification.open({
-        message: `수정하실 내용을 정확히 입력해주세요.`,
+        message: `삭제 실패.`,
         type: "is-danger",
         position: "is-bottom-right"
       });

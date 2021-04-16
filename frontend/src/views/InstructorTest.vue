@@ -5,13 +5,6 @@
       시험 관리
     </hero-bar>
     <section class="section is-main-section">
-      <!-- <notification class="is-info">
-        <div>
-          <b-icon icon="buffer" custom-size="default" />
-          <b>Sorted and paginated table.</b>&nbsp;Based on Buefy's table.
-        </div>
-      </notification> -->
-
       <card-component
         class="has-table has-mobile-sort-spaced"
         title="시험"
@@ -140,7 +133,6 @@ export default {
         .then(response => {
           this.test = response.data;
           console.log(this.test);
-          // alert(this.test);
         })
         .catch(e => {
           console.log(e);

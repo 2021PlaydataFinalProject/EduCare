@@ -4,9 +4,6 @@
     <hero-bar>
       서비스 소개
     </hero-bar>
-    <!-- <section class="section is-main-section">
-      서비스 소개란
-    </section> -->
     <section class="hero is-white is-fullheight">
       <div class="hero-body">
         <div class="container">
@@ -91,6 +88,5 @@ export default {
   components: {
     HeroBar
   }
- 
 };
 </script>

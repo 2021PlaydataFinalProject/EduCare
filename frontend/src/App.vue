@@ -56,13 +56,7 @@ export default {
             //submenu가 강사와 어드민 학생에 따라 다르게 나와야함
             subLabel: "Submenus Example",
             icon: "view-list",
-            menu: [
-              // {
-              //   href: "/community",
-              //   label: "커뮤니티"
-              //   // 시간 있으면 구현 예정
-              // }
-            ]
+            menu: []
           }
         ],
         "HOME",

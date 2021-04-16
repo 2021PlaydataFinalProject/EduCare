@@ -49,7 +49,6 @@
             </b-datetimepicker>
           </b-field>
         </b-field>
-        <!-- {{ form.startTime }} - {{ form.endTime }} -->
         <b-field
           label="시험 유의사항"
           message="당신의 시험 유의사항을 255자 이내로 작성하세요."
@@ -63,7 +62,9 @@
             required
           />
         </b-field>
-        <b-button @click="updateTestForm()">시험 수정</b-button>
+        <b-button class="is-primary" @click="updateTestForm()"
+          >시험 수정</b-button
+        >
       </card-component>
       <br />
       <br />
@@ -339,11 +340,11 @@ export default {
         .then(response => {
           // this.test = response.data;
           console.log(response);
-          this.success();
+          this.update();
           this.getTestForm();
         })
         .catch(e => {
-          this.danger();
+          this.noupdate();
           console.log(e);
           this.errors.push(e);
         });
@@ -413,6 +414,20 @@ export default {
         .catch(e => {
           console.log(e);
         });
+    },
+    update() {
+      this.$buefy.notification.open({
+        message: "수정이 완료되었습니다.",
+        type: "is-success",
+        position: "is-bottom-right"
+      });
+    },
+    noupdate() {
+      this.$buefy.notification.open({
+        message: "수정 실패",
+        type: "is-success",
+        position: "is-bottom-right"
+      });
     },
     success() {
       this.$buefy.notification.open({

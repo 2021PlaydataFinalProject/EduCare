@@ -208,14 +208,11 @@ export default {
           }
         )
         .then(Headers => {
-          // alert("시험 문제 생성 성공!");
           this.success();
-          console.log(Headers); //get("Authorization")
-          // sessionStorage.setItem("user", JSON.stringify(response.data));
+          console.log(Headers);
           this.getTestProblems();
         })
         .catch(error => {
-          // alert("시험 문제 생성 실패");
           this.danger();
           console.log(error);
         })

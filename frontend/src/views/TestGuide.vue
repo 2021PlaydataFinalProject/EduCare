@@ -23,7 +23,7 @@ export default {
   },
   computed: {
     titleStack() {
-      return ["Student", "TestGuide"];
+      return ["학생", "안내사항"];
     }
   }
 };

@@ -26,7 +26,7 @@ export default {
   },
   computed: {
     titleStack() {
-      return ["Student", "CompleteTest"];
+      return ["학생", "시험 종료"];
     }
   }
 };

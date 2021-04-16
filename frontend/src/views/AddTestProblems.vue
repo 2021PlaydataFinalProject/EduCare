@@ -129,22 +129,14 @@
             <b-table-column label="답" field="보기 4번" v-slot="props">
               {{ props.row.proAnswer }}
             </b-table-column>
-            <b-table-column label="삭제 및 수정" v-slot="props" centered>
+            <b-table-column label="삭제" v-slot="props" centered>
               <b-button
-                type="is-danger is-light"
+                type="is-danger"
                 outlined
                 v-on:click="deleteTestProblems(props.row.proId)"
                 position="is-centered"
                 size="is-small"
                 >삭제</b-button
-              >
-              <b-button
-                type="is-danger is-light"
-                outlined
-                v-on:click="deleteTestProblems(props.row.proId)"
-                position="is-centered"
-                size="is-small"
-                >수정</b-button
               >
             </b-table-column>
           </b-table>
@@ -198,13 +190,6 @@ export default {
   },
   methods: {
     testproblemForm() {
-      //   let proSelList = [];
-      //   proSelList.push(this.form.proSel.one);
-      //   proSelList.push(this.form.proSel.two);
-      //   proSelList.push(this.form.proSel.three);
-      //   proSelList.push(this.form.proSel.four);
-      //   this.proSel = proSelList.join(",");
-
       let formData = new FormData();
       formData.append("proNum", this.form.proNum);
       formData.append("proDes", this.form.proDes);
@@ -246,9 +231,9 @@ export default {
       this.proImage = "";
       this.proAnswer = "";
     },
-    getTestProblems(testNum) {
+    getTestProblems() {
       axios
-        .get("http://localhost:8000/testpro/get?testnum=" + testNum, {
+        .get("http://localhost:8000/testpro/get?testnum=" + this.testNum, {
           headers: {
             Authorization: sessionStorage.getItem("Authorization")
           }
@@ -283,7 +268,7 @@ export default {
     },
     success() {
       this.$buefy.notification.open({
-        message: "시험이 생성되었습니다.",
+        message: "시험 문제가 생성되었습니다.",
         type: "is-success",
         position: "is-bottom-right"
       });

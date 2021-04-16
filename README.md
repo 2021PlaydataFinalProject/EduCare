@@ -61,14 +61,25 @@
 
 
 **구현/코딩**
-- 백엔드
-- 
-- 프론트엔드
-- 
-- OPENCV & 딥러닝
-- 
-- 플라스크
--
+**BACKEND**
+- Spring Security, JWT 이용한 인증&인가&보안, CRUD 등
+- 로그인시 발급된 JWT 토큰을 Header에 담아 Vue에 전송, JWT 토큰이 없거나 위조 되었을 경우 서비스 이용 불가
+- DB 테이블 설계, 로깅
+
+**FRONTEND**
+- Vue.js 기반 프론트 작업 (Vue cli, vue router, vuex)
+- Buefy + Bulma 를 사용한 UI 작업
+- Axios 로 백엔드와의 로직및 데이터 연동 작업 (로그인/회원가입및 필요 CRUD) 
+- 유저 input 받기및 로직이 실행되었을때 유저에게 명확한 정보 전달 (UI/UX 개선) 
+- Video.js, JWT decode및 추가 모듈을 활용한 데이터 렌더링 
+- 전 페이지 비동기 처리 
+- 세션데이터활용해 유저의 정보 기반으로 페이지단 출력
+
+**OPENCV & FLASK & DEEPLEARNING**
+- Flask 기반으로 openCV 작업과 yolo v3 사용
+- mysql과 flask 연동 및 springboot + vue + flask 서버 이동
+- 비디오 녹화 기능, 부정행위 탐지 시간 설정 및 출력 기능 등 
+
 
 **이슈 점검**
 - 이슈 1  : 
@@ -115,11 +126,74 @@ config.addAllowedOrigin("http://localhost:8081");
 
 
 **제작**
+BACKEND 팀 :
+- 권한을 강사 또는 학생 할지 선택 -> 현재 구현 되어있음
+- 처음에는 학생 권한으로 가입하고 -> 나중에는 어드민이 강사로 권한을 바꿔주는 방법으로 하려고 했었음 -> 그러나, 시간상 불가능할 것으로 판단됨.
+- signin, signup 백엔드 & 프론트 연결 성공
+- TestController , StudentTest 프론트가 받기 쉬운 방식으로 구현
+- TestProblem 구현 완료 -> 테스트 완료
+- USER CRUD 구현 및 테스트 완료
+- 세션 스토리지에 JWT를 HEADER : Authorization에 넣어주기
+
+
+FRONTEND 팀 :
+- SignIn, SignUp Form 가져오기 / 추가구현하기
+- http://localhost:8082/#/signin에서 # 제거
+- TestProblem 쪽 페이지 구현 완료 
+- 로그인 , 로그아웃 구현 진행 중 ( USER 객체 가져와서 페이지에 보이기 )
+- addTest 문제 / 답안 4지선다 구현
+- Educare 를 클릭할때 서비스페이지로 이동
+- 회원가입 버튼 추가 및 각 페이지단 레이아웃 수정
+- TestSuperVision.vue 만들고, video.js 설치 (감독영상 스트리밍할 때 필요함)
+- 라우터 가드 설치 (로그인한 유저만 페이지 접근 가능) 
+- 카카오 오븐 기준으로 변경된 테이블 수정 
+- AddTest.vue, ModifyTest.vue 레이아웃 완료 (버튼 클릭시 Instructor.vue로 이동하게 해놓음)
+- 전체적으로 테이블 띄우는 페이지들 데이터 연동
+- TestSupervision.vue 비디오 렌더링 완료
+- 프론트 & 백앤드 연결 계속 시도하고 있는중
+- jwt 디코딩으로 유저 이메일 navbar에 뜨도록 구현 
+- 백앤드쪽에서 업뎃해준 로직들 테스트하면서 프론트로 연결
+- TestSupervision.vue 에서 비디오/학생 답안이랑 다른 데이터 띄우기 
+- TestSupervision -> studentTest data 렌더링이 힘듬 object 데이터를 가져오는거 시도 
+- ManageStudent.vue 해결 마무리 하기 
+- TestGuide.vue 데이터 연동 
+- npm i jwt-decode (설치)--> node_modules 업데이트 하기 (공존 구글 드라이브에 업데이트 완료 -> 즉 모두들 새로운 node_modules로 갈아끼우세요)
+- 로그인 및 로그아웃 버튼 클릭시 화면 자동 새로고침  
+- 강사 및 학생에 따른 탭 구분 
+- 로그인 전에 이미지 옆에 텍스트로 '로그인' 넣기 
+- 프론트 & 백엔드 & ML 전체 코드 백업 
+- ModifyTest.vue 구현 
+- AddTestProblems.vue 의 delete problem button 더하기 
+
+ML 팀 : 
+- mysql 과 flask 연동 성공
+- 사물, 사람 탐지된 String 데이터  mysql DB 에 전송 예정 
+- 동영상 전송 관련 사이트 조사 (php 없는걸 위주로 검색)
+- mysql mobile detected 가능
+- 비디오 영상을 보내는건 조사 중 
+-  Flask 인강? -> 비디오 영상 제목 데이터 전송 -> mysql DB  해결 ? -> mysql에 비디오 제목 데이터를 넣을 예정  
+- 동영상 기록 -> 녹화 가능 -> 녹화본에 있는 제목이 들어가게끔 구현 
+- Flask 서버 구동 안 할 예정  ( MVC 패턴 구현X)
+- Flask 로 화면단 구현 마무리 진행
+- 비디오 저장 -> 유저가 업로드 -> Spring Boot로 Post 보내는 방법 -> Spring Boot 구현 하면 테스트 예정
+- mobile detected 와 같은 string 데이터들을 리스트에 담는 것 구현 완료 -> 백엔드 테스트 예정 
+- JSON으로 스프링 부트에 보내는 것을 LiST로 보내는 것 구현
+- user_id에 따른 시험문제를 가져올 수 있게함
+- timelist 해결 -> string으로 이어붙여서 DB 에 저장 -> 스프링부트로 UPDATE
+- FLASK 컨트롤러 & VUE 연동 
+- video 영상 길이 문제 해결 
+- 시험 종료 후 server.py에서 timelist 출력 
+- 비디오 영상 : avi -> mp4로 변경
+- flask 서버 실행 시 recording 자동 시작 
+- for문 이용해서  usertestnum이용해서 문제 화면단에 불러오기
+
 
 
 
 **테스트**
-
+- Spring Boot 백엔드와 Vue 프론트엔드 연동
+- Flask 백엔드와 Vue 프론트엔드 연동
+- YOLOv3 딥러닝 모델 정확도 테스트 (결과: 정확도 90% 이상)
 
 # 3. 결과
 ## 3-1. 시연

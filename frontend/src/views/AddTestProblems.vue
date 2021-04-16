@@ -193,7 +193,7 @@ export default {
   },
   computed: {
     titleStack() {
-      return ["Instructor", "Add Test Problems"];
+      return ["강사", "시험 문제 생성"];
     }
   },
   methods: {

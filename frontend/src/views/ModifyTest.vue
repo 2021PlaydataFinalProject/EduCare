@@ -280,7 +280,7 @@ export default {
   },
   computed: {
     titleStack() {
-      return ["Instructor", "ModifyTest"];
+      return ["강사", "시험 변경"];
     },
     ...mapState(["userName", "userRole"])
   },
@@ -342,7 +342,6 @@ export default {
           // this.test = response.data;
           console.log(response);
           this.success();
-
           this.getTestForm();
         })
         .catch(e => {

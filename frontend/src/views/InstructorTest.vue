@@ -58,17 +58,9 @@
               >
                 {{ props.row.testGuide }}
               </b-table-column>
-              <b-table-column
-                field="instructorId"
-                label="담당교수명"
-                v-slot="props"
-                centered
-              >
-                {{ props.row.instructorId }}
-              </b-table-column>
               <b-table-column label="수정 및 삭제" v-slot="props" centered>
                 <b-button
-                  type="is-primary is-light"
+                  type="is-primary"
                   outlined
                   v-on:click="updateInstructorTest(props.row.testNum)"
                   position="is-centered"
@@ -76,7 +68,7 @@
                   >수정</b-button
                 >
                 <b-button
-                  type="is-danger is-light"
+                  type="is-danger"
                   outlined
                   v-on:click="deleteInstructorTest(props.row.testNum)"
                   position="is-centered"
@@ -86,7 +78,7 @@
               </b-table-column>
               <b-table-column label="응시자 관리" v-slot="props" centered>
                 <b-button
-                  type="is-primary is-light"
+                  type="is-primary"
                   outlined
                   v-on:click="manageStudentList(props.row.testNum)"
                   position="is-centered"
@@ -96,13 +88,15 @@
               </b-table-column>
             </b-table>
           </section>
-          <b-button
-            tag="router-link"
-            to="/addtest"
-            type="is-link"
-            class="button is-primary is-pulled-right"
-            >시험생성</b-button
-          >
+          <div class="mt-2 pb-4 mb-6">
+            <b-button
+              tag="router-link"
+              to="/addtest"
+              type="is-link"
+              class="button is-primary is-pulled-right"
+              >시험생성</b-button
+            >
+          </div>
         </div>
       </card-component>
 
@@ -134,7 +128,7 @@ export default {
   },
   computed: {
     titleStack() {
-      return ["Instructor", "InstructorTest"];
+      return ["강사", "시험 목록 관리"];
     },
     ...mapState(["userName", "userRole"])
   },

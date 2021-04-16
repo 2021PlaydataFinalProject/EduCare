@@ -1,9 +1,6 @@
 <template>
   <div>
     <title-bar :title-stack="titleStack" />
-    <hero-bar>
-      시험 만들기
-    </hero-bar>
     <section class="section is-main-section">
       <card-component title="시험" icon="ballot">
         <b-field label="시험명" message="과목명을 적어주세요." horizontal>
@@ -62,7 +59,11 @@
             required
           />
         </b-field>
-        <b-button v-on:click="testForm()">시험 만들기</b-button>
+        <div class="has-text-centered">
+          <b-button size="is-large is-primary" v-on:click="testForm()"
+            >시험 만들기</b-button
+          >
+        </div>
         <hr />
       </card-component>
     </section>
@@ -72,13 +73,11 @@
 import { mapState } from "vuex";
 import TitleBar from "@/components/TitleBar";
 import CardComponent from "@/components/CardComponent";
-import HeroBar from "@/components/HeroBar";
 import axios from "axios";
 
 export default {
   name: "AddTest",
   components: {
-    HeroBar,
     CardComponent,
     TitleBar
   },
@@ -106,7 +105,7 @@ export default {
   },
   computed: {
     titleStack() {
-      return ["Instructor", "Add Test"];
+      return ["강사", "시험 생성"];
     },
     ...mapState(["userName", "userRole"])
   },

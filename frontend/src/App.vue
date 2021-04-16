@@ -95,7 +95,7 @@ export default {
             menu: [
               {
                 href: "/student",
-                label: "학생 시험"
+                label: "시험보기"
               }
             ]
           }

@@ -13,9 +13,9 @@ $base-color: #2e323a;
 $base-color-light: #f1f2f2;
 
 /* General overrides */
-$primary: $cyan;
+$primary: $green;
 $body-background-color: $white;
-$link: $blue;
+$link: $green;
 $link-visited: $purple;
 $light-border: 1px solid $base-color-light;
 $hr-height: 1px;
@@ -124,13 +124,15 @@ $slider-track-background: transparent;
 
 /* Status/State colors (based on Bulma's) */
 $state-colors:
-                ('primary', $cyan, $white),
-                ('info', $blue, $white),
+                ('primary', $green, $white),
+                ('info', $green, $white),
                 ('success', $green, $white),
                 ('warning', $yellow, $grey-darker),
                 ('danger', $red, $white),
                 ('dark', $grey-darker, $white),
                 ('white', $white, $black-ter);
+
+$navbar-item-link-color: $green;
 
 /* Dark Mode */
 $dark-mode-background-color: $black-ter;
@@ -140,7 +142,7 @@ $dark-mode-border-color: $white-ter;
 $dark-mode-border: 1px solid $dark-mode-border-color;
 $dark-mode-light-border-color: $grey-darker;
 $dark-mode-light-border: 1px solid $dark-mode-light-border-color;
-$dark-mode-link-color: $cyan;
+$dark-mode-link-color: $green;
 $dark-mode-link-active-color: $white-ter;
 $dark-mode-link-hover-color: $white-bis;
 $dark-mode-overlay-background-color: rgba($black, .85);

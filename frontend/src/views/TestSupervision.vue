@@ -35,11 +35,12 @@
                 <b-input v-model="testResult" placeholder="0"></b-input>
                 <p class="control">
                   <b-button
+                    type="is-primary"
+                    outlined
                     @click="updateStudentScore"
                     label="시험 점수 입력"
                   />
                 </p>
-                <b-input></b-input>
               </b-field>
             </b-field>
             <b-field grouped>

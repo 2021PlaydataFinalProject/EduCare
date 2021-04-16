@@ -17,7 +17,7 @@ public class CorsConfig {
       // 사용자 자격 증명이 지원되는지 여부
       config.setAllowCredentials(true);
       // 허용할 URL, 헤더, 메소드
-      config.addAllowedOrigin("http://localhost:8081");
+      config.addAllowedOrigin("*");
       config.addAllowedHeader("*");
       config.addAllowedMethod("*");
       config.addExposedHeader("Authorization");

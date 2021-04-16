@@ -134,7 +134,7 @@ export default {
   },
   computed: {
     titleStack() {
-      return ["Instructor", "ManageStudent"];
+      return ["강사", "응시자 관리"];
     }
   },
   methods: {

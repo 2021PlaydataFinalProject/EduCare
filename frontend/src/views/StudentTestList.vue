@@ -144,7 +144,7 @@ export default {
   },
   computed: {
     titleStack() {
-      return ["Student", "StudentTestList"];
+      return ["시험보기", "내 시험 목록"];
     },
     ...mapState(["userName", "userRole"])
   },

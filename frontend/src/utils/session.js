@@ -1,5 +1,6 @@
 import jwt_decode from "jwt-decode";
 
+//user_id (username) 반환
 function getUserIdFromSession() {
   const str = sessionStorage.getItem("Authorization");
   if (str != null) {
@@ -12,6 +13,7 @@ function getUserIdFromSession() {
   }
 }
 
+//user_ROLE 반환
 function getUserRoleFromSession() {
   const str = sessionStorage.getItem("Authorization");
   if (str != null) {

@@ -63,14 +63,16 @@
             required
           />
         </b-field>
-        <b-button @click="updateTestForm()">click</b-button>
-        <hr />
-        <hr />
-        <card-component
-          class="has-table has-mobile-sort-spaced"
-          title="문제/보기 확인"
-          icon="account-multiple"
-        >
+        <b-button @click="updateTestForm()">시험 수정</b-button>
+      </card-component>
+      <br />
+      <br />
+      <card-component
+        class="has-table has-mobile-sort-spaced"
+        title="문제/보기 확인"
+        icon="account-multiple"
+      >
+        <section class="pl-3 pr-3">
           <b-table :data="problems">
             <b-table-column
               label="문제 번호"
@@ -123,7 +125,7 @@
                 >삭제</b-button
               >
               <b-button
-                type="is-danger is-light"
+                type="is-success is-light"
                 outlined
                 v-on:click="updateTestProblems(props.row.proId)"
                 position="is-centered"
@@ -132,11 +134,17 @@
               >
             </b-table-column>
           </b-table>
-        </card-component>
-        <hr />
-        <hr />
+        </section>
+      </card-component>
+      <br />
+      <br />
+      <card-component>
         <b-field label="문항 번호" horizontal>
-          <b-numberinput step="1" v-model="form.proNum"></b-numberinput>
+          <b-numberinput
+            step="1"
+            v-model="form.proNum"
+            style="width: 200px;"
+          ></b-numberinput>
         </b-field>
         <b-field
           label="문제"
@@ -211,18 +219,20 @@
           <b-field grouped>
             <div class="control">
               <b-button @click="updateTestProblem2()">문제 수정</b-button>
-              <!-- <b-button
-                tag="router-link"
-                @click="updatetestForm"
-                to="/instructor"
-                type="is-link"
-              >
-                시험 수정 완료
-              </b-button> -->
             </div>
           </b-field>
         </div>
       </card-component>
+      <div class="has-text-centered">
+        <b-button
+          size="is-large"
+          tag="router-link"
+          to="/instructor"
+          type="is-link"
+        >
+          시험 수정 완료
+        </b-button>
+      </div>
     </section>
   </div>
 </template>

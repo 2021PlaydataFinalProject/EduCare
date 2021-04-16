@@ -4,7 +4,14 @@ from flask_mysqldb import MySQL
 # 설치! : pip install Flask-MySQLdb
 import time
 
+# No 'Access-Control-Allow-Origin' 해결하기 위함
+from flask_cors import CORS
+
 app = Flask(__name__)
+
+# No 'Access-Control-Allow-Origin' 해결하기 위함
+CORS(app, resources={r'*': {'origins': '*'}})
+
 # database에 접근
 app.config['MYSQL_HOST'] = '127.0.0.1'
 app.config['MYSQL_USER'] = 'root'
@@ -18,17 +25,20 @@ status = 'true'
 time_list = None
 
 # @app.route('/')
-@app.route('/<name>/<testnum>')
-def index(name, testnum):    
+@app.route('/<username>/<testnum>')
+def index(username, testnum):    
+    # print(username, testnum)
     # 쿼리문 실행
     cur = mysql.connection.cursor()
     cur.execute("SELECT * FROM testproblem where test_num = %s", testnum)
 
     fetchdata = cur.fetchall()
+    print(len(fetchdata))
     prosel_list = []
     for problem in fetchdata:
-        prosel_list.append(problem[2])
-        prosel_list.append(problem[5].split(','))
+        prosel_list.append(problem[4]) # 시험 문제 번호 
+        prosel_list.append(problem[2]) #시험 문제
+        prosel_list.append(problem[5].split(',')) # 시험선지
 
     return render_template('index.html', data_list = prosel_list)
 

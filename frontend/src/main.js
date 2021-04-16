@@ -16,7 +16,7 @@ import "./registerServiceWorker";
 import App from "./App.vue";
 
 /* Default title tag */
-const defaultDocumentTitle = "Admin Null Bulma";
+const defaultDocumentTitle = "EDUCARE";
 
 /* Collapse mobile aside menu on route change & set document title from route meta */
 router.afterEach(to => {

@@ -49,7 +49,6 @@
             </b-datetimepicker>
           </b-field>
         </b-field>
-        <!-- {{ form.startTime }} - {{ form.endTime }} -->
         <b-field
           label="시험 유의사항"
           message="당신의 시험 유의사항을 255자 이내로 작성하세요."
@@ -63,7 +62,9 @@
             required
           />
         </b-field>
-        <b-button @click="updateTestForm()">시험 수정</b-button>
+        <b-button class="is-primary" @click="updateTestForm()"
+          >시험 수정</b-button
+        >
       </card-component>
       <br />
       <br />

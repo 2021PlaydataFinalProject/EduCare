@@ -8,7 +8,7 @@
           has-icon
           aria-close-label="Close message"
         >
-          수고하셨습니다. 건승을 빌어요! 우린 비록 망했지만....
+          수고하셨습니다. 건승을 빌어요!
         </b-message>
         <center>
           <b-button

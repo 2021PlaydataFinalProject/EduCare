@@ -123,8 +123,9 @@ export default {
         .then(() => {
           this.success();
           sessionStorage.removeItem("Authorization");
-          this.$router.push({ name: "Home" });
+          // this.$router.push({ name: "Home" });
           location.reload();
+          location.href = "http://localhost:8081/";
         })
         .catch(error => {
           this.danger();

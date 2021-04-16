@@ -50,11 +50,7 @@
         </b-notification>
         <center>
           <!-- 이 시험시작 버튼은 flask 화면 단으로 이동해야 함 -->
-          <b-button
-            class="is-primary"
-            size="is-large"
-            @click="sendInfo()"
-          >
+          <b-button class="is-primary" size="is-large" @click="sendInfo()">
             시험 시작
           </b-button>
         </center>

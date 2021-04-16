@@ -57,7 +57,6 @@
 </template>
 <script>
 import { mapState } from "vuex";
-// import FilePicker from "@/components/FilePicker";
 import CardComponent from "@/components/CardComponent";
 import { fetchUserInfo } from "../api/auth.js";
 import axios from "axios";
@@ -69,10 +68,6 @@ export default {
     CardComponent
   },
   data: () => ({
-    // userName: this.$store.state.userName,
-    // userRealname: this.$store.state.userRealname,
-    // phoneNumber: this.$store.state.phoneNumber,
-    // role: this.$store.state.role
     username: "",
     password: "",
     userRealname: "",
@@ -80,21 +75,13 @@ export default {
     userImage: "",
     role: ""
   }),
-  // this.userImage =
   created() {
     fetchUserInfo()
       .then(response => {
-        // alert(response.data.username);
-        // alert(response.data.userRealname);
-        // alert(response.data.phoneNumber);
-        // alert(response.data.role);
         this.$store.state.userName = response.data.username;
         this.$store.state.userRealname = response.data.userRealname;
         this.$store.state.phoneNumber = response.data.phoneNumber;
-        // this.$store.state.role = response.data.role;
       })
-      //this.$store.state.userInfo = response.data
-      //this.$store.state.userInfo = response.data.phoneNumber
       .catch();
   },
   computed: {
@@ -106,15 +93,6 @@ export default {
     },
     ...mapState(["userName", "userRealname", "phoneNumber"])
   },
-  // computed: {
-  //   ...mapState([
-  //     "userName",
-  //     "userImage",
-  //     "userRealname",
-  //     "phoneNumber",
-  //     "role"
-  //   ])
-  // },
   mounted() {
     this.form.name = this.userName;
     this.form.realname = this.userRealname;
@@ -137,13 +115,11 @@ export default {
           }
         })
         .then(response => {
-          // alert("회원 정보 수정 성공");
           this.success();
           console.log(response.data);
           this.$router.push({ name: "Home" });
         })
         .catch(error => {
-          // alert("회원 정보 수정실패");
           this.danger();
           console.log(error);
         })
@@ -151,35 +127,6 @@ export default {
           this.initForm();
         });
     },
-    // const addProfileData = {
-    //   userName: this.userName,
-    //   password: this.password,
-    //   userRealname: this.userRealname,
-    //   phoneNumber: this.phoneNumber,
-    //   userImage: this.file,
-    //   role: this.role
-    // };
-    // alert(JSON.stringify(addProfileData));
-    // axios
-    //   .put("http://localhost:8000/user/update", addProfileData, {
-    //     headers: {
-    //       Authorization: sessionStorage.getItem("Authorization"),
-    //       "Content-Type": "multipart/form-data",
-    //       "Access-Control-Allow-Origin": "*"
-    //     }
-    //   })
-    //   .then(response => {
-    //     // this.test = response.data;
-    //     console.log(response);
-    //     this.success();
-    //     this.getTestForm();
-    //   })
-    //   .catch(e => {
-    //     this.danger();
-    //     console.log(e);
-    //     this.errors.push(e);
-    //   });
-    // },
     initForm() {
       this.username = "";
       this.password = "";
@@ -196,38 +143,6 @@ export default {
         .then(response => (this.$store.state.userInfo = response.data))
         .catch();
     },
-    // fetch_Image() {
-    //   const username = getUserIdFromSession();
-    //   axios
-    //     .get("http://localhost:8000/user/myinfo", username)
-    //     .then(response => {
-    //       alert("이미지 조회 성공");
-    //       this.userImage = response.data.userImage;
-    //       return this.userImage;
-    //     })
-    //     .catch(() => {
-    //       alert("이미지 조회 실패");
-    //     });
-    // }
-    // submit() {
-    //   this.isLoading = true;
-    //   setTimeout(() => {
-    //     this.isLoading = false;
-    //     this.$store.commit("user", this.form);
-    //     this.$buefy.snackbar.open({
-    //       message: "Updated",
-    //       queue: false
-    //     });
-    //   }, 500);
-    // }
-    // watch: {
-    //   userName(newValue) {
-    //     this.form.name = newValue;
-    //   },
-    //   userEmail(newValue) {
-    //     this.form.email = newValue;
-    //   }
-    // },
     success() {
       this.$buefy.notification.open({
         message: "회원 정보가 수정되었습니다.",

@@ -11,7 +11,12 @@
       </b-field>
       <hr />
       <b-field horizontal label="이름" message="필수 입력 사항">
-        <b-input v-model="userRealname" name="name" required />
+        <b-input
+          v-model="userRealname"
+          name="name"
+          placeholder="이름을 재입력해주세요"
+          required
+        />
       </b-field>
       <b-field horizontal label="이메일" message="필수 입력 사항">
         <b-input v-model="userName" name="email" type="email" required />
@@ -21,15 +26,18 @@
           v-model="phoneNumber"
           name="phonenumber"
           type="text"
+          placeholder="번호를 재입력해주세요"
           required
         />
       </b-field>
-      <b-field
-        horizontal
-        label="비밀번호"
-        message="새로운 비밀번호를 입력하세요."
-      >
-        <b-input name="password" type="password" v-model="password" required />
+      <b-field horizontal label="비밀번호" message="필수 입력 사항">
+        <b-input
+          name="password"
+          type="password"
+          v-model="password"
+          placeholder="새로운 비밀번호를 입력하세요"
+          required
+        />
       </b-field>
       <hr />
       <b-field horizontal>
@@ -49,7 +57,7 @@
 </template>
 
 <script>
-// import { mapState } from "vuex";
+import { mapState } from "vuex";
 // import FilePicker from "@/components/FilePicker";
 import CardComponent from "@/components/CardComponent";
 import { fetchUserInfo } from "../api/auth.js";
@@ -85,7 +93,7 @@ export default {
         this.$store.state.userName = response.data.username;
         this.$store.state.userRealname = response.data.userRealname;
         this.$store.state.phoneNumber = response.data.phoneNumber;
-        this.$store.state.role = response.data.role;
+        // this.$store.state.role = response.data.role;
       })
       //this.$store.state.userInfo = response.data
       //this.$store.state.userInfo = response.data.phoneNumber
@@ -97,7 +105,8 @@ export default {
     },
     isPhoneNumberValid() {
       return validatePhoneNumber(this.phoneNumber); //phonenumber가 핸드폰 번호 형식이 맞는지 체크
-    }
+    },
+    ...mapState(["userName", "userRealname", "phoneNumber"])
   },
   // computed: {
   //   ...mapState([

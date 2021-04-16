@@ -27,7 +27,7 @@ public class TestProblemDto {
 	   private int proNum;
 	   
 	   @NotNull
-	   @Size(min = 8)
+	   @Size(min = 5)
 	   private String proDes;
 
 	   @NotNull

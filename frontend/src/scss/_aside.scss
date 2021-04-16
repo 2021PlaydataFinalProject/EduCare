@@ -63,7 +63,7 @@ aside.aside {
   }
 
   .menu-list {
-    li {
+    li {color: #363636 !important;
       &.is-active {
         box-shadow: 0 1px $base-color-light;
         >a {
@@ -72,6 +72,7 @@ aside.aside {
       }
 
       a {
+        color: #363636 !important;
         &.has-dropdown-icon {
           position: relative;
           padding-right: $aside-icon-width;

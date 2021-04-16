@@ -32,20 +32,16 @@
             videoname: {{ videoName }} -->
             <b-field label="시험 점수를 입력하세요. 부정행위시 0점">
               <b-field>
-                <b-numberinput
-                  expanded
-                  controls-position="compact"
-                  placeholder="0"
-                  v-model="testResult"
-                  step="5"
-                  aria-minus-label="Decrement by 5"
-                  aria-plus-label="Increment by 5"/>
+                <b-input v-model="testResult" placeholder="0"></b-input>
                 <p class="control">
                   <b-button
+                    type="is-primary"
+                    outlined
                     @click="updateStudentScore"
                     label="시험 점수 입력"
-                  /></p
-              ></b-field>
+                  />
+                </p>
+              </b-field>
             </b-field>
             <b-field grouped>
               <div class="control">
@@ -128,7 +124,7 @@ export default {
   },
   computed: {
     titleStack() {
-      return ["Instructor", "TestSupervision"];
+      return ["강사", "응시자 시험 감독"];
     },
     player() {
       return this.$refs.videoPlayer.player;

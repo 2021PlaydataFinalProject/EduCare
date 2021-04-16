@@ -101,3 +101,4 @@ class VideoCamera(object):
         self.is_record = False
         if self.recordingThread != None:
             self.recordingThread.stop()
+            

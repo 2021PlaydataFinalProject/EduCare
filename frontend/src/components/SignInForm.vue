@@ -58,12 +58,10 @@
 </template>
 <script>
 import { validateEmail } from "@/utils/validation";
-// import { signinUser } from "@/api/auth";
 import axios from "axios";
 export default {
   data() {
     return {
-      //form values
       username: "",
       password: ""
     };
@@ -86,54 +84,21 @@ export default {
           }
         })
         .then(response => {
-          alert("로그인 성공");
           console.log(response.headers.authorization);
           sessionStorage.setItem(
             "Authorization",
             response.headers.authorization
           );
-          // sessionStorage.setItem("user", JSON.stringify(response.data));
           this.$router.push({ name: "Home" });
           location.reload();
         })
         .catch(error => {
-          alert("로그인 실패");
           console.log(error);
         })
         .finally(() => {
           this.initForm();
         });
     },
-    // async submitForm() {
-    //   console.log("sub");
-    //   alert(1);
-    //   try {
-    //     // 비즈니스 로직
-    //     const userData = {
-    //       username: this.username,
-    //       password: this.password
-    //     };
-    //     const data = await signinUser(userData);
-    //     if (data.data.desturl == "admin") {
-    //       alert("관리자 admin 환영합니다.");
-    //     } else if (data.data.desturl == "waittingroom") {
-    //       alert("환영합니다!");
-    //     } else {
-    //       alert("잘못된 정보를 입력하셨거나 이미 로그인중입니다.");
-    //     }
-    //     this.$store.commit("setToken", data.data.token);
-    //     this.$store.commit("setId", data.data.memberinfo.id);
-    //     this.$session.set("userinfo", data.data.memberinfo); //브라우저 localstorage에 멤버정보 저장
-    //     this.$router.push("../" + data.data.desturl);
-    //   } catch (error) {
-    //     // 에러 핸들링할 코드
-    //     console.log(error.response.data);
-    //     this.$router.push("../Signin");
-    //     alert("로그인 중 문제가 발생했습니다.");
-    //   } finally {
-    //     this.initForm();
-    //   }
-    // },
     initForm() {
       this.username = "";
       this.password = "";
@@ -141,8 +106,3 @@ export default {
   }
 };
 </script>
-<style>
-.btn {
-  color: white;
-}
-</style>

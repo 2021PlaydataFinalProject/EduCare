@@ -242,7 +242,6 @@ import TitleBar from "@/components/TitleBar";
 import CardComponent from "@/components/CardComponent";
 import HeroBar from "@/components/HeroBar";
 import axios from "axios";
-
 export default {
   components: {
     HeroBar,
@@ -296,7 +295,6 @@ export default {
           this.test = response.data;
           console.log("확인");
           console.log(this.test);
-
           //데이터 바인딩
           this.form.endTime = this.test.endTime;
           this.form.startTime = this.test.startTime;

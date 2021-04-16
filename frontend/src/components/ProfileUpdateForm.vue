@@ -11,9 +11,14 @@
       </b-field>
       <hr />
       <b-field horizontal label="이름" message="필수 입력 사항">
-        <b-input v-model="userRealname" name="name" required />
+        <b-input
+          v-model="userRealname"
+          name="name"
+          placeholder="이름을 재입력해주세요"
+          required
+        />
       </b-field>
-      <b-field horizontal label="이메일" message="필수 입력 사항">
+      <b-field horizontal label="이메일" message="">
         <b-input v-model="userName" name="email" type="email" required />
       </b-field>
       <b-field horizontal label="번호" message="필수 입력 사항">
@@ -21,15 +26,18 @@
           v-model="phoneNumber"
           name="phonenumber"
           type="text"
+          placeholder="번호를 재입력해주세요"
           required
         />
       </b-field>
-      <b-field
-        horizontal
-        label="비밀번호"
-        message="새로운 비밀번호를 입력하세요."
-      >
-        <b-input name="password" type="password" v-model="password" required />
+      <b-field horizontal label="비밀번호" message="필수 입력 사항">
+        <b-input
+          name="password"
+          type="password"
+          v-model="password"
+          placeholder="새로운 비밀번호를 입력하세요"
+          required
+        />
       </b-field>
       <hr />
       <b-field horizontal>
@@ -47,16 +55,14 @@
     </form>
   </card-component>
 </template>
-
 <script>
-// import { mapState } from "vuex";
+import { mapState } from "vuex";
 // import FilePicker from "@/components/FilePicker";
 import CardComponent from "@/components/CardComponent";
 import { fetchUserInfo } from "../api/auth.js";
 import axios from "axios";
 import { validateEmail } from "@/utils/validation";
 import { validatePhoneNumber } from "@/utils/validation";
-
 export default {
   name: "ProfileUpdateForm",
   components: {
@@ -85,7 +91,7 @@ export default {
         this.$store.state.userName = response.data.username;
         this.$store.state.userRealname = response.data.userRealname;
         this.$store.state.phoneNumber = response.data.phoneNumber;
-        this.$store.state.role = response.data.role;
+        // this.$store.state.role = response.data.role;
       })
       //this.$store.state.userInfo = response.data
       //this.$store.state.userInfo = response.data.phoneNumber
@@ -97,7 +103,8 @@ export default {
     },
     isPhoneNumberValid() {
       return validatePhoneNumber(this.phoneNumber); //phonenumber가 핸드폰 번호 형식이 맞는지 체크
-    }
+    },
+    ...mapState(["userName", "userRealname", "phoneNumber"])
   },
   // computed: {
   //   ...mapState([
@@ -133,7 +140,7 @@ export default {
           // alert("회원 정보 수정 성공");
           this.success();
           console.log(response.data);
-          this.$router.push({ name: "Sign In" });
+          this.$router.push({ name: "Home" });
         })
         .catch(error => {
           // alert("회원 정보 수정실패");
@@ -165,7 +172,6 @@ export default {
     //     // this.test = response.data;
     //     console.log(response);
     //     this.success();
-
     //     this.getTestForm();
     //   })
     //   .catch(e => {
@@ -203,7 +209,6 @@ export default {
     //       alert("이미지 조회 실패");
     //     });
     // }
-
     // submit() {
     //   this.isLoading = true;
     //   setTimeout(() => {

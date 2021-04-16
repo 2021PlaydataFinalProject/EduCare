@@ -3,9 +3,6 @@
     <title-bar :title-stack="titleStack" />
     <hero-bar>
       시험 관리
-      <router-link slot="right" to="/profile" class="button">
-        마이 페이지
-      </router-link>
     </hero-bar>
     <section class="section is-main-section">
       <!-- <notification class="is-info">

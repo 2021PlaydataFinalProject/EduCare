@@ -57,10 +57,7 @@
                   >
                     시험 응시 하기
                   </span>
-                  <span
-                    v-else-if="props.row.testStatus == 'C'"
-                    class="tag is-success"
-                  >
+                  <span class="tag is-success">
                     시험 응시 완료
                   </span>
                 </b-field>
@@ -151,7 +148,7 @@ export default {
   methods: {
     getStudentTest() {
       axios
-        .get("http://localhost:8000/stutest/get/"+ this.userName, {
+        .get("http://localhost:8000/stutest/get/" + this.userName, {
           headers: {
             Authorization: sessionStorage.getItem("Authorization")
           }

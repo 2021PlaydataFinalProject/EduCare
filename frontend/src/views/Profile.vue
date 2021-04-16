@@ -3,9 +3,6 @@
     <title-bar :title-stack="titleStack" />
     <hero-bar>
       프로필
-      <!-- <router-link slot="right" to="/" class="button">
-        Dashboard
-      </router-link> -->
     </hero-bar>
     <section class="section is-main-section">
       <tiles>
@@ -33,7 +30,6 @@ import CardComponent from "@/components/CardComponent";
 import TitleBar from "@/components/TitleBar";
 import HeroBar from "@/components/HeroBar";
 import ProfileUpdateForm from "@/components/ProfileUpdateForm";
-// import PasswordUpdateForm from "@/components/PasswordUpdateForm";
 import Tiles from "@/components/Tiles";
 import UserAvatar from "@/components/UserAvatar";
 import { fetchUserInfo } from "../api/auth.js";
@@ -43,7 +39,6 @@ export default {
   components: {
     UserAvatar,
     Tiles,
-    // PasswordUpdateForm,
     ProfileUpdateForm,
     HeroBar,
     TitleBar,
@@ -57,7 +52,6 @@ export default {
       userRealname: this.$store.state.userRealname
     }
   }),
-  // this.userImage =
   created() {
     fetchUserInfo()
       .then(

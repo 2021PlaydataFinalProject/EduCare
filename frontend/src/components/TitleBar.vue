@@ -10,13 +10,6 @@
           </ul>
         </div>
       </div>
-      <!-- <div class="level-right">
-        <div class="level-item">
-          <div class="buttons is-right">
-            <a href="/" target="_blank" class="button is-light"> </a>
-          </div>
-        </div>
-      </div> -->
     </div>
   </section>
 </template>

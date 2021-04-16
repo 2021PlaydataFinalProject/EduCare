@@ -197,9 +197,7 @@ export default {
         )
         .then(response => {
           this.success();
-          // this.applicants = response.data;
           console.log(response);
-          // alert(this.test);
         })
         .catch(e => {
           this.danger();

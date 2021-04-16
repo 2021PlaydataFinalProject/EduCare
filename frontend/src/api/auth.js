@@ -8,7 +8,7 @@ const config = {
 };
 
 //회원 이미지 파일 가져오기
-function fetchUserImage() {
+function fetchUserInfo() {
   const username = getUserIdFromSession();
   let instance = axios.create();
   instance.defaults.headers.common["Authorization"] = sessionStorage.getItem(
@@ -49,5 +49,5 @@ export {
   memberAgreeUser,
   allClient,
   LogoutUser,
-  fetchUserImage
+  fetchUserInfo
 };

@@ -132,7 +132,7 @@ export default {
         .then(response => {
           alert("회원 정보 수정 성공");
           console.log(response.data);
-          this.$router.push({ name: "Sign In" });
+          this.$router.push({ name: "Home" });
         })
         .catch(error => {
           alert("회원 정보 수정실패");

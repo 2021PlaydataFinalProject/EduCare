@@ -39,7 +39,7 @@
                   to="/"
                   type="is-link"
                 >
-                  시험보기
+                  시험 작성 및 응시
                 </b-button>
                 <b-button
                   class="button is-light"

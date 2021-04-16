@@ -201,13 +201,29 @@ export default {
             this.testResult
         )
         .then(response => {
+          this.success();
           // this.applicants = response.data;
           console.log(response);
           // alert(this.test);
         })
         .catch(e => {
+          this.danger();
           console.log(e);
         });
+    },
+    success() {
+      this.$buefy.notification.open({
+        message: "점수가 재등록되었습니다.",
+        type: "is-success",
+        position: "is-bottom-right"
+      });
+    },
+    danger() {
+      this.$buefy.notification.open({
+        message: `점수 등록을 다시 시도해 주세요.`,
+        type: "is-danger",
+        position: "is-bottom-right"
+      });
     }
   },
   mounted() {

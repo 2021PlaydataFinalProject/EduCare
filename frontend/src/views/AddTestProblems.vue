@@ -223,13 +223,15 @@ export default {
           }
         )
         .then(Headers => {
-          alert("시험 문제 생성 성공!");
+          // alert("시험 문제 생성 성공!");
+          this.success();
           console.log(Headers); //get("Authorization")
           // sessionStorage.setItem("user", JSON.stringify(response.data));
           this.getTestProblems();
         })
         .catch(error => {
-          alert("시험 문제 생성 실패");
+          // alert("시험 문제 생성 실패");
+          this.danger();
           console.log(error);
         })
         .finally(() => {
@@ -271,11 +273,41 @@ export default {
           }
         )
         .then(() => {
+          this.delete();
           this.getTestProblems();
         })
         .catch(e => {
+          this.nodelete();
           console.log(e);
         });
+    },
+    success() {
+      this.$buefy.notification.open({
+        message: "시험이 생성되었습니다.",
+        type: "is-success",
+        position: "is-bottom-right"
+      });
+    },
+    danger() {
+      this.$buefy.notification.open({
+        message: `시험 문제 만들기에 실패하였습니다.다시 시도해 주세요.`,
+        type: "is-danger",
+        position: "is-bottom-right"
+      });
+    },
+    delete() {
+      this.$buefy.notification.open({
+        message: `성공적으로 삭제되었습니다.`,
+        type: "is-danger",
+        position: "is-bottom-right"
+      });
+    },
+    nodelete() {
+      this.$buefy.notification.open({
+        message: `삭제가 되지 않았습니다. 다시 삭제해 주세요`,
+        type: "is-danger",
+        position: "is-bottom-right"
+      });
     }
   },
   deleteTestProblems(testNum) {
@@ -290,9 +322,11 @@ export default {
         }
       )
       .then(() => {
+        this.delete();
         this.getTestProblems();
       })
       .catch(e => {
+        this.nodelete();
         console.log(e);
       });
     this.getTestProblems();

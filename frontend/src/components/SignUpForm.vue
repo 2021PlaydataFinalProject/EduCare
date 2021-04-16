@@ -77,7 +77,6 @@
   </div>
 </template>
 <script>
-// import { signupUser } from "@/api/auth";
 import { validateEmail } from "@/utils/validation";
 import { validatePhoneNumber } from "@/utils/validation";
 import axios from "axios";
@@ -120,12 +119,14 @@ export default {
           }
         })
         .then(response => {
-          alert("회원가입성공");
+          // alert("회원가입성공");
+          this.success();
           console.log(response.data);
           this.$router.push({ name: "Sign In" });
         })
         .catch(error => {
-          alert("회원가입실패");
+          // alert("회원가입실패");
+          this.danger();
           console.log(error);
         })
         .finally(() => {
@@ -183,6 +184,20 @@ export default {
     },
     handleFileUpload() {
       this.file = this.$refs.file.files[0];
+    },
+    success() {
+      this.$buefy.notification.open({
+        message: "회원가입에 성공하셨습니다.",
+        type: "is-success",
+        position: "is-bottom-right"
+      });
+    },
+    danger() {
+      this.$buefy.notification.open({
+        message: `회원 가입을 다시 시도해 주세요.`,
+        type: "is-danger",
+        position: "is-bottom-right"
+      });
     }
   }
 };

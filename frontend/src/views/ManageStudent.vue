@@ -188,11 +188,13 @@ export default {
         .then(response => {
           // this.applicants = response.data;
           console.log(response);
+          this.success();
           this.getAllApplicants();
           this.getAllStudents();
         })
         .catch(e => {
-          console.log(e);
+          this.danger();
+          this.console.log(e);
         });
     },
     deleteApplicant(userName) {
@@ -209,10 +211,12 @@ export default {
           }
         )
         .then(() => {
+          this.delete();
           this.getAllApplicants();
           this.getAllStudents();
         })
         .catch(e => {
+          this.nodelete();
           console.log(e);
         });
       this.getAllApplicants();
@@ -221,6 +225,34 @@ export default {
       return this.$router.push({
         name: "TestSupervision",
         params: { testNum: this.testNum, userName: userName }
+      });
+    },
+    success() {
+      this.$buefy.notification.open({
+        message: "학생이 등록되었습니다.",
+        type: "is-success",
+        position: "is-bottom-right"
+      });
+    },
+    danger() {
+      this.$buefy.notification.open({
+        message: `학생 등록을 다시 시도해 주세요.`,
+        type: "is-danger",
+        position: "is-bottom-right"
+      });
+    },
+    delete() {
+      this.$buefy.notification.open({
+        message: `성공적으로 삭제되었습니다.`,
+        type: "is-danger",
+        position: "is-bottom-right"
+      });
+    },
+    nodelete() {
+      this.$buefy.notification.open({
+        message: `삭제가 되지 않았습니다. 다시 삭제해 주세요`,
+        type: "is-danger",
+        position: "is-bottom-right"
       });
     }
   },

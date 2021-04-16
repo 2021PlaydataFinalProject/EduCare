@@ -183,12 +183,28 @@ export default {
           }
         )
         .then(() => {
+          this.delete();
           this.getInstructorTest();
         })
         .catch(e => {
+          this.nodelete();
           console.log(e);
         });
       this.getInstructorTest();
+    },
+    delete() {
+      this.$buefy.notification.open({
+        message: `성공적으로 삭제되었습니다.`,
+        type: "is-danger",
+        position: "is-bottom-right"
+      });
+    },
+    nodelete() {
+      this.$buefy.notification.open({
+        message: `삭제가 되지 않았습니다. 다시 삭제해 주세요`,
+        type: "is-danger",
+        position: "is-bottom-right"
+      });
     }
   },
   mounted() {

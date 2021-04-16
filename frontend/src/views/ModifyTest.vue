@@ -240,7 +240,6 @@ export default {
     TitleBar
   },
   data() {
-    const testNum = this.$route.params.testNum;
     return {
       test: "",
       problems: "",
@@ -417,7 +416,7 @@ export default {
     },
     danger() {
       this.$buefy.notification.open({
-        message: `수정 내용을 정확히 입력해주세요.`,
+        message: `수정하실 내용을 정확히 입력해주세요.`,
         type: "is-danger",
         position: "is-bottom-right"
       });

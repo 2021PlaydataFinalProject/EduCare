@@ -79,7 +79,7 @@
             ></b-input>
           </b-field>
         </b-field>
-        <b-button v-on:click="testproblemForm()">문제/보기 등록</b-button>
+        <b-button class="is-primary" v-on:click="testproblemForm()">문제/보기 등록</b-button>
         <hr />
         <hr />
         <card-component

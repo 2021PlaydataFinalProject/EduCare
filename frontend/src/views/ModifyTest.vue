@@ -219,7 +219,7 @@
         <div style="text-align: center;">
           <b-field grouped>
             <div class="control">
-              <b-button @click="updateTestProblem2()">문제 수정</b-button>
+              <b-button class="is-primary" @click="updateTestProblem2()">문제 수정</b-button>
             </div>
           </b-field>
         </div>
@@ -383,12 +383,13 @@ export default {
           }
         })
         .then(response => {
-          this.success();
+          this.update();
           // this.test = response.data;
           console.log(response);
           this.getTestProblems();
         })
         .catch(e => {
+          this.noupdate();
           console.log(e);
           this.errors.push(e);
         });

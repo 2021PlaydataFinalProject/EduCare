@@ -19,15 +19,15 @@ import lombok.Setter;
 public class TestProblemDto {
 		
 	   @NotNull
-	   @Size(min = 8, max = 50)
+	   @Size(max = 50)
 	   private long proId;
 	
 	   @NotNull
-	   @Size(min = 8, max = 20)
+	   @Size(max = 20)
 	   private int proNum;
 	   
 	   @NotNull
-	   @Size(min = 8)
+	   @Size(min = 5)
 	   private String proDes;
 
 	   @NotNull
@@ -38,7 +38,7 @@ public class TestProblemDto {
 	   @Size(min = 2, max = 100)
 	   private String proImage;
 	   
-	   @Size(min = 2, max = 50)
+	   @Size(min = 1, max = 50)
 	   private String proAnswer;
 
 }

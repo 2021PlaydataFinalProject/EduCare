@@ -18,7 +18,7 @@
           required
         />
       </b-field>
-      <b-field horizontal label="이메일" message="필수 입력 사항">
+      <b-field horizontal label="이메일" message="">
         <b-input v-model="userName" name="email" type="email" required />
       </b-field>
       <b-field horizontal label="번호" message="필수 입력 사항">

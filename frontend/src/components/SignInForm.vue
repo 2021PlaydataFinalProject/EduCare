@@ -89,8 +89,9 @@ export default {
             "Authorization",
             response.headers.authorization
           );
-          this.$router.push({ name: "Home" });
+          // this.$router.push({ name: "Home" });
           location.reload();
+          location.href = "http://localhost:8081/";
         })
         .catch(error => {
           console.log(error);

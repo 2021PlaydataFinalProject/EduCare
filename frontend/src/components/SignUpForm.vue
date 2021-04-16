@@ -67,7 +67,7 @@
             </div>
           </b-field>
           <br />
-          <b-button @click="submitForm()" class="btn btn-primary btn-sm">
+          <b-button @click="submitForm()" class="is-primary">
             회원 가입
           </b-button>
         </form>

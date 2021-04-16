@@ -26,7 +26,7 @@
             <h6 class="title is-6">부정행위 유무</h6>
             <h6 class="subtitle is-6 pb-2">isCheating: {{ isCheating }}</h6>
             <h6 class="title is-6">응시자</h6>
-            <h6 class="subtitle is-6 pb-2">{{ userRealName }}</h6>
+            <h6 class="subtitle is-6 pb-2">{{ userName }}</h6>
 
             <!-- <br />
             videoname: {{ videoName }} -->
@@ -173,6 +173,7 @@ export default {
           this.cheatTime = this.studentTest.cheatTime;
           this.isCheating = this.studentTest.isCheating;
           this.testAnswer = this.studentTest.testAnswer;
+          console.log(this.testAnswer)
           this.userRealName = this.studentTest.userRealName;
           this.videoName = this.studentTest.videoName;
         })

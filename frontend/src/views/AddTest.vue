@@ -18,14 +18,14 @@
         <b-field label="시험 시간 지정" horizontal>
           <b-field
             :label-position="labelPosition"
-            message="시험 시작 시간 지정."
+            message="시험 시작 시간 지정"
           >
             <b-datetimepicker
               rounded
               label="시험 시작 시간"
               icon="calendar-today"
               v-model="form.startTime"
-              :locale="locale"
+              :localISOdt="localISOdt"
               :datepicker="{ showWeekNumber }"
               :timepicker="{ enableSeconds, hourFormat }"
               horizontal-time-picker
@@ -41,7 +41,7 @@
               rounded
               icon="calendar-today"
               v-model="form.endTime"
-              :locale="locale"
+              :localISOdt="localISOdt"
               :datepicker="{ showWeekNumber }"
               :timepicker="{ enableSeconds, hourFormat }"
               horizontal-time-picker
@@ -74,6 +74,7 @@ import TitleBar from "@/components/TitleBar";
 import CardComponent from "@/components/CardComponent";
 import HeroBar from "@/components/HeroBar";
 import axios from "axios";
+
 export default {
   name: "AddTest",
   components: {
@@ -129,7 +130,8 @@ export default {
           }
         )
         .then(response => {
-          alert("시험 생성 성공!");
+          // alert("시험 생성 성공!");
+          this.success();
           console.log(response.data);
           this.testNum = response.data;
           this.$router.push({
@@ -138,7 +140,8 @@ export default {
           });
         })
         .catch(error => {
-          alert("시험 생성 실패");
+          // alert("시험 생성 실패");
+          this.danger();
           console.log(error);
         })
         .finally(() => {
@@ -165,27 +168,43 @@ export default {
           addtestproblemData
         )
         .then(Headers => {
-          alert("시험 문제 생성 성공!");
-          console.log(Headers); 
+          // alert("시험 문제 생성 성공!");
+          this.success();
+          console.log(Headers);
           this.$router.push({ name: "InstructorTest" });
         })
         .catch(error => {
-          alert("시험 문제 생성 실패");
+          // alert("시험 문제 생성 실패");
+          this.danger();
           console.log(error);
         })
         .finally(() => {
           this.initForm();
         });
     },
-    initForm() {
-      // this.testnum = "";
-      this.proId = "";
-      this.pronum = "";
-      this.proDes = "";
-      this.proSel = "";
-      this.proImage = "";
-      this.proAnswer = "";
+    success() {
+      this.$buefy.notification.open({
+        message: "시험 작성이 완료되었습니다.",
+        type: "is-success",
+        position: "is-bottom-right"
+      });
+    },
+    danger() {
+      this.$buefy.notification.open({
+        message: `시험 작성 내용을 정확히 입력해주세요.`,
+        type: "is-danger",
+        position: "is-bottom-right"
+      });
     }
+  },
+  initForm() {
+    // this.testnum = "";
+    this.proId = "";
+    this.pronum = "";
+    this.proDes = "";
+    this.proSel = "";
+    this.proImage = "";
+    this.proAnswer = "";
   }
 };
 </script>

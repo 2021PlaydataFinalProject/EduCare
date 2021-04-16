@@ -242,6 +242,7 @@ import TitleBar from "@/components/TitleBar";
 import CardComponent from "@/components/CardComponent";
 import HeroBar from "@/components/HeroBar";
 import axios from "axios";
+
 export default {
   components: {
     HeroBar,
@@ -425,7 +426,7 @@ export default {
     },
     danger() {
       this.$buefy.notification.open({
-        message: `수정 내용을 정확히 입력해주세요.`,
+        message: `수정하실 내용을 정확히 입력해주세요.`,
         type: "is-danger",
         position: "is-bottom-right"
       });

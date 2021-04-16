@@ -63,6 +63,7 @@ public class TestProblemController {
 	public ResponseEntity<String> updateTestProblem(TestProblemDto tProblemDto, 
 			@RequestParam(value = "file", required = false) MultipartFile mfile) {
 		Boolean check = null;
+		System.out.println(tProblemDto.getProId());
 		if (mfile != null) {
 			check = tProblemService.updateTProblem(tProblemDto, mfile);
 		} else {

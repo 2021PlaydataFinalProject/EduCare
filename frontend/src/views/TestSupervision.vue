@@ -211,7 +211,7 @@ export default {
     },
     success() {
       this.$buefy.notification.open({
-        message: "점수가 재등록되었습니다.",
+        message: "점수가 등록되었습니다.",
         type: "is-success",
         position: "is-bottom-right"
       });

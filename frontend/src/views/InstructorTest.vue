@@ -58,14 +58,6 @@
               >
                 {{ props.row.testGuide }}
               </b-table-column>
-              <b-table-column
-                field="instructorId"
-                label="담당교수명"
-                v-slot="props"
-                centered
-              >
-                {{ props.row.instructorId }}
-              </b-table-column>
               <b-table-column label="수정 및 삭제" v-slot="props" centered>
                 <b-button
                   type="is-primary is-light"
@@ -117,7 +109,6 @@ import CardComponent from "@/components/CardComponent";
 import TitleBar from "@/components/TitleBar";
 import HeroBar from "@/components/HeroBar";
 import axios from "axios";
-
 export default {
   name: "InstructorTest",
   components: {

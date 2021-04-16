@@ -86,9 +86,8 @@ export default {
           }
         })
         .then(response => {
-          // alert("로그인 성공");
-          this.success();
-          this.console.log(response.headers.authorization);
+          alert("로그인 성공");
+          console.log(response.headers.authorization);
           sessionStorage.setItem(
             "Authorization",
             response.headers.authorization
@@ -98,8 +97,7 @@ export default {
           location.reload();
         })
         .catch(error => {
-          this.danger();
-          // alert("로그인 실패");
+          alert("로그인 실패");
           console.log(error);
         })
         .finally(() => {
@@ -139,20 +137,6 @@ export default {
     initForm() {
       this.username = "";
       this.password = "";
-    },
-    success() {
-      this.$buefy.notification.open({
-        message: "로그인에 성공하였습니다.",
-        type: "is-success",
-        position: "is-bottom-right"
-      });
-    },
-    danger() {
-      this.$buefy.notification.open({
-        message: `로그인을 다시 시도해 주세요.`,
-        type: "is-danger",
-        position: "is-bottom-right"
-      });
     }
   }
 };

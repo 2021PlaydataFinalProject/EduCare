@@ -30,9 +30,6 @@
       <h1 class="title pt-3">시험보기</h1>
       <!-- Buefy components goes here -->
       <p class="has-text-right" id="timer"></p>
-      {% for element in recordtime%}
-        <p>{{element}}</p>
-      {% endfor %}
       <div class="tile is-ancestor">
       <div class="tile is-4 is-vertical is-parent">
         <div class="tile is-child box">
@@ -69,46 +66,30 @@
           <p>< 문제 {{element[0]}}번 ></p>
           <p>{{element[1]}}</p>
           <br>
-          <b-field>
-            <b-radio name="tests" v-model="form.radio"
-                native-value="1">
-          {{element[2][0:]}}
+          <div class ="block">
+            <b-field>
+              <b-radio name="{{element[0]}}+'-1'" v-model="form.testAnswer[{{element[0]}}-1]" native-value="1">
+            {{element[2][0:]}}
+            </b-radio>
+            </b-field>
+            <b-field>
+              <b-radio name="{{element[0]}}+'-2'" v-model="form.testAnswer[{{element[0]}}-1]" native-value="2">
+            {{element[3][0:]}}
           </b-radio>
           </b-field>
           <b-field>
-          <b-radio name="tests" v-model="form.radio"
-              native-value="2">
-          {{element[3][0:]}}
-        </b-radio>
-        </b-field>
-        <b-field>
-          <b-radio name="tests" v-model="form.radio"
-              native-value="3">
-          {{element[4][0:]}}
-        </b-radio>
-        </b-field>
-        <b-field>
-          <b-radio name="tests" v-model="form.radio"
-              native-value="4">
-          {{element[5][0:]}}
-        </b-radio>
-        </b-field>
-        <!-- name="tests[${i.index}]" -->
-        <!-- for(int i = 0; i<tests.size(); i++){
-          test.set(tests.get(i));
-        } -->
-
-        {% endfor %}
-        <!-- <b-field>
-          <b-radio v-model="form.radio1"
-              native-value="①">
-              {{ data_list[0][2] }}
+            <b-radio name="{{element[0]}}+'-3'" v-model="form.testAnswer[{{element[0]}}-1]" native-value="3">
+            {{element[4][0:]}}
           </b-radio>
-      </b-field> -->
-          <!-- {{ data_list }}  -->
-          <br>
-          <!-- {{ data_list[0][0] }} 
-          {{ data_list[0][1] }}  -->
+          </b-field>
+          <b-field>
+            <b-radio name="{{element[0]}}+'-4'" v-model="form.testAnswer[{{element[0]}}-1]" native-value="4">
+            {{element[5][0:]}}
+          </b-radio>
+        </b-field>
+          </div>
+           
+        {% endfor %}
           <br>
 
         
@@ -157,28 +138,19 @@
     methods: {
       handleFileUpload() {
         this.file = this.$refs.file.files[0];
-        console.log(this.$refs.file.files[0]);
-        console.log(this.$refs.file.files);
-        console.log(this.$refs.file);
-        console.log(this.$refs);
         //tempfile = new FileReader();
         //tempfile = tempfile.readAsArrayBuffer();
         //this.file = tempfile;
       },
       submit() {
         let formData = new FormData();
-        formData.append("answer1", this.radio1);
-        formData.append("answer2", this.radio2);
-        formData.append("answer3", this.radio3);
-        formData.append("answer4", this.radio4);
+        formData.append("username", this.form.username);
+        formData.append("testAnswer", this.form.testAnswer);
+        formData.append("testStatus", this.form.testStatus);
+        formData.append("testNum", this.form.testNum);
         formData.append("file", this.file);
 
-        // testAnswer = []
-        // alert(JSON.stringify(this.file))
-        console.log(formData)
-        console.log(this.file)
-        // this.form.append("mfile",this.file)
-        axios.post("http://localhost:8000/stutest/update-mytest",  formData, {
+        axios.put("http://localhost:8000/stutest/update-mytest",  formData, {
 
           headers: {
             "Content-Type": `multipart/form-data`,

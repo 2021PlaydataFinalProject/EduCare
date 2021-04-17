@@ -117,6 +117,9 @@
       </div> 
     </div>
   <script>
+// import { getCookie } from "../utils/cookies";
+
+
     var startTime = '{{start_time}}';
     var endTime = '{{end_time}}';
     var countDownDate = new Date(endTime).getTime();
@@ -141,9 +144,12 @@
     }, 1000);
 
   const vueApp = new Vue({
+    
     el: '#app',
     //axios 들어가기 form data post로 보내고, get으로 문제 출력하고, 영상 파일에 관련된거 입력하고
     //spring boot post json key-> answer, 문제, 
+    
+    
     data: { 
       form: {
         username : '{{user_name}}',
@@ -156,6 +162,7 @@
     },
     methods: {
       handleFileUpload() {
+        alert(document.cookie)
         this.file = this.$refs.file.files[0];
         console.log(this.$refs.file.files[0]);
         console.log(this.$refs.file.files);
@@ -166,6 +173,10 @@
         //this.file = tempfile;
       },
       submit() {
+        // 쿠키에서 Authorization (Bearer eyJjb20iOi...) 가져오기 
+        const Authorization = document.cookie.replace(/(?:(?:^|.*;\s*)Authorization\s*=\s*([^;]*).*$)|^.*$/,"$1");
+
+        // alert(Authorization)
         let formData = new FormData();
         console.log(this.form.username)
         formData.append("username", this.form.username);

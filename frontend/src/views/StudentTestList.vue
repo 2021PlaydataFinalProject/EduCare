@@ -50,7 +50,7 @@
                   >
                     시험 응시 하기
                   </span>
-                  <span class="tag is-success">
+                  <span v-else class="tag is-success">
                     시험 응시 완료
                   </span>
                 </b-field>

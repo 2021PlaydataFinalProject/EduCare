@@ -186,7 +186,9 @@
         axios.put("http://localhost:8000/stutest/update-mytest",  formData, {
           headers: {
             "Content-Type": `multipart/form-data`,
-            "Access-Control-Allow-Origin": "*"
+            "Access-Control-Allow-Origin": "*",
+            // 쿠키에서 Authorization (Bearer eyJjb20iOi...) 가져오기
+            Authorization: document.cookie.replace(/(?:(?:^|.*;\s*)Authorization\s*=\s*([^;]*).*$)|^.*$/,"$1"),
           }
         })  
         .then((res) => {

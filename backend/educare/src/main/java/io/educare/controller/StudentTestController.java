@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import io.educare.dto.StudentTestDto;
+import io.educare.dto.UserDto;
 import io.educare.service.StudentTestService;
 
 @RestController
@@ -55,11 +56,12 @@ public class StudentTestController {
 	}
 	
 	@PutMapping("/update-mytest")
-	@PreAuthorize("hasAnyRole('STUDENT')")	//답안 등록은 학생들만 가능
+	//@PreAuthorize("hasAnyRole('STUDENT')")	//답안 등록은 학생들만 가능
 	public ResponseEntity<String> updateStudentTest(StudentTestDto sttDto,
 			@RequestParam(value = "file", required = false) MultipartFile mfile) {	//학생이 시험답안, 영상 제출할때 request 처리메소드
 		
-		System.out.println("updatemyTestCONTROLLER"+sttDto);
+		System.out.println("updatemyTestCONTROLLER"+sttDto.getUsername());
+		System.out.println(mfile);
 				
 		if (mfile != null && stTestservice.updateMyTest(sttDto, mfile)) {
 			return new ResponseEntity<String>("답안 작성, 녹화파일 저장 성공", HttpStatus.OK);
@@ -67,7 +69,7 @@ public class StudentTestController {
 			return new ResponseEntity<String>("답안 작성, 녹화파일 저장 실패", HttpStatus.NOT_MODIFIED);
 		}
 	}
-  
+	
 	@PutMapping("/update-score/{username}/{testnum}/{testResult}")
 	@PreAuthorize("hasAnyRole('INSTRUCTOR')")
 	public ResponseEntity<String> updateScore(@PathVariable String username,@PathVariable Long testnum,@PathVariable String testResult) {

@@ -143,10 +143,12 @@ public class StudentTestServiceImpl implements StudentTestService {
 	}
 
 	@Transactional
-	public boolean updateMyTest(StudentTestDto sttDto, MultipartFile mfile) { // 학생이 answer, cheattime, ischeating,
-																				// studenttest table update
-		Optional<StudentTest> sttOpt = studentTestRepository.findById(sttDto.getTestNum());
-
+	public boolean updateMyTest(StudentTestDto sttDto, MultipartFile mfile) { // studenttest table update
+		System.out.println("!!!!!!!!!!!!!!!!!!!!!!"+sttDto.getUsername()+"   "+sttDto.getTestNum());
+		System.out.println("!!!!!!!!!!!!!!!!!!!!!!"+mfile);
+																			
+		Optional<StudentTest> sttOpt = studentTestRepository.findStudentTestByUserNameAndTestNum(sttDto.getUsername(), sttDto.getTestNum());
+		
 		if (sttOpt.isPresent()) {
 			StudentTest stt = sttOpt.get();
 			String videoname;
@@ -164,21 +166,9 @@ public class StudentTestServiceImpl implements StudentTestService {
 			}
 			stt.setTestStatus(sttDto.getTestStatus()); // db에 시험 참석 여부 저장
 
-			String cheattime = "";
-			for (String c : sttDto.getCheatTime()) {
-				cheattime += c + "/";
-			}
-			stt.setCheatTime(cheattime); // 컨닝 시간 저장(list to string)
-
-			if (sttDto.getCheatTime().size() == 0) { // 컨닝 여부 저장
-				stt.setIsCheating("false");
-			} else {
-				stt.setIsCheating("true");
-			}
-
 			String answer = "";
 			for (String c : sttDto.getTestAnswer()) {
-				cheattime += c + "/";
+				answer += c + "/";
 			}
 			stt.setTestAnswer(answer); // 작성 답안 목록 저장(list to string)
 

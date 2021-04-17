@@ -55,7 +55,7 @@ public class StudentTestController {
 	}
 	
 	@PutMapping("/update-mytest")
-	@PreAuthorize("hasAnyRole('STUDENT')")	//답안 등록은 학생들만 가능
+	//@PreAuthorize("hasAnyRole('STUDENT')")	//답안 등록은 학생들만 가능
 	public ResponseEntity<String> updateStudentTest(StudentTestDto sttDto,
 			@RequestParam(value = "file", required = false) MultipartFile mfile) {	//학생이 시험답안, 영상 제출할때 request 처리메소드
 		

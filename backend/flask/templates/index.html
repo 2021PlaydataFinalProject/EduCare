@@ -70,25 +70,25 @@
           <p>{{element[1]}}</p>
           <br>
           <b-field>
-            <b-radio name="tests" v-model="form.radio"
+            <b-radio name="tests[${i.index}]" v-model="form.radio"
                 native-value="1">
           {{element[2][0:]}}
           </b-radio>
           </b-field>
           <b-field>
-          <b-radio name="tests" v-model="form.radio"
+          <b-radio name="tests[${i.index}]" v-model="form.radio"
               native-value="2">
           {{element[3][0:]}}
         </b-radio>
         </b-field>
         <b-field>
-          <b-radio name="tests" v-model="form.radio"
+          <b-radio name="tests[${i.index}]" v-model="form.radio"
               native-value="3">
           {{element[4][0:]}}
         </b-radio>
         </b-field>
         <b-field>
-          <b-radio name="tests" v-model="form.radio"
+          <b-radio name="tests[${i.index}]" v-model="form.radio"
               native-value="4">
           {{element[5][0:]}}
         </b-radio>
@@ -97,7 +97,6 @@
         <!-- for(int i = 0; i<tests.size(); i++){
           test.set(tests.get(i));
         } -->
-
         {% endfor %}
         <!-- <b-field>
           <b-radio v-model="form.radio1"
@@ -137,6 +136,7 @@
       if (distance < 0) {
         clearInterval(x);
         document.getElementById("timer").innerHTML = "EXPIRED";
+        location.href = "http://localhost:8081/completetest"
       }
     }, 1000);
 
@@ -167,19 +167,12 @@
       },
       submit() {
         let formData = new FormData();
-        formData.append("answer1", this.radio1);
-        formData.append("answer2", this.radio2);
-        formData.append("answer3", this.radio3);
-        formData.append("answer4", this.radio4);
+        console.log(this.form.username)
+        formData.append("username", this.form.username);
+        formData.append("testNum", this.radio2);
+        formData.append("testStatus", this.radio3);
         formData.append("file", this.file);
-
-        // testAnswer = []
-        // alert(JSON.stringify(this.file))
-        console.log(formData)
-        console.log(this.file)
-        // this.form.append("mfile",this.file)
-        axios.post("http://localhost:8000/stutest/update-mytest",  formData, {
-
+        axios.put("http://localhost:8000/stutest/update-mytest",  formData, {
           headers: {
             "Content-Type": `multipart/form-data`,
             "Access-Control-Allow-Origin": "*"
@@ -188,6 +181,7 @@
         .then((res) => {
           alert("답안,영상,부정행위 시간 보내기 성공")
           console.log(res);
+          location.href = `http://localhost:8081/completetest`
         })
         .catch(error => {
           alert("답안,영상,부정행위 시간 보내기 실패");

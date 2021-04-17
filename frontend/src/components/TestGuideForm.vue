@@ -60,6 +60,7 @@
 </template>
 <script>
 import axios from "axios";
+import { setCookie } from "../utils/cookies";
 
 export default {
   data: function() {
@@ -92,7 +93,8 @@ export default {
     },
     // flask로 username과 testnum 정보를 전송
     sendInfo() {
-      location.href = `http://127.0.0.1:5000/${this.userName}/${this.testNum}`;
+      setCookie("Authorization", sessionStorage.getItem("Authorization"), 1);
+      location.href = `http://localhost:5000/${this.userName}/${this.testNum}`;
     }
   },
   mounted() {

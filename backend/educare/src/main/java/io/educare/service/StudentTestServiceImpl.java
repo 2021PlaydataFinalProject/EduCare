@@ -154,7 +154,7 @@ public class StudentTestServiceImpl implements StudentTestService {
 			String videoname;
 
 			try {
-				videoname = sttDto.getTestNum() + "video.avi";
+				videoname = sttDto.getTestNum() +"_" + sttDto.getUsername() +"_" + "video.avi";
 				mfile.transferTo(
 						new File(System.getProperty("user.dir") + "\\src\\main\\webapp\\tproblemvideo\\" + videoname));
 				logger.info("{}번 문제 녹화파일 등록 성공", sttDto.getTestNum());

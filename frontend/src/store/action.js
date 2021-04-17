@@ -1,8 +1,8 @@
-import { fetchUserImage } from "../api/auth.js";
+import { fetchUserInfo } from "../api/auth.js";
 
 export default {
   FETCH_IMAGE({ commit }) {
-    fetchUserImage()
+    fetchUserInfo()
       .then(({ data }) => commit("FETCH_IMAGE", data))
       .catch(error => console.log(error));
   }

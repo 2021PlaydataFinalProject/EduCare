@@ -129,7 +129,6 @@ export default {
           }
         )
         .then(response => {
-          // alert("시험 생성 성공!");
           this.success();
           console.log(response.data);
           this.testNum = response.data;
@@ -139,7 +138,6 @@ export default {
           });
         })
         .catch(error => {
-          // alert("시험 생성 실패");
           this.danger();
           console.log(error);
         })
@@ -149,7 +147,6 @@ export default {
     },
     testproblemForm() {
       const addtestproblemData = {
-        // testnum: this.testnum,
         proId: this.proId,
         proNum: this.proNum,
         proDes: this.proDes,
@@ -167,13 +164,11 @@ export default {
           addtestproblemData
         )
         .then(Headers => {
-          // alert("시험 문제 생성 성공!");
           this.success();
           console.log(Headers);
           this.$router.push({ name: "InstructorTest" });
         })
         .catch(error => {
-          // alert("시험 문제 생성 실패");
           this.danger();
           console.log(error);
         })
@@ -197,7 +192,6 @@ export default {
     }
   },
   initForm() {
-    // this.testnum = "";
     this.proId = "";
     this.pronum = "";
     this.proDes = "";

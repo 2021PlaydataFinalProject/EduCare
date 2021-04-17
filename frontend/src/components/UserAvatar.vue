@@ -8,7 +8,7 @@
 import { mapState } from "vuex";
 import axios from "axios";
 import { getUserIdFromSession } from "../utils/session";
-import { fetchUserImage } from "../api/auth.js";
+import { fetchUserInfo } from "../api/auth.js";
 
 export default {
   name: "UserAvatar",
@@ -27,7 +27,7 @@ export default {
   }),
   // this.userImage =
   created() {
-    fetchUserImage()
+    fetchUserInfo()
       .then(response => (this.$store.state.userImage = response.data.userImage))
       .catch();
   },
@@ -40,8 +40,6 @@ export default {
       if (this.userAvatar) {
         return this.userAvatar;
       }
-
-      // let name = "somename";
       if (this.userName) {
         // 로그인 했을 경우../../
         return `http://localhost:8000/userimg/${this.userImage}`;
@@ -49,18 +47,10 @@ export default {
         // 로그인 안했을 경우
         return `http://localhost:8000/userimg/default.png`;
       }
-      // if (this.userName) {
-      //   name = this.userName.replace(/[^a-z0-9]+/i, "");
-      // }
-      // https://avatars.dicebear.com/v2/human/${name}.svg?options[mood][]=happy
     },
     ...mapState(["userAvatar", "userName", "userRole", "imgURL", "userImage"])
   },
   methods: {
-    // 유저 부분
-    // http://localhost:8000/userimg/default.png
-    // http://localhost:8000/user/myinfo
-    // `http://localhost:8000/userimg/${userImage}`
     fetch_Image() {
       const username = getUserIdFromSession();
       axios

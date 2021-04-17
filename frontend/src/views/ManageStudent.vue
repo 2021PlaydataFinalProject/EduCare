@@ -39,7 +39,7 @@
               </b-table-column>
               <b-table-column label="감독" v-slot="props" centered>
                 <b-button
-                  type="is-primary is-light"
+                  type="is-primary"
                   outlined
                   v-on:click="manageStudentVideo(props.row.username)"
                   position="is-centered"
@@ -49,7 +49,7 @@
               </b-table-column>
               <b-table-column label="삭제" v-slot="props" centered>
                 <b-button
-                  type="is-primary is-light"
+                  type="is-danger"
                   outlined
                   v-on:click="deleteApplicant(props.row.username)"
                   position="is-centered"
@@ -94,7 +94,7 @@
 
           <b-table-column label="추가" v-slot="props" centered>
             <b-button
-              type="is-primary is-light"
+              type="is-primary"
               outlined
               v-on:click="addStudent(props.row.username)"
               position="is-centered"
@@ -138,7 +138,7 @@ export default {
     }
   },
   methods: {
-    //특정 시험에 할당된 응시자 검색 로직으로 변경 필요
+    //특정 시험에 할당된 응시자 검색 로직
     getAllApplicants() {
       axios
         .get("http://localhost:8000/stutest/getstu/" + this.testNum, {
@@ -150,7 +150,6 @@ export default {
           this.applicants = response.data;
           console.log("응시자 확인");
           console.log(this.applicants);
-          // alert(this.test);
         })
         .catch(e => {
           console.log(e);
@@ -167,7 +166,6 @@ export default {
           this.students = response.data;
           console.log("총학생 확인");
           console.log(this.students);
-          // alert(this.test);
         })
         .catch(e => {
           console.log(e);
@@ -186,7 +184,6 @@ export default {
             this.testNum
         )
         .then(response => {
-          // this.applicants = response.data;
           console.log(response);
           this.success();
           this.getAllApplicants();

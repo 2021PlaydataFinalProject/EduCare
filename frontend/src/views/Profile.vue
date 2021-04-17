@@ -3,9 +3,6 @@
     <title-bar :title-stack="titleStack" />
     <hero-bar>
       프로필
-      <!-- <router-link slot="right" to="/" class="button">
-        Dashboard
-      </router-link> -->
     </hero-bar>
     <section class="section is-main-section">
       <tiles>
@@ -14,7 +11,7 @@
           <user-avatar class="image has-max-width is-aligned-center" />
           <hr />
           <b-field label="이름">
-            <b-input custom-class="is-static" readonly />
+            <b-input :value="userRealname" custom-class="is-static" readonly />
           </b-field>
           <hr />
           <b-field label="이메일">
@@ -33,26 +30,42 @@ import CardComponent from "@/components/CardComponent";
 import TitleBar from "@/components/TitleBar";
 import HeroBar from "@/components/HeroBar";
 import ProfileUpdateForm from "@/components/ProfileUpdateForm";
-import PasswordUpdateForm from "@/components/PasswordUpdateForm";
 import Tiles from "@/components/Tiles";
 import UserAvatar from "@/components/UserAvatar";
+import { fetchUserInfo } from "../api/auth.js";
 
 export default {
   name: "Profile",
   components: {
     UserAvatar,
     Tiles,
-    PasswordUpdateForm,
     ProfileUpdateForm,
     HeroBar,
     TitleBar,
     CardComponent
   },
+  data: () => ({
+    loginUser: {
+      userName: this.$store.state.userName,
+      userRole: this.$store.state.userRole,
+      userImage: this.$store.state.userImage,
+      userRealname: this.$store.state.userRealname
+    }
+  }),
+  created() {
+    fetchUserInfo()
+      .then(
+        response =>
+          (this.$store.state.userRealname = response.data.userRealname)
+      )
+      //
+      .catch();
+  },
   computed: {
     titleStack() {
       return ["마이페이지"];
     },
-    ...mapState(["userName", "userEmail"])
+    ...mapState(["userName", "userEmail", "userRealname"])
   }
 };
 </script>

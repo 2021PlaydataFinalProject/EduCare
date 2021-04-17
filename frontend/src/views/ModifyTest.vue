@@ -49,7 +49,6 @@
             </b-datetimepicker>
           </b-field>
         </b-field>
-        <!-- {{ form.startTime }} - {{ form.endTime }} -->
         <b-field
           label="시험 유의사항"
           message="당신의 시험 유의사항을 255자 이내로 작성하세요."
@@ -63,7 +62,9 @@
             required
           />
         </b-field>
-        <b-button @click="updateTestForm()">시험 수정</b-button>
+        <b-button class="is-primary" @click="updateTestForm()"
+          >시험 수정</b-button
+        >
       </card-component>
       <br />
       <br />
@@ -115,22 +116,22 @@
             <b-table-column label="답" field="보기 4번" v-slot="props">
               {{ props.row.proAnswer }}
             </b-table-column>
-            <b-table-column label="삭제 및 수정" v-slot="props" centered>
+            <b-table-column label="수정 및 삭제" v-slot="props" centered>
               <b-button
-                type="is-danger is-light"
-                outlined
-                v-on:click="deleteTestProblems(props.row.proId)"
-                position="is-centered"
-                size="is-small"
-                >삭제</b-button
-              >
-              <b-button
-                type="is-success is-light"
+                type="is-success"
                 outlined
                 v-on:click="updateTestProblems(props.row.proId)"
                 position="is-centered"
                 size="is-small"
                 >수정</b-button
+              >
+              <b-button
+                type="is-danger"
+                outlined
+                v-on:click="deleteTestProblems(props.row.proId)"
+                position="is-centered"
+                size="is-small"
+                >삭제</b-button
               >
             </b-table-column>
           </b-table>
@@ -242,7 +243,6 @@ import TitleBar from "@/components/TitleBar";
 import CardComponent from "@/components/CardComponent";
 import HeroBar from "@/components/HeroBar";
 import axios from "axios";
-
 export default {
   components: {
     HeroBar,
@@ -296,7 +296,6 @@ export default {
           this.test = response.data;
           console.log("확인");
           console.log(this.test);
-
           //데이터 바인딩
           this.form.endTime = this.test.endTime;
           this.form.startTime = this.test.startTime;
@@ -341,11 +340,11 @@ export default {
         .then(response => {
           // this.test = response.data;
           console.log(response);
-          this.success();
+          this.update();
           this.getTestForm();
         })
         .catch(e => {
-          this.danger();
+          this.noupdate();
           console.log(e);
           this.errors.push(e);
         });
@@ -416,16 +415,30 @@ export default {
           console.log(e);
         });
     },
-    success() {
+    update() {
       this.$buefy.notification.open({
         message: "수정이 완료되었습니다.",
         type: "is-success",
         position: "is-bottom-right"
       });
     },
+    noupdate() {
+      this.$buefy.notification.open({
+        message: "수정 실패",
+        type: "is-success",
+        position: "is-bottom-right"
+      });
+    },
+    success() {
+      this.$buefy.notification.open({
+        message: "삭제가 완료되었습니다.",
+        type: "is-success",
+        position: "is-bottom-right"
+      });
+    },
     danger() {
       this.$buefy.notification.open({
-        message: `수정하실 내용을 정확히 입력해주세요.`,
+        message: `삭제 실패.`,
         type: "is-danger",
         position: "is-bottom-right"
       });

@@ -7,11 +7,6 @@
       >
         <b-icon :icon="menuToggleMobileIcon" />
       </a>
-      <div class="navbar-item has-control no-left-space-touch">
-        <div class="control">
-          <input class="input" placeholder="Search everywhere..." />
-        </div>
-      </div>
     </div>
     <div class="navbar-brand is-right">
       <a
@@ -128,8 +123,9 @@ export default {
         .then(() => {
           this.success();
           sessionStorage.removeItem("Authorization");
-          this.$router.push({ name: "Home" });
+          // this.$router.push({ name: "Home" });
           location.reload();
+          location.href = "http://localhost:8081/";
         })
         .catch(error => {
           this.danger();
@@ -154,7 +150,7 @@ export default {
 };
 </script>
 <style scoped>
-a#custom{
-  color:#00B274 !important;
+a#custom {
+  color: #00b274 !important;
 }
 </style>

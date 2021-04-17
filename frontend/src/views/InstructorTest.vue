@@ -3,18 +3,8 @@
     <title-bar :title-stack="titleStack" />
     <hero-bar>
       시험 관리
-      <router-link slot="right" to="/profile" class="button">
-        마이 페이지
-      </router-link>
     </hero-bar>
     <section class="section is-main-section">
-      <!-- <notification class="is-info">
-        <div>
-          <b-icon icon="buffer" custom-size="default" />
-          <b>Sorted and paginated table.</b>&nbsp;Based on Buefy's table.
-        </div>
-      </notification> -->
-
       <card-component
         class="has-table has-mobile-sort-spaced"
         title="시험"
@@ -143,7 +133,6 @@ export default {
         .then(response => {
           this.test = response.data;
           console.log(this.test);
-          // alert(this.test);
         })
         .catch(e => {
           console.log(e);

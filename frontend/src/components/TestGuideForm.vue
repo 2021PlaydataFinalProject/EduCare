@@ -4,14 +4,14 @@
       <div class="container is-max-desktop">
         <b-message
           title="시험 주의사항"
-          type="is-info"
+          type="is-success"
           has-icon
           aria-close-label="Close message"
         >
           {{ this.test.testGuide }}
         </b-message>
         <b-notification
-          type="is-info is-light"
+          type="is-success is-light"
           aria-close-label="Close notification"
         >
           <b>
@@ -20,7 +20,7 @@
           >
         </b-notification>
         <b-notification
-          type="is-info is-light"
+          type="is-success is-light"
           aria-close-label="Close notification"
         >
           <b>
@@ -29,7 +29,7 @@
           >
         </b-notification>
         <b-notification
-          type="is-info is-light"
+          type="is-success is-light"
           aria-close-label="Close notification"
         >
           <b>
@@ -40,7 +40,7 @@
         </b-notification>
 
         <b-notification
-          type="is-info is-light"
+          type="is-success is-light"
           aria-close-label="Close notification"
         >
           <b
@@ -50,11 +50,7 @@
         </b-notification>
         <center>
           <!-- 이 시험시작 버튼은 flask 화면 단으로 이동해야 함 -->
-          <b-button
-            class="btn btn-primary btn-sm"
-            size="is-large"
-            @click="sendInfo()"
-          >
+          <b-button class="is-primary" size="is-large" @click="sendInfo()">
             시험 시작
           </b-button>
         </center>

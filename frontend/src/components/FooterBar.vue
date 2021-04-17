@@ -10,13 +10,6 @@
             </div>
           </div>
         </div>
-        <!-- <div class="level-right">
-          <div class="level-item">
-            <div class="logo">
-              <a href="https://justboil.me"> </a>
-            </div>
-          </div>
-        </div> -->
       </div>
     </div>
   </footer>

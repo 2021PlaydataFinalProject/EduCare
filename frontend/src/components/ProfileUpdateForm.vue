@@ -6,10 +6,10 @@
       </b-field>
       <hr />
       <b-field horizontal label="이름" message="필수 입력 사항">
-        <b-input v-model="form.name" name="name" required />
+        <b-input name="name" required />
       </b-field>
       <b-field horizontal label="이메일" message="필수 입력 사항">
-        <b-input v-model="form.email" name="email" type="email" required />
+        <b-input v-model="form.name" name="email" type="email" required />
       </b-field>
       <hr />
       <b-field horizontal>
@@ -53,7 +53,6 @@ export default {
   },
   mounted() {
     this.form.name = this.userName;
-    this.form.email = this.userEmail;
   },
   methods: {
     submit() {

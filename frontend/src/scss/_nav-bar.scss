@@ -1,7 +1,7 @@
 nav.navbar {
   box-shadow: $navbar-box-shadow;
 
-  .navbar-item {
+  .navbar-item { 
     &.has-user-avatar {
       .is-user-avatar {
         margin-right: $default-padding * .5;

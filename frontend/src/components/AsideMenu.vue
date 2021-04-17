@@ -1,8 +1,7 @@
 <template>
   <aside v-show="isAsideVisible" class="aside is-placed-left is-expanded">
     <aside-tools :is-main-menu="true">
-      <!-- 로고및 타이틀 -->
-      <span slot="label"> <a href="/">EDUCARE</a></span>
+      <span slot="label"> <a id="custom" href="/"> EDUCARE</a></span>
     </aside-tools>
     <div class="menu is-menu-main">
       <template v-for="(menuGroup, index) in menu">
@@ -44,3 +43,11 @@ export default {
   }
 };
 </script>
+<style scoped>
+a#custom {
+  color: #00b274 !important;
+}
+a:hover#custom {
+  color: #00b274 !important;
+}
+</style>

@@ -34,25 +34,33 @@
               </b-table-column>
 
               <b-table-column
-                field="testName"
-                label="시험명"
+                field="endTime"
+                label="종료 시간"
                 v-slot="props"
                 centered
               >
-                {{ props.row.testName }}
+                {{ props.row.endTime }}
               </b-table-column>
 
               <b-table-column
-                field="userName"
-                label="학생 이름"
+                field="startTime"
+                label="시작 시간"
                 v-slot="props"
                 centered
               >
-                {{ props.row.userName }}
+                {{ props.row.startTime }}
+              </b-table-column>
+              <b-table-column
+                field="testGuide"
+                label="시험 유의사항"
+                v-slot="props"
+                centered
+              >
+                {{ props.row.testGuide }}
               </b-table-column>
               <b-table-column label="수정 및 삭제" v-slot="props" centered>
                 <b-button
-                  type="is-primary is-light"
+                  type="is-primary"
                   outlined
                   v-on:click="updateInstructorTest(props.row.testNum)"
                   position="is-centered"
@@ -60,7 +68,7 @@
                   >수정</b-button
                 >
                 <b-button
-                  type="is-danger is-light"
+                  type="is-danger"
                   outlined
                   v-on:click="deleteInstructorTest(props.row.testNum)"
                   position="is-centered"
@@ -70,7 +78,7 @@
               </b-table-column>
               <b-table-column label="응시자 관리" v-slot="props" centered>
                 <b-button
-                  type="is-primary is-light"
+                  type="is-primary"
                   outlined
                   v-on:click="manageStudentList(props.row.testNum)"
                   position="is-centered"
@@ -80,13 +88,15 @@
               </b-table-column>
             </b-table>
           </section>
-          <b-button
-            tag="router-link"
-            to="/addtest"
-            type="is-link"
-            class="button is-primary is-pulled-right"
-            >시험생성</b-button
-          >
+          <div class="mt-2 pb-4 mb-6">
+            <b-button
+              tag="router-link"
+              to="/addtest"
+              type="is-link"
+              class="button is-primary is-pulled-right"
+              >시험생성</b-button
+            >
+          </div>
         </div>
       </card-component>
 
@@ -96,6 +106,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import CardComponent from "@/components/CardComponent";
 import TitleBar from "@/components/TitleBar";
 import HeroBar from "@/components/HeroBar";
@@ -110,18 +121,21 @@ export default {
   },
   data: function() {
     return {
+      userName: this.$store.state.userName,
+      userRole: this.$store.state.userRole,
       test: ""
     };
   },
   computed: {
     titleStack() {
-      return ["Instructor", "InstructorTest"];
-    }
+      return ["강사", "시험 목록 관리"];
+    },
+    ...mapState(["userName", "userRole"])
   },
   methods: {
     getInstructorTest() {
       axios
-        .get("http://localhost:8000/test/get?username=teacher", {
+        .get("http://localhost:8000/test/get?username=" + this.userName, {
           headers: {
             Authorization: sessionStorage.getItem("Authorization")
           }
@@ -152,7 +166,9 @@ export default {
     deleteInstructorTest(testNum) {
       axios
         .delete(
-          "http://localhost:8000/test/delete?username=java@educare.com&testnum=" +
+          "http://localhost:8000/test/delete?username=" +
+            this.userName +
+            "&testnum=" +
             testNum,
           {
             headers: {
@@ -161,12 +177,28 @@ export default {
           }
         )
         .then(() => {
+          this.delete();
           this.getInstructorTest();
         })
         .catch(e => {
+          this.nodelete();
           console.log(e);
         });
       this.getInstructorTest();
+    },
+    delete() {
+      this.$buefy.notification.open({
+        message: `성공적으로 삭제되었습니다.`,
+        type: "is-danger",
+        position: "is-bottom-right"
+      });
+    },
+    nodelete() {
+      this.$buefy.notification.open({
+        message: `삭제가 되지 않았습니다. 다시 삭제해 주세요`,
+        type: "is-danger",
+        position: "is-bottom-right"
+      });
     }
   },
   mounted() {

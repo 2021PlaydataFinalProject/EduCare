@@ -1,4 +1,4 @@
-# 온라인 학습 케어 서비스(Educare) Project
+# 온라인 학습 케어 서비스(Educare) 
 
 ![화면 캡처 2021-04-18 103438](https://user-images.githubusercontent.com/73863771/115131262-bb3b4f00-a031-11eb-924b-6b95ba440eec.png)
 

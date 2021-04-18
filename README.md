@@ -98,7 +98,7 @@
 - 비디오 녹화 기능, 부정행위 탐지 시간 설정 및 출력 기능 등 
 
 
-**이슈 점검**
+**:alarm_clock:이슈 점검**
 - 이슈 1  : 
 내용 : 
 MYSQL DB driver , dataSource 문제

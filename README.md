@@ -51,6 +51,7 @@
 **:computer:데이터베이스 및 프로그램 설계**
 
 - 데이터베이스(DB) 설계
+
 ![EDUCARE_ERD Diagram](https://user-images.githubusercontent.com/37354978/115132155-aa420c00-a038-11eb-8119-ef57b0bb9b28.JPG)
 
 **:bar_chart:test 테이블**<br>

@@ -77,13 +77,13 @@
 - 시험 관리 페이지에서 학생이 부정행위를 했다면 학생이 영상을 업로드하고 제출했었던 해당 영상을 볼 수 있으며, DB에 저장된 부정행위 시간 및 부정행위 여부에 관한 정보를 웹 페이지에서 확인이 가능하도록 합니다.
 
 
-**구현/코딩** <br>
-**BACKEND**
+**:computer:구현/코딩** <br>
+**:computer:BACKEND**
 - Spring Security, JWT 이용한 인증&인가&보안, CRUD 등
 - 로그인시 발급된 JWT 토큰을 Header에 담아 Vue에 전송, JWT 토큰이 없거나 위조 되었을 경우 서비스 이용 불가
 - DB 테이블 설계, 로깅
 
-**FRONTEND**
+**:computer:FRONTEND**
 - Vue.js 기반 프론트 작업 (Vue cli, vue router, vuex)
 - Buefy + Bulma 를 사용한 UI 작업
 - Axios 로 백엔드와의 로직및 데이터 연동 작업 (로그인/회원가입및 필요 CRUD) 
@@ -92,7 +92,7 @@
 - 전 페이지 비동기 처리 
 - 세션데이터활용해 유저의 정보 기반으로 페이지단 출력
 
-**OPENCV & FLASK & DEEPLEARNING**
+**:computer:OPENCV & FLASK & DEEPLEARNING**
 - Flask 기반으로 openCV 작업과 yolo v3 사용
 - mysql과 flask 연동 및 springboot + vue + flask 서버 이동
 - 비디오 녹화 기능, 부정행위 탐지 시간 설정 및 출력 기능 등 

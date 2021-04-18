@@ -125,7 +125,7 @@ config.addAllowedOrigin("http://localhost:8081");
 위와 같이 수정해서 해결하였습니다.
 
 ## 2-2. 방법 및 활용 프로그램
-![활용프로그램](https://user-images.githubusercontent.com/37354978/115163270-30b32800-a0e3-11eb-8a30-1252f9256a66.PNG)
+![Used Program](https://user-images.githubusercontent.com/37354978/115163347-99020980-a0e3-11eb-866f-f51be73cf99a.PNG)
 - MYSQL
 - YOLOv3
 - Spring Boot & JPA

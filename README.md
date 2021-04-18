@@ -52,7 +52,7 @@
 
 - 데이터베이스(DB) 설계
 
-![EDUCARE_ERD Diagram](https://user-images.githubusercontent.com/37354978/115132155-aa420c00-a038-11eb-8119-ef57b0bb9b28.JPG)
+![ERD Diagram](https://user-images.githubusercontent.com/37354978/115163259-2133df00-a0e3-11eb-9a28-5060ee9e2d28.PNG)
 
 **:bar_chart:test 테이블**<br>
 - 시험번호, 시험시작시간, 시험종료시간, 시험가이드설명, 시험과목명, 교수님 및 강사님 아이디 정보가 있습니다.
@@ -125,6 +125,7 @@ config.addAllowedOrigin("http://localhost:8081");
 위와 같이 수정해서 해결하였습니다.
 
 ## 2-2. 방법 및 활용 프로그램
+![활용프로그램](https://user-images.githubusercontent.com/37354978/115163270-30b32800-a0e3-11eb-8a30-1252f9256a66.PNG)
 - MYSQL
 - YOLOv3
 - Spring Boot & JPA

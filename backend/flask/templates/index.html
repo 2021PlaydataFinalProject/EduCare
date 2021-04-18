@@ -30,9 +30,6 @@
       <h1 class="title pt-3">시험보기</h1>
       <!-- Buefy components goes here -->
       <p class="has-text-right" id="timer"></p>
-      {% for element in recordtime%}
-        <p>{{element}}</p>
-      {% endfor %}
       <div class="tile is-ancestor">
       <div class="tile is-4 is-vertical is-parent">
         <div class="tile is-child box">
@@ -42,7 +39,6 @@
       </br>
           <div id="recorder">
             <b-button id="stop">시험완료</b-button>
-            <a id="download"></a>
             <script id="data" type="application/javascript" src="{{ url_for('static', filename='recorder.js') }}">
             </script>      
           </br>
@@ -69,45 +65,30 @@
           <p>< 문제 {{element[0]}}번 ></p>
           <p>{{element[1]}}</p>
           <br>
-          <b-field>
-            <b-radio name="tests[${i.index}]" v-model="form.radio"
-                native-value="1">
-          {{element[2][0:]}}
+          <div class ="block">
+            <b-field>
+              <b-radio name="{{element[0]}}+'-1'" v-model="form.testAnswer[{{element[0]}}-1]" native-value="1">
+            {{element[2][0:]}}
+            </b-radio>
+            </b-field>
+            <b-field>
+              <b-radio name="{{element[0]}}+'-2'" v-model="form.testAnswer[{{element[0]}}-1]" native-value="2">
+            {{element[3][0:]}}
           </b-radio>
           </b-field>
           <b-field>
-          <b-radio name="tests[${i.index}]" v-model="form.radio"
-              native-value="2">
-          {{element[3][0:]}}
-        </b-radio>
-        </b-field>
-        <b-field>
-          <b-radio name="tests[${i.index}]" v-model="form.radio"
-              native-value="3">
-          {{element[4][0:]}}
-        </b-radio>
-        </b-field>
-        <b-field>
-          <b-radio name="tests[${i.index}]" v-model="form.radio"
-              native-value="4">
-          {{element[5][0:]}}
-        </b-radio>
-        </b-field>
-        <!-- name="tests[${i.index}]" -->
-        <!-- for(int i = 0; i<tests.size(); i++){
-          test.set(tests.get(i));
-        } -->
-        {% endfor %}
-        <!-- <b-field>
-          <b-radio v-model="form.radio1"
-              native-value="①">
-              {{ data_list[0][2] }}
+            <b-radio name="{{element[0]}}+'-3'" v-model="form.testAnswer[{{element[0]}}-1]" native-value="3">
+            {{element[4][0:]}}
           </b-radio>
-      </b-field> -->
-          <!-- {{ data_list }}  -->
-          <br>
-          <!-- {{ data_list[0][0] }} 
-          {{ data_list[0][1] }}  -->
+          </b-field>
+          <b-field>
+            <b-radio name="{{element[0]}}+'-4'" v-model="form.testAnswer[{{element[0]}}-1]" native-value="4">
+            {{element[5][0:]}}
+          </b-radio>
+        </b-field>
+          </div>
+           
+        {% endfor %}
           <br>
 
         
@@ -117,9 +98,6 @@
       </div> 
     </div>
   <script>
-// import { getCookie } from "../utils/cookies";
-
-
     var startTime = '{{start_time}}';
     var endTime = '{{end_time}}';
     var countDownDate = new Date(endTime).getTime();
@@ -139,56 +117,44 @@
       if (distance < 0) {
         clearInterval(x);
         document.getElementById("timer").innerHTML = "EXPIRED";
-        location.href = "http://localhost:8081/completetest"
+        location.href = `http://localhost:8081/completetest`
       }
     }, 1000);
 
   const vueApp = new Vue({
-    
     el: '#app',
     //axios 들어가기 form data post로 보내고, get으로 문제 출력하고, 영상 파일에 관련된거 입력하고
     //spring boot post json key-> answer, 문제, 
-    
-    
     data: { 
       form: {
         username : '{{user_name}}',
         testAnswer: [],
         testStatus: 'C',
-	      testNum:'{{test_num}}',
+         testNum:'{{test_num}}',
         // radio: "",
       },
       
     },
     methods: {
       handleFileUpload() {
-        alert(document.cookie)
         this.file = this.$refs.file.files[0];
-        console.log(this.$refs.file.files[0]);
-        console.log(this.$refs.file.files);
-        console.log(this.$refs.file);
-        console.log(this.$refs);
         //tempfile = new FileReader();
         //tempfile = tempfile.readAsArrayBuffer();
         //this.file = tempfile;
       },
       submit() {
-        // 쿠키에서 Authorization (Bearer eyJjb20iOi...) 가져오기 
-        const Authorization = document.cookie.replace(/(?:(?:^|.*;\s*)Authorization\s*=\s*([^;]*).*$)|^.*$/,"$1");
-
-        // alert(Authorization)
         let formData = new FormData();
-        console.log(this.form.username)
         formData.append("username", this.form.username);
-        formData.append("testNum", this.radio2);
-        formData.append("testStatus", this.radio3);
+        formData.append("testAnswer", this.form.testAnswer);
+        formData.append("testStatus", this.form.testStatus);
+        formData.append("testNum", this.form.testNum);
         formData.append("file", this.file);
+
         axios.put("http://localhost:8000/stutest/update-mytest",  formData, {
+
           headers: {
             "Content-Type": `multipart/form-data`,
-            "Access-Control-Allow-Origin": "*",
-            // 쿠키에서 Authorization (Bearer eyJjb20iOi...) 가져오기
-            Authorization: document.cookie.replace(/(?:(?:^|.*;\s*)Authorization\s*=\s*([^;]*).*$)|^.*$/,"$1"),
+            "Access-Control-Allow-Origin": "*"
           }
         })  
         .then((res) => {

@@ -19,8 +19,9 @@ class RecordingThread (threading.Thread):
         self.isRunning = True
         self.cap = camera #<VideoCapture 000001C4'./static/video.mp4'247745B0>
         #print('camera', camera)
-        #fourcc = cv2.VideoWriter_fourcc(*'H264') #'XVID'
-        fourcc = cv2.VideoWriter_fourcc('H','2','6','4') #'XVID'
+        # fourcc = cv2.VideoWriter_fourcc(*'H264') #'XVID'
+        #fourcc = cv2.VideoWriter_fourcc('H','2','6','4') #'XVID' 'H','2','6','4'
+        fourcc = cv2.VideoWriter_fourcc(*'avc1') # *'avc1'
         self.out = cv2.VideoWriter('./static/video.mp4',fourcc, 20.0, (640,480))
 
     def run(self):
@@ -77,7 +78,7 @@ class VideoCamera(object):
                     # curs.execute('''INSERT INTO studenttest (cheat_time) values (%s)''',(timelist))
                     # conn.commit()
                     # #conn.close()
-            if self.is_record and count != 1: #print('No person detected' & 'More than one person detected')
+            if self.is_record and count > 1: #print('No person detected' & 'More than one person detected')count != 1
                 self.timelist.append(time.strftime("%H:%M:%S", time.gmtime(elapsed_time)))
                 # return True -> mySQL
                 #curs.execute('''INSERT INTO studenttest (cheat_time) values (%s)''',(timelist))

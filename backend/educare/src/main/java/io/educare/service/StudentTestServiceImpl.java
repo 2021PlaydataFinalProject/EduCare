@@ -81,6 +81,8 @@ public class StudentTestServiceImpl implements StudentTestService {
 		try {
 			if (stTestOpt.isPresent()) {
 				StudentTest stTest = stTestOpt.get();
+				System.out.println(stTest.getStuId());
+				
 
 				List<String> cheatTimes = Arrays.asList(stTest.getCheatTime().split("/"));
 				List<String> testAnswers = Arrays.asList(stTest.getTestAnswer().split("/"));
@@ -143,57 +145,47 @@ public class StudentTestServiceImpl implements StudentTestService {
 	}
 
 	@Transactional
-	public boolean updateMyTest(StudentTestDto sttDto, MultipartFile mfile) { // 학생이 answer, cheattime, ischeating,
-																				// studenttest table update
-		Optional<StudentTest> sttOpt = studentTestRepository.findById(sttDto.getTestNum());
+	   public boolean updateMyTest(StudentTestDto sttDto, MultipartFile mfile) { // studenttest table update
+	      System.out.println("!!!!!!!!!!!!!!!!!!!!!!"+sttDto.getUsername()+"   "+sttDto.getTestNum());
+	      System.out.println("!!!!!!!!!!!!!!!!!!!!!!"+mfile);
+	                                                         
+	      Optional<StudentTest> sttOpt = studentTestRepository.findStudentTestByUserNameAndTestNum(sttDto.getUsername(), sttDto.getTestNum());
+	      
+	      if (sttOpt.isPresent()) {
+	         StudentTest stt = sttOpt.get();
+	         String videoname;
 
-		if (sttOpt.isPresent()) {
-			StudentTest stt = sttOpt.get();
-			String videoname;
+	         try {
+	            videoname = sttDto.getTestNum() +"_" + sttDto.getUsername() +"_" + "video.mp4";
+	            mfile.transferTo(
+	                  new File(System.getProperty("user.dir") + "\\src\\main\\webapp\\tproblemvideo\\" + videoname));
+	            logger.info("{}번 문제 녹화파일 등록 성공", sttDto.getTestNum());
+	            stt.setVideoName(videoname); // db에 video파일명 저장
+	         } catch (IllegalStateException | IOException e) {
+	            e.printStackTrace();
+	            logger.error("{}번 문제 녹화파일 등록 실패", sttDto.getTestNum());
+	            return false;
+	         }
+	         stt.setTestStatus(sttDto.getTestStatus()); // db에 시험 참석 여부 저장
 
-			try {
-				videoname = sttDto.getTestNum() + "video.avi";
-				mfile.transferTo(
-						new File(System.getProperty("user.dir") + "\\src\\main\\webapp\\tproblemvideo\\" + videoname));
-				logger.info("{}번 문제 녹화파일 등록 성공", sttDto.getTestNum());
-				stt.setVideoName(videoname); // db에 video파일명 저장
-			} catch (IllegalStateException | IOException e) {
-				e.printStackTrace();
-				logger.error("{}번 문제 녹화파일 등록 실패", sttDto.getTestNum());
-				return false;
-			}
-			stt.setTestStatus(sttDto.getTestStatus()); // db에 시험 참석 여부 저장
+	         String answer = "";
+	         for (String c : sttDto.getTestAnswer()) {
+	            answer += c + "/";
+	         }
+	         stt.setTestAnswer(answer); // 작성 답안 목록 저장(list to string)
 
-			String cheattime = "";
-			for (String c : sttDto.getCheatTime()) {
-				cheattime += c + "/";
-			}
-			stt.setCheatTime(cheattime); // 컨닝 시간 저장(list to string)
-
-			if (sttDto.getCheatTime().size() == 0) { // 컨닝 여부 저장
-				stt.setIsCheating("false");
-			} else {
-				stt.setIsCheating("true");
-			}
-
-			String answer = "";
-			for (String c : sttDto.getTestAnswer()) {
-				cheattime += c + "/";
-			}
-			stt.setTestAnswer(answer); // 작성 답안 목록 저장(list to string)
-
-			if (studentTestRepository.save(stt) != null) {
-				logger.info("{} 학생 시험 답안, 녹화파일 등록 성공", sttDto.getUsername());
-				return true;
-			} else {
-				logger.info("{} 학생 시험 답안, 녹화파일 등록 실패", sttDto.getUsername());
-				return false;
-			}
-		} else {
-			logger.info("{} 학생 시험 답안, 녹화파일 등록 실패", sttDto.getUsername());
-			return false;
-		}
-	}
+	         if (studentTestRepository.save(stt) != null) {
+	            logger.info("{} 학생 시험 답안, 녹화파일 등록 성공", sttDto.getUsername());
+	            return true;
+	         } else {
+	            logger.info("{} 학생 시험 답안, 녹화파일 등록 실패", sttDto.getUsername());
+	            return false;
+	         }
+	      } else {
+	         logger.info("{} 학생 시험 답안, 녹화파일 등록 실패", sttDto.getUsername());
+	         return false;
+	      }
+	   }
 
 	@Transactional
 	public boolean updateTestScore(String username, long testnum, String testresult) { // 강사가 학생 점수 update

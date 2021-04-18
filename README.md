@@ -51,7 +51,7 @@
 **:computer:데이터베이스 및 프로그램 설계**
 
 - 데이터베이스(DB) 설계
-![데이터베이스설계1](https://user-images.githubusercontent.com/37354978/114937969-77054e80-9e79-11eb-85dc-fe308e450724.JPG)
+![EDUCARE_ERD Diagram](https://user-images.githubusercontent.com/37354978/115132155-aa420c00-a038-11eb-8119-ef57b0bb9b28.JPG)
 
 **:bar_chart:test 테이블**<br>
 - 시험번호, 시험시작시간, 시험종료시간, 시험가이드설명, 시험과목명, 교수님 및 강사님 아이디 정보가 있습니다.

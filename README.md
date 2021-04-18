@@ -125,7 +125,7 @@ config.addAllowedOrigin("http://localhost:8081");
 위와 같이 수정해서 해결하였습니다.
 
 ## 2-2. 방법 및 활용 프로그램
-![Used Program](https://user-images.githubusercontent.com/37354978/115163347-99020980-a0e3-11eb-866f-f51be73cf99a.PNG)
+![Used Program2](https://user-images.githubusercontent.com/37354978/115165279-1af43180-a0e8-11eb-9575-058df0dab7c2.PNG)
 
 
 ## 2-3. 단계별 수행 내용(기획, 제작, 테스트)

@@ -59,10 +59,7 @@ class VideoCamera(object):
             class_names = [c.strip() for c in open("models/classes.TXT").readlines()]
             boxes, scores, classes, nums = yolo(img)
             count=0
-            #mysql 연동
-            conn = pymysql.connect(host='localhost', user='root', password='0000',
-                                db='educare', charset='utf8')
-            curs = conn.cursor()
+
             if self.is_record:
                 elapsed_time = time.time() - self.start_time
             for i in range(nums[0]):

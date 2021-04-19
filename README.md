@@ -90,6 +90,7 @@
 
 **:computer:FRONTEND**
 - Vue.js 기반 프론트 작업 (Vue cli, vue router, vuex)
+- ESLint + prettier 사용
 - Buefy + Bulma 를 사용한 UI 작업
 - Axios 로 백엔드와의 로직및 데이터 연동 작업 (로그인/회원가입및 필요 CRUD) 
 - 유저 input 받기및 로직이 실행되었을때 유저에게 명확한 정보 전달 (UI/UX 개선) 

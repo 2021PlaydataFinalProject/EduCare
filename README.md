@@ -211,6 +211,15 @@ config.addAllowedOrigin("http://localhost:8081");
 - YOLOv3 딥러닝 모델 정확도 테스트 (결과: 정확도 90% 이상)
 
 # 3. 결과
+
+## 시험 전
+
+![시험전](https://user-images.githubusercontent.com/37354978/115170513-c9ee3880-a0fb-11eb-953b-37aba04f80c9.PNG)
+
+## 시험 후
+
+![시험후](https://user-images.githubusercontent.com/37354978/115170545-df636280-a0fb-11eb-91bb-91f244cbe548.PNG)
+
 ## 3-1. 시연
 
 **:computer:SPRINGBOOT 환경 설정 및 실행**

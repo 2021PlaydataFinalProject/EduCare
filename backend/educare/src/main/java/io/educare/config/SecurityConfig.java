@@ -1,6 +1,7 @@
 package io.educare.config;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -61,7 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/signup").permitAll()
                 .antMatchers("/stutest/update-mytest").permitAll()
                 .antMatchers("/userimg/**").permitAll()
-                .antMatchers("/tproblemvideo/**").permitAll()
+                .antMatchers("/tproblemvideo/4_ggg@naver.com_video.mp4").permitAll()
                 .anyRequest().authenticated() // 나머지는 권한 검증
                 .and()
                 .apply(new JwtSecurityConfig(tokenProvider)); // 사용자 정의 설정

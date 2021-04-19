@@ -212,6 +212,72 @@ config.addAllowedOrigin("http://localhost:8081");
 # 3. 결과
 ## 3-1. 시연
 
+**:computer:SPRINGBOOT 환경 설정 및 실행**
+
+1. 경로 지정 및 환경 설치 및 실행 
+
+- IDE를 실행 할 시에 backend 파일 경로까지 설정하여 실행합니다.
+```backend
+C:\ITSTUDY\FinalProject\EduCare\backend
+```
+
+- 프로젝트 파일을 우클릭하여 Run as -> Spring boot app 실행
+
+
+**:computer:vue.js 환경 설정 및 실행**
+
+1. 경로 지정 및 환경 설치 및 실행 
+
+- 개인마다 경로에 차이가 있을 수 있습니다. 해당 프로젝트의 경로를 확인한 후 frontend까지 지정해야합니다.
+
+```bash
+cd C:\ITSTUDY\FinalProject\EduCare\frontend
+```
+
+- 경로 하단에 npm i 를 통해 node-modules 를 설치합니다.
+
+```bash
+C:\ITSTUDY\FinalProject\EduCare\frontend> npm i
+```
+
+- 설치 완료시 서버를 실행합니다.
+
+```bash
+C:\ITSTUDY\FinalProject\EduCare\frontend> npm run serve
+```
+
+**:computer:ML 환경 설정 및 실행**
+
+1. 환경 설치
+
+```bash
+python -m pip install opencv-python
+pip install scikit-learn==0.22.2
+pip install --user tensorflow==2.2.0
+python -m pip install cmake
+pip install mtcnn
+pip install Flask
+pip install pymysql
+pip install Flask-MySQLdb
+pip install flask-cors
+```
+
+2. 온라인 상에서 다음과 같은 yolov3.weights 를 다운받기
+
+```bash
+yolov3.weights
+```
+
+- 다운받은 폴더의 경로를 flask 경로 하단에 넣기
+
+3. 서버 실행 방법
+
+```bash
+python server.py
+```
+
+
+
 ## 3-2. 느낀 점, 결론, 기대효과
 - 교수님과 학생들은 신뢰관계이고, 교수님은 학생들을 위해 정직하게 최선을 다해서 강의하고, 학생들은 정직하게 최선을 다해 공부해서 꿈을 키워가는 것이 맞는 것 같다고 생각되시는 교수님들께도움이 될 것 같습니다. 특히, 부정행위 의심 학생 너무 많아서 생기시는 우울감을 해결해드릴 수 있을 것 같습니다.
 - 공정하게 노력한 만큼 성과를 얻고자 하는 정직한 학생들에게 도움이 될 것 이라고 생각되며, 향후 생명을 다루는 미래의 의사들이 될 의대 학생들에게도 부정행위와 관련된 생각과 행동을 못하게 되어 도움이 될 것 같습니다.

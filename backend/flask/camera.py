@@ -17,11 +17,8 @@ class RecordingThread (threading.Thread):
         threading.Thread.__init__(self)
         self.name = name
         self.isRunning = True
-        self.cap = camera #<VideoCapture 000001C4'./static/video.mp4'247745B0>
-        #print('camera', camera)
-        # fourcc = cv2.VideoWriter_fourcc(*'H264') #'XVID'
-        #fourcc = cv2.VideoWriter_fourcc('H','2','6','4') #'XVID' 'H','2','6','4'
-        fourcc = cv2.VideoWriter_fourcc(*'avc1') # *'avc1'
+        self.cap = camera 
+        fourcc = cv2.VideoWriter_fourcc(*'avc1') 
         self.out = cv2.VideoWriter('./static/video.mp4',fourcc, 20.0, (640,480))
 
     def run(self):
@@ -38,8 +35,7 @@ class RecordingThread (threading.Thread):
 class VideoCamera(object):
     def __init__(self,start_time,time_list):
         # Open a camera
-        self.cap = cv2.VideoCapture(0)
-        # print('영상시작',time.strftime("%H:%M:%S", time.gmtime(time.time() - start_time)))
+        self.cap = cv2.VideoCapture(0) 
         # Initialize video recording environment
         self.is_record = False
         self.out = None
@@ -75,19 +71,9 @@ class VideoCamera(object):
                     count +=1
                 if self.is_record and int(temp==62 or temp == 63 or temp==67 or temp==73): #tvmonitor, laptop, cell phone, book
                     self.timelist.append(time.strftime("%H:%M:%S", time.gmtime(elapsed_time)))
-                    # curs.execute('''INSERT INTO studenttest (cheat_time) values (%s)''',(timelist))
-                    # conn.commit()
-                    # #conn.close()
-            if self.is_record and count > 1: #print('No person detected' & 'More than one person detected')count != 1
+            if self.is_record and count > 1: #count != 1: 'No person detected' & 'More than one person detected'
                 self.timelist.append(time.strftime("%H:%M:%S", time.gmtime(elapsed_time)))
-                # return True -> mySQL
-                #curs.execute('''INSERT INTO studenttest (cheat_time) values (%s)''',(timelist))
-                #conn.commit()
-            #conn.close()
             frame = draw_outputs(frame, (boxes, scores, classes, nums), class_names)
-            # cv2.imshow('Prediction', image)
-            # if cv2.waitKey(1) & 0xFF == ord('q'):
-            #     break
             ret, buffer = cv2.imencode('.jpg', frame)
             frame = buffer.tobytes()
             return buffer.tobytes()

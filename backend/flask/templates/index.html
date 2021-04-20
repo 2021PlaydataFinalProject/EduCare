@@ -18,7 +18,6 @@
           <p class="title is-5">EDUCARE</p>
           <!-- <img src="../assets/flasklogo.png" width="112" height="28"> -->
         </a>
-    
         <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
@@ -27,14 +26,10 @@
       </div>
       </div>
     </nav>
-
     <div id="app" class="container pt-3 mt-3">
       <h1 class="title pt-3">시험보기</h1>
       <!-- Buefy components goes here -->
       <p class="has-text-right" id="timer"></p>
-      {% for element in recordtime%}
-        <p>{{element}}</p>
-      {% endfor %}
       <div class="tile is-ancestor">
       <div class="tile is-4 is-vertical is-parent">
         <div class="tile is-child box">
@@ -45,7 +40,6 @@
           <div id="recorder">
             <b-button id="stop">시험완료</b-button>
             <a id="download"></a>
-          
             <script id="data" type="application/javascript" src="{{ url_for('static', filename='recorder.js') }}">
             </script>      
           </br>
@@ -67,74 +61,36 @@
         <div class="tile is-child box">
           <p class="title is-5">시험 문제</p>
           <br>
+          {% for element in data_list %}
           <br>
-          {{ data_list[0][0] }} 
-          {{ data_list[0][1] }} 
+          <p>< 문제 {{element[0]}}번 ></p>
+          <p>{{element[1]}}</p>
           <br>
-          <br>
-
+          <div class ="block">
+            <b-field>
+              <b-radio name="{{element[0]}}+'-1'" v-model="form.testAnswer[{{element[0]}}-1]" native-value="1">
+            {{element[2][0:]}}
+            </b-radio>
+            </b-field>
+            <b-field>
+              <b-radio name="{{element[0]}}+'-2'" v-model="form.testAnswer[{{element[0]}}-1]" native-value="2">
+            {{element[3][0:]}}
+          </b-radio>
+          </b-field>
           <b-field>
-            <b-radio v-model="form.radio1"
-                native-value="①">
-                {{ data_list[0][2] }}
-            </b-radio>
-        </b-field>
-        <b-field>
-            <b-radio v-model="form.radio1"
-                native-value="②"
-                type="is-info">
-                {{ data_list[0][3] }}
-            </b-radio>
-        </b-field>
-        <b-field>
-            <b-radio v-model="form.radio1"
-                native-value="③"
-                type="is-success">
-                {{ data_list[0][4] }}
-            </b-radio>
-        </b-field>
-        <b-field>
-            <b-radio v-model="form.radio1"
-                native-value="④"
-                type="is-warning">
-                {{ data_list[0][5] }}
-            </b-radio>
-        </b-field>
-        
-        <br>
-        <br>
-          {{ data_list[1][0] }}
-          {{ data_list[1][1] }}
-        <br>
-        <br>
-        
-        <b-field>
-          <b-radio v-model="form.radio2"
-              native-value="①">
-              {{ data_list[1][2] }}
+            <b-radio name="{{element[0]}}+'-3'" v-model="form.testAnswer[{{element[0]}}-1]" native-value="3">
+            {{element[4][0:]}}
           </b-radio>
-      </b-field>
-      <b-field>
-          <b-radio v-model="form.radio2"
-              native-value="②"
-              type="is-info">
-              {{ data_list[1][3] }}
+          </b-field>
+          <b-field>
+            <b-radio name="{{element[0]}}+'-4'" v-model="form.testAnswer[{{element[0]}}-1]" native-value="4">
+            {{element[5][0:]}}
           </b-radio>
-      </b-field>
-      <b-field>
-          <b-radio v-model="form.radio2"
-              native-value="③"
-              type="is-success">
-              {{ data_list[1][4] }}
-          </b-radio>
-      </b-field>
-      <b-field>
-          <b-radio v-model="form.radio2"
-              native-value="④"
-              type="is-warning">
-              {{ data_list[1][5] }}
-          </b-radio>
-      </b-field>
+        </b-field>
+          </div>
+           
+        {% endfor %}
+          <br>
 
         
         </br>
@@ -162,6 +118,7 @@
       if (distance < 0) {
         clearInterval(x);
         document.getElementById("timer").innerHTML = "EXPIRED";
+        location.href = `http://localhost:8081/completetest`
       }
     }, 1000);
 
@@ -174,25 +131,27 @@
         username : '{{user_name}}',
         testAnswer: [],
         testStatus: 'C',
-	      testNum:'{{test_num}}',
+         testNum:'{{test_num}}',
+        // radio: "",
       },
+      
     },
     methods: {
       handleFileUpload() {
         this.file = this.$refs.file.files[0];
-        console.log(this.$refs.file.files[0]);
-        console.log(this.$refs.file.files);
-        console.log(this.$refs.file);
-        console.log(this.$refs);
         //tempfile = new FileReader();
         //tempfile = tempfile.readAsArrayBuffer();
         //this.file = tempfile;
       },
       submit() {
-        // alert(JSON.stringify(this.file))
-        console.log(this.file)
-        this.form.append("mfile",this.file)
-        axios.post("http://localhost:8000/stutest/update-mytest",  this.form, {
+        let formData = new FormData();
+        formData.append("username", this.form.username);
+        formData.append("testAnswer", this.form.testAnswer);
+        formData.append("testStatus", this.form.testStatus);
+        formData.append("testNum", this.form.testNum);
+        formData.append("file", this.file);
+
+        axios.put("http://localhost:8000/stutest/update-mytest",  formData, {
 
           headers: {
             "Content-Type": `multipart/form-data`,
@@ -202,6 +161,7 @@
         .then((res) => {
           alert("답안,영상,부정행위 시간 보내기 성공")
           console.log(res);
+          location.href = `http://localhost:8081/completetest`
         })
         .catch(error => {
           alert("답안,영상,부정행위 시간 보내기 실패");

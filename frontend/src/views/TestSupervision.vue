@@ -1,3 +1,5 @@
+/* eslint-disable vue/no-parsing-error */ /* eslint-disable vue/no-parsing-error
+*/
 <template>
   <div>
     <title-bar :title-stack="titleStack" />
@@ -15,7 +17,6 @@
             <h6 class="title is-6">부정행위 감지 시간</h6>
             <h6 class="subtitle is-6 pb-2">CheatTime:{{ cheatTime }}</h6>
             <h6 class="title is-6">응시자 답변</h6>
-
             <div
               class="pb-2"
               v-for="(value, index) in testAnswer"
@@ -27,7 +28,6 @@
             <h6 class="subtitle is-6 pb-2">isCheating: {{ isCheating }}</h6>
             <h6 class="title is-6">응시자</h6>
             <h6 class="subtitle is-6 pb-2">{{ userName }}</h6>
-
             <!-- <br />
             videoname: {{ videoName }} -->
             <b-field label="시험 점수를 입력하세요. 부정행위시 0점">
@@ -53,28 +53,11 @@
           </div>
         </div>
 
+        <!-- 아래부터 영상이 렌더링 되는 코드 옵션은 안 건들어도 됩니다.-->
         <div class="tile is-parent">
           <div class="tile is-child box">
             <p class="title is-5">영상 확인</p>
-            <video-player
-              class="video-player-box"
-              ref="videoPlayer"
-              :options="playerOptions"
-              :playsinline="true"
-              customEventName="customstatechangedeventname"
-              @play="onPlayerPlay($event)"
-              @pause="onPlayerPause($event)"
-              @ended="onPlayerEnded($event)"
-              @waiting="onPlayerWaiting($event)"
-              @playing="onPlayerPlaying($event)"
-              @loadeddata="onPlayerLoadeddata($event)"
-              @timeupdate="onPlayerTimeupdate($event)"
-              @canplay="onPlayerCanplay($event)"
-              @canplaythrough="onPlayerCanplaythrough($event)"
-              @statechanged="playerStateChanged($event)"
-              @ready="playerReadied"
-            >
-            </video-player>
+            <video width="720" height="640" controls :src="videoName"></video>
           </div>
         </div>
       </div>
@@ -84,15 +67,11 @@
 <script>
 import TitleBar from "@/components/TitleBar";
 import HeroBar from "@/components/HeroBar";
-import "video.js/dist/video-js.css";
-import { videoPlayer } from "vue-video-player";
 import axios from "axios";
-
 export default {
   components: {
     TitleBar,
-    HeroBar,
-    videoPlayer
+    HeroBar
   },
   data() {
     return {
@@ -104,22 +83,7 @@ export default {
       isCheating: "",
       testAnswer: [],
       userRealName: "",
-      videoName: "",
-      playerOptions: {
-        // videojs options
-        height: "480",
-        responsive: true,
-        muted: true,
-        language: "ko",
-        playbackRates: [0.7, 1.0, 1.5, 2.0],
-        sources: [
-          {
-            type: "video/mp4",
-            src: "http://localhost:8000/tproblemvideo/" + this.videoName
-          }
-        ],
-        poster: "src/assets/videoposter.jpg"
-      }
+      videoName: ""
     };
   },
   computed: {
@@ -131,27 +95,6 @@ export default {
     }
   },
   methods: {
-    // listen event
-    onPlayerPlay(player) {
-      console.log("player play!", player);
-    },
-    onPlayerPause(player) {
-      console.log("player pause!", player);
-    },
-    // ...player event
-
-    // or listen state event
-    playerStateChanged(playerCurrentState) {
-      console.log("player current update state", playerCurrentState);
-    },
-
-    // player is ready
-    playerReadied(player) {
-      console.log("the player is readied", player);
-      // you can use it to do something...
-      //   player.[methods]
-    },
-
     //video 정보 가져오기
     getStudentTest() {
       axios
@@ -175,7 +118,10 @@ export default {
           this.testAnswer = this.studentTest.testAnswer;
           console.log(this.testAnswer);
           this.userRealName = this.studentTest.userRealName;
-          this.videoName = this.studentTest.videoName;
+          this.videoName =
+            "http://localhost:8000/tproblemvideo/" + this.studentTest.videoName;
+          //이거 확인해보세요 비디오 이름 잘 가지고 오는지
+          console.log(this.videoName);
         })
         .catch(e => {
           console.log(e);
@@ -220,7 +166,6 @@ export default {
     }
   },
   mounted() {
-    console.log("this is current player instance object", this.player);
     this.getStudentTest();
   }
 };

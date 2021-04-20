@@ -24,6 +24,15 @@
               </b-table-column>
 
               <b-table-column
+                field="startTime"
+                label="시작 시간"
+                v-slot="props"
+                centered
+              >
+                {{ props.row.startTime }}
+              </b-table-column>
+
+              <b-table-column
                 field="endTime"
                 label="종료 시간"
                 v-slot="props"
@@ -32,14 +41,6 @@
                 {{ props.row.endTime }}
               </b-table-column>
 
-              <b-table-column
-                field="startTime"
-                label="시작 시간"
-                v-slot="props"
-                centered
-              >
-                {{ props.row.startTime }}
-              </b-table-column>
               <b-table-column
                 field="testGuide"
                 label="시험 유의사항"

@@ -40,7 +40,7 @@ def index(inputusername, inputtestnum):
     for problem in fetchdata:
       
         prosel_list.append([])
-        prob_list = problem[5].split(',')
+        prob_list = problem[5].split('/')
         prosel_list[idx].append(problem[4])
         prosel_list[idx].append(problem[2])
         prosel_list[idx].append(prob_list[0])
@@ -82,8 +82,8 @@ def record_status():
                         tmpstr += time+'/'
                     
                     if tmpstr == '':
-                        sql = """UPDATE studenttest SET is_cheating=%s where stu_id=%s and test_num=%s""" 
-                        curs.execute(sql,('False',userId,testNum))   
+                        sql = """UPDATE studenttest SET cheat_time=%s, is_cheating=%s where stu_id=%s and test_num=%s""" 
+                        curs.execute(sql,('','False',userId,testNum))   
                     else :
                         sql = """UPDATE studenttest SET cheat_time=%s, is_cheating=%s where stu_id=%s and test_num=%s"""
                         curs.execute(sql,(tmpstr,'True',userId,testNum))

@@ -58,12 +58,14 @@ class VideoCamera(object):
             img = img / 255
             class_names = [c.strip() for c in open("models/classes.TXT").readlines()]
             boxes, scores, classes, nums = yolo(img)
+            print("nums:",nums)
             count=0
 
             if self.is_record:
                 elapsed_time = time.time() - self.start_time
             for i in range(nums[0]):
                 temp = classes[0][i]
+                print("nums[i]:",nums[i])
                 if int(classes[0][i] == 0):
                     count +=1
                 if self.is_record and int(temp==62 or temp == 63 or temp==67 or temp==73): #tvmonitor, laptop, cell phone, book

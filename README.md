@@ -212,6 +212,10 @@ config.addAllowedOrigin("http://localhost:8081");
 
 # 3. 결과
 
+## 구조
+
+![데이터흐름도](https://user-images.githubusercontent.com/37354978/115342176-cda9ba00-a1e4-11eb-9647-b5932b8e3b9a.JPG)
+
 ## 시험 전
 
 ![시험전](https://user-images.githubusercontent.com/37354978/115171239-98766c80-a0fd-11eb-83fa-1d754b5ccb9b.PNG)

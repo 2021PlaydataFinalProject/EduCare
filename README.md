@@ -212,15 +212,15 @@ config.addAllowedOrigin("http://localhost:8081");
 
 # 3. 결과
 
-## 전체 구조
+## 구조
 
-![데이터흐름도](https://user-images.githubusercontent.com/37354978/115342176-cda9ba00-a1e4-11eb-9647-b5932b8e3b9a.JPG)
+![아키텍처](https://user-images.githubusercontent.com/37354978/115480851-54fb3a00-a286-11eb-9548-167b6047da56.PNG)
 
-## 시험 전
+## 시험 전 : 시험지 생성
 
-![시험전](https://user-images.githubusercontent.com/37354978/115171239-98766c80-a0fd-11eb-83fa-1d754b5ccb9b.PNG)
+![시험전_시험지생성](https://user-images.githubusercontent.com/37354978/115480747-1cf3f700-a286-11eb-9d2a-96859779e697.PNG)
 
-## 시험 후
+## 시험 후 : 시험 답안 및 시험 중 녹화된 영상 제출
 
 ![시험후](https://user-images.githubusercontent.com/37354978/115171266-a7f5b580-a0fd-11eb-88a9-ddbe0d68155f.PNG)
 

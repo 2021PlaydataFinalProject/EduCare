@@ -214,11 +214,11 @@ config.addAllowedOrigin("http://localhost:8081");
 
 ## 구조
 
-![아키텍처](https://user-images.githubusercontent.com/37354978/115480851-54fb3a00-a286-11eb-9548-167b6047da56.PNG)
+![아키텍처](https://user-images.githubusercontent.com/37354978/115481273-3d708100-a287-11eb-9e31-23a1158f0e31.PNG)
 
 ## 시험 전 : 시험지 생성
 
-![시험전_시험지생성](https://user-images.githubusercontent.com/37354978/115480747-1cf3f700-a286-11eb-9d2a-96859779e697.PNG)
+![시험전_시험지생성](https://user-images.githubusercontent.com/37354978/115481299-49f4d980-a287-11eb-8b90-716fc9f1a267.PNG)
 
 ## 시험 후 : 시험 답안 및 시험 중 녹화된 영상 제출
 
